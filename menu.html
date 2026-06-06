@@ -124,95 +124,69 @@
 
 <footer><p>Aux Folie's Burger</p><p id="footer-tel">07 82 25 33 09 · Livraison 18h45 – 21h45</p></footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script>
+const STATIC_BURGERS = [
+  {name:"Le Folie's Classic",desc:"Steak haché artisanal, cheddar fondu, salade, tomate, oignons confits, sauce maison sur un bun brioché sesame.",price:9.90,cat:"classic",badges:["Best-seller"],photo:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=700&q=80&fit=crop"},
+  {name:"Le Smash Folie's",desc:"Double smash patty 180g, bacon croustillant, double cheddar, pickles maison, sauce BBQ fumée, oignons frits.",price:12.50,cat:"smash",badges:["Nouveau"],photo:"https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=700&q=80&fit=crop"},
+  {name:"Le Inferno",desc:"Steak épicé maison, jalapeños, sauce piquante artisanale, oignons frits, emmental, laitue croustillante.",price:11.00,cat:"epice",badges:["Épicé"],photo:"https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=700&q=80&fit=crop"},
+  {name:"Le Folie's Chicken",desc:"Filet de poulet croustillant, salade, tomate, cornichons, sauce ranch maison, cheddar, bun brioché.",price:10.50,cat:"poulet",badges:["Poulet"],photo:"https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=700&q=80&fit=crop"},
+  {name:"Le Hot Chicken",desc:"Filet de poulet pané épicé, sauce buffalo, coleslaw maison, pickles, oignons rouges, emmental fondu.",price:11.50,cat:"poulet epice",badges:["Épicé","Poulet"],photo:"https://images.unsplash.com/photo-1610614819513-58e34989da5f?w=700&q=80&fit=crop"},
+  {name:"Le Royal Folie's",desc:"Triple smash patty, triple cheddar, bacon, oignons caramélisés, sauce secrète maison, tomate, salade.",price:15.90,cat:"smash",badges:["Premium"],photo:"https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=700&q=80&fit=crop"},
+  {name:"Le Green Folie's",desc:"Steak végétal, avocat frais, salade, tomate, oignons rouges, sauce yaourt citron, emmental végétal, bun complet.",price:10.00,cat:"vege",badges:["Végé"],photo:"https://images.unsplash.com/photo-1520072959219-c595dc870360?w=700&q=80&fit=crop"},
+  {name:"Le Double Cheese",desc:"Double steak, double cheddar fondu, moutarde, ketchup, cornichons, oignons, bun classique. La référence.",price:11.00,cat:"classic",badges:["Artisanal"],photo:"https://images.unsplash.com/photo-1542574621-e088a4464f7e?w=700&q=80&fit=crop"},
+];
+const STATIC_SIDES = [
+  {name:"Frites maison",desc:"Dorées, croustillantes",price:3.50},
+  {name:"Frites épicées",desc:"Assaisonnées maison",price:4.00},
+  {name:"Onion rings",desc:"Rondelles panées",price:4.50},
+  {name:"Coleslaw",desc:"Recette maison",price:2.50},
+  {name:"Nuggets ×6",desc:"Poulet croustillant",price:5.00},
+  {name:"Sauce supplémentaire",desc:"BBQ, ranch, ketchup…",price:0.50},
+];
+const STATIC_DRINKS = [
+  {name:"Coca-Cola",desc:"33 cl",price:2.50},
+  {name:"Coca-Cola Zero",desc:"33 cl",price:2.50},
+  {name:"Fanta Orange",desc:"33 cl",price:2.50},
+  {name:"Ice Tea Pêche",desc:"33 cl",price:2.50},
+  {name:"Eau plate",desc:"50 cl",price:1.50},
+  {name:"Milkshake",desc:"Vanille / Fraise / Choco",price:4.50},
+];
 
-// ⚠️ Remplace par ta config Firebase
-const firebaseConfig = {
-  apiKey: "VOTRE_API_KEY", authDomain: "VOTRE_PROJECT.firebaseapp.com",
-  projectId: "VOTRE_PROJECT_ID", storageBucket: "VOTRE_PROJECT.appspot.com",
-  messagingSenderId: "VOTRE_SENDER_ID", appId: "VOTRE_APP_ID"
-};
+const BC = {'Best-seller':'badge-or','Nouveau':'badge-or','Épicé':'badge-red','Végé':'badge-green','Premium':'badge-or','Artisanal':'badge-or','Poulet':'badge-dark'};
+const bHTML = b => (b||[]).map(x=>`<span class="mc-badge ${BC[x]||'badge-dark'}">${x}</span>`).join('');
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-
-const BADGE_CLASS = {'Best-seller':'badge-or','Nouveau':'badge-or','Épicé':'badge-red','Végé':'badge-green','Premium':'badge-or','Artisanal':'badge-or','Poulet':'badge-dark','Double':'badge-dark'};
-
-function badgeHTML(badges=[]) {
-  return badges.map(b=>`<span class="mc-badge ${BADGE_CLASS[b]||'badge-dark'}">${b}</span>`).join('');
-}
-
-async function loadMenu() {
-  // Burgers
-  const bSnap = await getDocs(collection(db,'menu_burgers'));
-  const burgers=[]; bSnap.forEach(d=>{ if(d.data().visible!==false) burgers.push({id:d.id,...d.data()}); });
-  burgers.sort((a,b)=>a.order-b.order);
-  const bgrid=document.getElementById('burgers-grid');
-  if(!burgers.length){bgrid.innerHTML='<div class="empty-state">Aucun burger disponible pour l\'instant.</div>';}
-  else bgrid.innerHTML=burgers.map(b=>`
+function renderBurgers(list) {
+  document.getElementById('burgers-grid').innerHTML = list.map(b=>`
     <div class="menu-card" data-tags="${b.cat||''}">
-      <div class="mc-top">
-        ${b.photo?`<img src="${b.photo}" alt="${b.name}" loading="lazy">`:'🍔'}
-        <div class="mc-badges">${badgeHTML(b.badges)}</div>
-      </div>
+      <div class="mc-top"><img src="${b.photo||''}" alt="${b.name}" loading="lazy"><div class="mc-badges">${bHTML(b.badges)}</div></div>
       <div class="mc-body">
         <div class="mc-name">${b.name}</div>
         <div class="mc-desc">${b.desc||''}</div>
         <div class="mc-footer">
-          <div class="mc-price">${b.price?b.price+' €':''}</div>
+          <div><div class="mc-price">${Number(b.price).toFixed(2).replace('.',',')} €</div><div class="mc-price-note">+ frites maison</div></div>
           <div class="mc-tags">${(b.badges||[]).map(g=>`<span class="mc-tag">${g}</span>`).join('')}</div>
         </div>
       </div>
-    </div>
-  `).join('');
-
-  // Sides
-  const sSnap = await getDocs(collection(db,'menu_sides'));
-  const sides=[]; sSnap.forEach(d=>{ if(d.data().visible!==false) sides.push({id:d.id,...d.data()}); });
-  sides.sort((a,b)=>a.order-b.order);
-  const sgrid=document.getElementById('sides-grid');
-  if(!sides.length) sgrid.innerHTML='<div class="empty-state">Aucun accompagnement disponible.</div>';
-  else sgrid.innerHTML=sides.map(s=>`
-    <div class="side-card"><div><div class="side-name">${s.name}</div><div class="side-note">${s.desc||''}</div></div><div class="side-price">${s.price?s.price+' €':''}</div></div>
-  `).join('');
-
-  // Drinks
-  const dSnap = await getDocs(collection(db,'menu_drinks'));
-  const drinks=[]; dSnap.forEach(d=>{ if(d.data().visible!==false) drinks.push({id:d.id,...d.data()}); });
-  drinks.sort((a,b)=>a.order-b.order);
-  const dgrid=document.getElementById('drinks-grid');
-  if(!drinks.length) dgrid.innerHTML='<div class="empty-state">Aucune boisson disponible.</div>';
-  else dgrid.innerHTML=drinks.map(d=>`
-    <div class="side-card"><div><div class="side-name">${d.name}</div><div class="side-note">${d.desc||''}</div></div><div class="side-price">${d.price?d.price+' €':''}</div></div>
-  `).join('');
+    </div>`).join('');
 }
 
-async function loadConfig() {
-  try {
-    const snap=await getDoc(doc(db,'config','restaurant'));
-    if(!snap.exists()) return;
-    const d=snap.data();
-    if(d.tel){
-      document.getElementById('nav-tel').textContent=d.tel;
-      document.getElementById('nav-tel').href='tel:'+d.tel.replace(/\s/g,'');
-    }
-    if(d.tel||d.livStart||d.livEnd)
-      document.getElementById('footer-tel').textContent=`${d.tel||''} · Livraison ${d.livStart||'18h45'} – ${d.livEnd||'21h45'}`;
-  } catch {}
+function renderSides(list, id) {
+  document.getElementById(id).innerHTML = list.map(s=>`
+    <div class="side-card"><div><div class="side-name">${s.name}</div><div class="side-note">${s.desc||''}</div></div><div class="side-price">${Number(s.price).toFixed(2).replace('.',',')} €</div></div>`).join('');
 }
 
 window.filterMenu = (tag, btn) => {
   document.querySelectorAll('.filtre').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.menu-card').forEach(card=>{
-    if(tag==='tous') card.classList.remove('hidden');
-    else card.classList.toggle('hidden',!(card.dataset.tags||'').split(' ').includes(tag));
+  document.querySelectorAll('.menu-card').forEach(c=>{
+    c.classList.toggle('hidden', tag!=='tous' && !c.dataset.tags.split(' ').includes(tag));
   });
 };
 
-loadConfig(); loadMenu();
+// Affichage immédiat
+renderBurgers(STATIC_BURGERS);
+renderSides(STATIC_SIDES,'sides-grid');
+renderSides(STATIC_DRINKS,'drinks-grid');
 </script>
 <script src="chatbot.js"></script>
 </body>
