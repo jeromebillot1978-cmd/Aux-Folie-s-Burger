@@ -6,383 +6,147 @@
   <title>Aux Folie's Burger – La folie du goût</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --gold: #c9a84c;
-      --gold-light: #f0d080;
-      --gold-dark: #8a6820;
-      --black: #0a0a08;
-      --surface: #13130d;
-      --surface2: #1c1c12;
-      --cream: #f5ead0;
-      --muted: #6a5a3a;
-      --border: #2a2618;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    :root{--gold:#c9a84c;--gold-light:#f0d080;--gold-dark:#8a6820;--black:#0a0a08;--surface:#13130d;--surface2:#1c1c12;--cream:#f5ead0;--muted:#6a5a3a;--border:#2a2618;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--black);color:var(--cream);overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px),repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 40px;background:rgba(10,10,8,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.15);}
+    .nav-logo{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:900;color:var(--gold);letter-spacing:3px;text-decoration:none;text-shadow:0 0 20px rgba(201,168,76,0.3);}
+    .nav-links{display:flex;gap:32px;align-items:center;}
+    .nav-links a{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.3s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-cta{color:var(--black)!important;background:linear-gradient(135deg,#8a6820,#c9a84c,#f0d080,#c9a84c,#8a6820);background-size:200% 100%;background-position:right;padding:9px 20px;border-radius:2px;transition:background-position 0.4s!important;}
+    .nav-cta:hover{background-position:left!important;color:var(--black)!important;}
+    section{position:relative;z-index:1;}
+    .section-inner{max-width:1100px;margin:0 auto;padding:100px 24px;}
+    .s-header{text-align:center;margin-bottom:60px;}
+    .s-tag{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:4px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px;}
+    .s-title{font-family:'Cinzel',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--cream);letter-spacing:2px;margin-bottom:14px;}
+    .s-title span{color:var(--gold);}
+    .s-sub{font-size:1.1rem;font-style:italic;color:var(--muted);}
+    .orn-center{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0;}
+    .orn-line{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark));}
+    .orn-line.r{background:linear-gradient(90deg,var(--gold-dark),transparent);}
+    .orn-d{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
 
-    body {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      background: var(--black);
-      color: var(--cream);
-      overflow-x: hidden;
-    }
+    /* HERO */
+    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;}
+    #hero-bg{position:absolute;inset:0;z-index:0;}
+    #hero-bg img{width:100%;height:100%;object-fit:cover;opacity:0.18;filter:saturate(1.2);}
+    .hero-content{position:relative;z-index:1;}
+    .hero-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+    .hero-orn{display:flex;align-items:center;gap:14px;margin-bottom:20px;animation:fadeDown 0.8s ease both;}
+    .hero-orn-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+    .hero-orn-line.r{background:linear-gradient(90deg,var(--gold),transparent);}
+    .hero-orn-d{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
+    .hero-tag{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;}
+    h1{font-family:'Cinzel',serif;font-size:clamp(3rem,8vw,7rem);font-weight:900;line-height:0.95;color:var(--cream);letter-spacing:2px;animation:fadeDown 0.8s ease 0.1s both;margin-bottom:12px;}
+    h1 span{color:var(--gold);display:block;}
+    .hero-sub{font-size:clamp(1.1rem,2vw,1.4rem);font-style:italic;color:var(--muted);margin-bottom:40px;animation:fadeDown 0.8s ease 0.2s both;}
+    .hero-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeDown 0.8s ease 0.3s both;}
+    .btn-gold{font-family:'Cinzel',serif;font-size:0.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,#7a5c18,#c9a84c,#f0d080,#c9a84c,#7a5c18);background-size:200% 100%;background-position:right;color:var(--black);padding:14px 32px;border:none;border-radius:2px;cursor:pointer;text-decoration:none;transition:background-position 0.5s,transform 0.1s;display:inline-block;}
+    .btn-gold:hover{background-position:left;}
+    .btn-outline{font-family:'Cinzel',serif;font-size:0.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:transparent;color:var(--gold);padding:13px 32px;border:1px solid rgba(201,168,76,0.4);border-radius:2px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
+    .btn-outline:hover{border-color:var(--gold);background:rgba(201,168,76,0.06);}
+    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeDown 1s ease 0.6s both;}
+    .hero-scroll span{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+    .scroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+    @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
 
-    /* GRILLE DE FOND */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(201,168,76,0.012) 50px, rgba(201,168,76,0.012) 51px),
-        repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(201,168,76,0.012) 50px, rgba(201,168,76,0.012) 51px);
-    }
+    /* INFOS */
+    #infos{background:var(--surface);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);}
+    .infos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;}
+    .info-card{background:var(--surface2);padding:40px 28px;text-align:center;border:1px solid rgba(201,168,76,0.08);transition:border-color 0.3s;}
+    .info-card:hover{border-color:rgba(201,168,76,0.25);}
+    .info-icon{font-size:2rem;margin-bottom:14px;display:block;}
+    .info-label{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:3px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:8px;}
+    .info-val{font-size:1.2rem;font-weight:600;color:var(--cream);}
+    .info-val a{color:var(--gold);text-decoration:none;}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 40px;
-      background: rgba(10,10,8,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-      transition: padding 0.3s;
-    }
-    .nav-logo {
-      font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: 900;
-      color: var(--gold); letter-spacing: 3px; text-decoration: none;
-      text-shadow: 0 0 20px rgba(201,168,76,0.3);
-    }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a {
-      font-family: 'Cinzel', serif; font-size: 0.65rem;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--muted); text-decoration: none; transition: color 0.3s;
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-cta {
-      font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--black) !important;
-      background: linear-gradient(135deg, #8a6820, #c9a84c, #f0d080, #c9a84c, #8a6820);
-      background-size: 200% 100%; background-position: right;
-      padding: 9px 20px; border-radius: 2px;
-      transition: background-position 0.4s !important;
-    }
-    .nav-cta:hover { background-position: left !important; color: var(--black) !important; }
+    /* MENU */
+    #menu-apercu{background:var(--black);}
+    .burgers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+    .burger-card{background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:3px;overflow:hidden;transition:border-color 0.3s,transform 0.3s;}
+    .burger-card:hover{border-color:rgba(201,168,76,0.35);transform:translateY(-4px);}
+    .burger-img{width:100%;height:180px;position:relative;overflow:hidden;background:linear-gradient(135deg,#2a1a08,#3d2510);display:flex;align-items:center;justify-content:center;font-size:4rem;}
+    .burger-img img{width:100%;height:100%;object-fit:cover;}
+    .burger-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.6));pointer-events:none;}
+    .burger-badge{position:absolute;top:12px;left:12px;z-index:2;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:2px;background:var(--gold);color:var(--black);padding:3px 10px;text-transform:uppercase;font-weight:700;}
+    .burger-body{padding:18px 20px 22px;}
+    .burger-name{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--cream);letter-spacing:1px;margin-bottom:6px;}
+    .burger-desc{font-size:0.92rem;font-style:italic;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+    .burger-footer{display:flex;justify-content:space-between;align-items:center;}
+    .burger-price{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold);}
+    .burger-tag{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:1px;border:1px solid rgba(201,168,76,0.25);color:var(--muted);padding:3px 8px;border-radius:2px;text-transform:uppercase;}
+    .voir-tout{text-align:center;margin-top:48px;}
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative; overflow: hidden;
-    }
-    .hero-glow {
-      position: absolute; width: 900px; height: 900px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%);
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-    .hero-orn {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 20px; animation: fadeDown 0.8s ease both;
-    }
-    .hero-orn-line {
-      width: 60px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold));
-    }
-    .hero-orn-line.r { background: linear-gradient(90deg, var(--gold), transparent); }
-    .hero-orn-d { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
-    .hero-tag {
-      font-family: 'Cinzel', serif; font-size: 0.65rem;
-      letter-spacing: 4px; color: var(--gold); text-transform: uppercase;
-    }
+    /* FIDÉLITÉ */
+    #fidelite{background:var(--surface);border-top:1px solid rgba(201,168,76,0.1);}
+    .fidelite-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+    @media(max-width:768px){.fidelite-wrap{grid-template-columns:1fr;}}
+    .fidelite-text h2{font-family:'Cinzel',serif;font-size:2.2rem;font-weight:900;color:var(--cream);letter-spacing:2px;margin-bottom:12px;}
+    .fidelite-text h2 span{color:var(--gold);}
+    .fidelite-text p{font-size:1.05rem;font-style:italic;color:var(--muted);line-height:1.7;margin-bottom:28px;}
+    .paliers{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+    .palier{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface2);border:1px solid rgba(201,168,76,0.1);border-radius:2px;transition:border-color 0.3s;}
+    .palier:hover{border-color:rgba(201,168,76,0.3);}
+    .palier-icon{font-size:1.3rem;width:32px;text-align:center;flex-shrink:0;}
+    .palier-info{flex:1;}
+    .palier-name{font-family:'Cinzel',serif;font-size:0.82rem;color:var(--cream);letter-spacing:1px;}
+    .palier-desc{font-size:0.82rem;font-style:italic;color:var(--muted);margin-top:1px;}
+    .palier-pts{font-family:'Cinzel',serif;font-size:0.78rem;color:var(--gold-dark);}
+    .fidelite-visual{background:var(--surface2);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:32px 28px;position:relative;}
+    .fidelite-visual .c-tl,.fidelite-visual .c-tr,.fidelite-visual .c-bl,.fidelite-visual .c-br{position:absolute;width:14px;height:14px;border-color:rgba(201,168,76,0.4);border-style:solid;}
+    .fidelite-visual .c-tl{top:8px;left:8px;border-width:1px 0 0 1px;} .fidelite-visual .c-tr{top:8px;right:8px;border-width:1px 1px 0 0;}
+    .fidelite-visual .c-bl{bottom:8px;left:8px;border-width:0 0 1px 1px;} .fidelite-visual .c-br{bottom:8px;right:8px;border-width:0 1px 1px 0;}
+    .fv-title{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:3px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:20px;}
+    .fv-pts{font-family:'Cinzel',serif;font-size:3.5rem;font-weight:900;color:var(--gold);line-height:1;text-shadow:0 0 30px rgba(201,168,76,0.2);}
+    .fv-pts-label{font-size:0.9rem;font-style:italic;color:var(--muted);margin-bottom:20px;}
+    .fv-bar-wrap{height:4px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:8px;}
+    .fv-bar{height:100%;width:65%;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light));border-radius:999px;}
+    .fv-bar-label{display:flex;justify-content:space-between;font-size:0.78rem;font-style:italic;color:var(--muted);margin-bottom:24px;}
+    .fv-rewards{display:flex;flex-direction:column;gap:8px;}
+    .fv-reward{display:flex;align-items:center;gap:10px;font-size:0.88rem;}
+    .fv-reward-icon{font-size:1rem;width:24px;text-align:center;}
+    .fv-reward-label{flex:1;color:var(--cream);}
+    .fv-reward-pts{font-family:'Cinzel',serif;font-size:0.75rem;color:var(--gold-dark);}
 
-    h1 {
-      font-family: 'Cinzel', serif; font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 900; line-height: 0.95;
-      color: var(--cream); letter-spacing: 2px;
-      animation: fadeDown 0.8s ease 0.1s both;
-      margin-bottom: 12px;
-    }
-    h1 span { color: var(--gold); display: block; }
+    /* CONTACT */
+    #contact{background:var(--black);border-top:1px solid rgba(201,168,76,0.1);}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+    @media(max-width:768px){.contact-grid{grid-template-columns:1fr;}}
+    .contact-info h2{font-family:'Cinzel',serif;font-size:2rem;font-weight:900;color:var(--cream);letter-spacing:2px;margin-bottom:24px;}
+    .contact-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
+    .ci-icon{font-size:1.3rem;width:36px;flex-shrink:0;margin-top:2px;}
+    .ci-label{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:4px;}
+    .ci-val{font-size:1.05rem;color:var(--cream);}
+    .ci-val a{color:var(--gold);text-decoration:none;}
+    .contact-form-wrap{background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:32px 28px;}
+    .cfw-title{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:2px;margin-bottom:20px;}
+    .form-group{margin-bottom:18px;}
+    label{display:block;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:7px;}
+    input[type="text"],input[type="tel"],textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:12px 14px;color:var(--cream);font-size:1rem;font-family:'Cormorant Garamond',serif;outline:none;transition:border-color 0.3s;letter-spacing:0.5px;resize:vertical;}
+    input:focus,textarea:focus{border-color:var(--gold);}
+    input::placeholder,textarea::placeholder{color:var(--muted);font-style:italic;}
+    .form-note{font-size:0.8rem;font-style:italic;color:var(--muted);margin-top:6px;}
 
-    .hero-sub {
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      font-style: italic; color: var(--muted);
-      margin-bottom: 40px;
-      animation: fadeDown 0.8s ease 0.2s both;
-    }
-
-    .hero-btns {
-      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
-      animation: fadeDown 0.8s ease 0.3s both;
-    }
-    .btn-gold {
-      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase;
-      background: linear-gradient(135deg, #7a5c18, #c9a84c, #f0d080, #c9a84c, #7a5c18);
-      background-size: 200% 100%; background-position: right;
-      color: var(--black); padding: 14px 32px; border: none;
-      border-radius: 2px; cursor: pointer; text-decoration: none;
-      transition: background-position 0.5s, transform 0.1s;
-      display: inline-block;
-    }
-    .btn-gold:hover { background-position: left; }
-    .btn-outline {
-      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase;
-      background: transparent; color: var(--gold);
-      padding: 13px 32px; border: 1px solid rgba(201,168,76,0.4);
-      border-radius: 2px; cursor: pointer; text-decoration: none;
-      transition: all 0.3s; display: inline-block;
-    }
-    .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
-
-    .hero-scroll {
-      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      animation: fadeDown 1s ease 0.6s both;
-    }
-    .hero-scroll span {
-      font-family: 'Cinzel', serif; font-size: 0.55rem;
-      letter-spacing: 3px; color: var(--muted); text-transform: uppercase;
-    }
-    .scroll-line {
-      width: 1px; height: 40px;
-      background: linear-gradient(180deg, var(--gold), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%,100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.2); }
-    }
-
-    /* ── SECTIONS ── */
-    section { position: relative; z-index: 1; }
-
-    .section-inner {
-      max-width: 1100px; margin: 0 auto;
-      padding: 100px 24px;
-    }
-
-    .s-header { text-align: center; margin-bottom: 60px; }
-    .s-tag {
-      font-family: 'Cinzel', serif; font-size: 0.62rem;
-      letter-spacing: 4px; color: var(--gold-dark);
-      text-transform: uppercase; margin-bottom: 10px;
-    }
-    .s-title {
-      font-family: 'Cinzel', serif; font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 900; color: var(--cream); letter-spacing: 2px; margin-bottom: 14px;
-    }
-    .s-title span { color: var(--gold); }
-    .s-sub { font-size: 1.1rem; font-style: italic; color: var(--muted); }
-
-    .orn-center {
-      display: flex; align-items: center; justify-content: center;
-      gap: 14px; margin: 16px 0;
-    }
-    .orn-line { flex: 1; max-width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark)); }
-    .orn-line.r { background: linear-gradient(90deg, var(--gold-dark), transparent); }
-    .orn-d { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
-
-    /* ── INFOS PRATIQUES ── */
-    #infos { background: var(--surface); border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); }
-
-    .infos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2px;
-    }
-    .info-card {
-      background: var(--surface2);
-      padding: 40px 28px; text-align: center;
-      border: 1px solid rgba(201,168,76,0.08);
-      transition: border-color 0.3s;
-    }
-    .info-card:hover { border-color: rgba(201,168,76,0.25); }
-    .info-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
-    .info-label {
-      font-family: 'Cinzel', serif; font-size: 0.62rem;
-      letter-spacing: 3px; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 8px;
-    }
-    .info-val { font-size: 1.2rem; font-weight: 600; color: var(--cream); }
-    .info-val a { color: var(--gold); text-decoration: none; }
-
-    /* ── MENU APERÇU ── */
-    #menu-apercu { background: var(--black); }
-
-    .burgers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .burger-card {
-      background: var(--surface);
-      border: 1px solid rgba(201,168,76,0.12);
-      border-radius: 3px;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .burger-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); }
-    .burger-img {
-      width: 100%; height: 180px;
-      background: linear-gradient(135deg, #2a1a08, #3d2510);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 4rem; position: relative; overflow: hidden;
-    }
-    .burger-img::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6));
-    }
-    .burger-badge {
-      position: absolute; top: 12px; left: 12px; z-index: 2; pointer-events:none;
-      font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 2px;
-      background: var(--gold); color: var(--black); padding: 3px 10px;
-      text-transform: uppercase; font-weight: 700;
-    }
-    .burger-body { padding: 18px 20px 22px; }
-    .burger-name {
-      font-family: 'Cinzel', serif; font-size: 1.1rem;
-      color: var(--cream); letter-spacing: 1px; margin-bottom: 6px;
-    }
-    .burger-desc { font-size: 0.92rem; font-style: italic; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
-    .burger-footer { display: flex; justify-content: space-between; align-items: center; }
-    .burger-price { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold); }
-    .burger-tag {
-      font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 1px;
-      border: 1px solid rgba(201,168,76,0.25); color: var(--muted);
-      padding: 3px 8px; border-radius: 2px; text-transform: uppercase;
-    }
-
-    .voir-tout { text-align: center; margin-top: 48px; }
-
-    /* ── FIDÉLITÉ ── */
-    #fidelite { background: var(--surface); border-top: 1px solid rgba(201,168,76,0.1); }
-
-    .fidelite-wrap {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-    }
-    @media(max-width: 768px) { .fidelite-wrap { grid-template-columns: 1fr; } }
-
-    .fidelite-text {}
-    .fidelite-text h2 { font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 900; color: var(--cream); letter-spacing: 2px; margin-bottom: 12px; }
-    .fidelite-text h2 span { color: var(--gold); }
-    .fidelite-text p { font-size: 1.05rem; font-style: italic; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
-
-    .paliers {
-      display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px;
-    }
-    .palier {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 16px;
-      background: var(--surface2);
-      border: 1px solid rgba(201,168,76,0.1);
-      border-radius: 2px;
-      transition: border-color 0.3s;
-    }
-    .palier:hover { border-color: rgba(201,168,76,0.3); }
-    .palier-icon { font-size: 1.3rem; width: 32px; text-align: center; flex-shrink: 0; }
-    .palier-info { flex: 1; }
-    .palier-name { font-family: 'Cinzel', serif; font-size: 0.82rem; color: var(--cream); letter-spacing: 1px; }
-    .palier-desc { font-size: 0.82rem; font-style: italic; color: var(--muted); margin-top: 1px; }
-    .palier-pts { font-family: 'Cinzel', serif; font-size: 0.78rem; color: var(--gold-dark); }
-
-    .fidelite-visual {
-      background: var(--surface2);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 3px; padding: 32px 28px;
-      position: relative;
-    }
-    .fidelite-visual .c-tl,.fidelite-visual .c-tr,.fidelite-visual .c-bl,.fidelite-visual .c-br {
-      position: absolute; width: 14px; height: 14px;
-      border-color: rgba(201,168,76,0.4); border-style: solid;
-    }
-    .fidelite-visual .c-tl { top:8px;left:8px;border-width:1px 0 0 1px; }
-    .fidelite-visual .c-tr { top:8px;right:8px;border-width:1px 1px 0 0; }
-    .fidelite-visual .c-bl { bottom:8px;left:8px;border-width:0 0 1px 1px; }
-    .fidelite-visual .c-br { bottom:8px;right:8px;border-width:0 1px 1px 0; }
-
-    .fv-title { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:3px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:20px; }
-    .fv-pts { font-family:'Cinzel',serif; font-size:3.5rem; font-weight:900; color:var(--gold); line-height:1; text-shadow:0 0 30px rgba(201,168,76,0.2); }
-    .fv-pts-label { font-size:0.9rem; font-style:italic; color:var(--muted); margin-bottom:20px; }
-    .fv-bar-wrap { height:4px; background:var(--border); border-radius:999px; overflow:hidden; margin-bottom:8px; }
-    .fv-bar { height:100%; width:65%; background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light)); border-radius:999px; }
-    .fv-bar-label { display:flex; justify-content:space-between; font-size:0.78rem; font-style:italic; color:var(--muted); margin-bottom:24px; }
-    .fv-rewards { display:flex; flex-direction:column; gap:8px; }
-    .fv-reward { display:flex; align-items:center; gap:10px; font-size:0.88rem; }
-    .fv-reward-icon { font-size:1rem; width:24px; text-align:center; }
-    .fv-reward-label { flex:1; color:var(--cream); }
-    .fv-reward-pts { font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold-dark); }
-
-    /* ── CONTACT ── */
-    #contact { background: var(--black); border-top: 1px solid rgba(201,168,76,0.1); }
-
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-    }
-    @media(max-width:768px){ .contact-grid { grid-template-columns:1fr; } }
-
-    .contact-info h2 { font-family:'Cinzel',serif; font-size:2rem; font-weight:900; color:var(--cream); letter-spacing:2px; margin-bottom:24px; }
-    .contact-item { display:flex; align-items:flex-start; gap:16px; margin-bottom:24px; }
-    .ci-icon { font-size:1.3rem; width:36px; flex-shrink:0; margin-top:2px; }
-    .ci-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:2px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:4px; }
-    .ci-val { font-size:1.05rem; color:var(--cream); }
-    .ci-val a { color:var(--gold); text-decoration:none; }
-
-    .contact-form-wrap {
-      background:var(--surface);
-      border:1px solid rgba(201,168,76,0.15); border-radius:3px;
-      padding:32px 28px; position:relative;
-    }
-    .cfw-title { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:20px; }
-    .form-group { margin-bottom:18px; }
-    label { display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold-dark); margin-bottom:7px; }
-    input[type="text"], input[type="tel"], textarea {
-      width:100%; background:var(--surface2);
-      border:1px solid var(--border); border-radius:2px;
-      padding:12px 14px; color:var(--cream); font-size:1rem;
-      font-family:'Cormorant Garamond',serif; outline:none;
-      transition:border-color 0.3s; letter-spacing:0.5px; resize:vertical;
-    }
-    input:focus, textarea:focus { border-color:var(--gold); }
-    input::placeholder, textarea::placeholder { color:var(--muted); font-style:italic; }
-    .form-note { font-size:0.8rem; font-style:italic; color:var(--muted); margin-top:6px; }
-
-    /* ── FOOTER ── */
-    footer {
-      background:var(--surface); border-top:1px solid rgba(201,168,76,0.2);
-      padding:48px 24px 28px; text-align:center; position:relative; z-index:1;
-    }
-    .footer-logo { font-family:'Cinzel',serif; font-size:1.6rem; font-weight:900; color:var(--gold); letter-spacing:4px; margin-bottom:6px; text-shadow:0 0 20px rgba(201,168,76,0.25); }
-    .footer-tag { font-size:0.85rem; font-style:italic; color:var(--muted); margin-bottom:28px; }
-    .footer-links { display:flex; gap:28px; justify-content:center; margin-bottom:28px; flex-wrap:wrap; }
-    .footer-links a { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.3s; }
-    .footer-links a:hover { color:var(--gold); }
-    .footer-line { height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:0.2; margin-bottom:20px; }
-    .footer-copy { font-size:0.78rem; font-style:italic; color:var(--muted); }
-
-    /* ANIMATIONS */
-    @keyframes fadeDown {
-      from { opacity:0; transform:translateY(-16px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity:1; transform:translateY(0); }
-
-    @media(max-width:640px){
-      nav { padding:14px 20px; }
-      .nav-links a:not(.nav-cta) { display:none; }
-      .section-inner { padding:70px 18px; }
-    }
+    footer{background:var(--surface);border-top:1px solid rgba(201,168,76,0.2);padding:48px 24px 28px;text-align:center;position:relative;z-index:1;}
+    .footer-logo{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:900;color:var(--gold);letter-spacing:4px;margin-bottom:6px;text-shadow:0 0 20px rgba(201,168,76,0.25);}
+    .footer-tag{font-size:0.85rem;font-style:italic;color:var(--muted);margin-bottom:28px;}
+    .footer-links{display:flex;gap:28px;justify-content:center;margin-bottom:28px;flex-wrap:wrap;}
+    .footer-links a{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.3s;}
+    .footer-links a:hover{color:var(--gold);}
+    .footer-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.2;margin-bottom:20px;}
+    .footer-copy{font-size:0.78rem;font-style:italic;color:var(--muted);}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    @media(max-width:640px){nav{padding:14px 20px;}.nav-links a:not(.nav-cta){display:none;}.section-inner{padding:70px 18px;}}
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="#hero">Aux Folie's Burger</a>
   <div class="nav-links">
@@ -396,43 +160,34 @@
 
 <!-- HERO -->
 <section id="hero">
+  <div id="hero-bg"><img id="hero-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1400&q=80&fit=crop" alt="Burger artisanal"/></div>
   <div class="hero-glow"></div>
-  <div style="position:absolute;inset:0;z-index:-1;overflow:hidden;">
-    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1400&q=80&fit=crop&crop=center" 
-         alt="Burger artisanal Aux Folie's Burger"
-         style="width:100%;height:100%;object-fit:cover;opacity:0.18;filter:saturate(1.2);">
+  <div class="hero-content">
+    <div class="hero-orn"><div class="hero-orn-line"></div><div class="hero-orn-d"></div><div class="hero-orn-line r"></div></div>
+    <div class="hero-tag">Burgers artisanaux · Livraison</div>
+    <h1>Aux Folie's<span>Burger</span></h1>
+    <p class="hero-sub" id="hero-slogan">La folie du goût, la folie des récompenses.</p>
+    <div class="hero-btns">
+      <a href="menu.html" class="btn-gold">Voir la carte</a>
+      <a href="login.html" class="btn-outline">Rejoindre Folie's+</a>
+    </div>
   </div>
-  <div class="hero-orn">
-    <div class="hero-orn-line"></div>
-    <div class="hero-orn-d"></div>
-    <div class="hero-orn-line r"></div>
-  </div>
-  <div class="hero-tag">Burgers artisanaux · Livraison</div>
-  <h1>Aux Folie's<span>Burger</span></h1>
-  <p class="hero-sub">La folie du goût, la folie des récompenses.</p>
-  <div class="hero-btns">
-    <a href="menu.html" class="btn-gold">Voir la carte</a>
-    <a href="login.html" class="btn-outline">Rejoindre Folie's+</a>
-  </div>
-  <div class="hero-scroll">
-    <span>Découvrir</span>
-    <div class="scroll-line"></div>
-  </div>
+  <div class="hero-scroll"><span>Découvrir</span><div class="scroll-line"></div></div>
 </section>
 
-<!-- INFOS PRATIQUES -->
+<!-- INFOS -->
 <section id="infos">
   <div class="section-inner" style="padding-top:70px;padding-bottom:70px;">
     <div class="infos-grid">
       <div class="info-card reveal">
         <span class="info-icon">📞</span>
         <div class="info-label">Réservation</div>
-        <div class="info-val"><a href="tel:0782253309">07 82 25 33 09</a></div>
+        <div class="info-val"><a id="info-tel" href="tel:0782253309">07 82 25 33 09</a></div>
       </div>
       <div class="info-card reveal">
         <span class="info-icon">🛵</span>
         <div class="info-label">Livraison</div>
-        <div class="info-val">18h45 – 21h45</div>
+        <div class="info-val" id="info-liv">18h45 – 21h45</div>
       </div>
       <div class="info-card reveal">
         <span class="info-icon">⭐</span>
@@ -457,56 +212,11 @@
       <div class="orn-center"><div class="orn-line"></div><div class="orn-d"></div><div class="orn-line r"></div></div>
       <p class="s-sub">Des burgers artisanaux, faits avec passion, à chaque commande.</p>
     </div>
-    <div class="burgers-grid">
-      <div class="burger-card reveal">
-        <div class="burger-img" style="padding:0;background:none;">
-          <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80&fit=crop&crop=center" 
-               alt="Le Folie's Classic" style="width:100%;height:100%;object-fit:cover;">
-          <span class="burger-badge">Best-seller</span>
-        </div>
-        <div class="burger-body">
-          <div class="burger-name">Le Folie's Classic</div>
-          <div class="burger-desc">Steak haché artisanal, cheddar fondu, salade, tomate, oignons confits, sauce maison.</div>
-          <div class="burger-footer">
-            <div class="burger-price">9,90 €</div>
-            <div class="burger-tag">Artisanal</div>
-          </div>
-        </div>
-      </div>
-      <div class="burger-card reveal">
-        <div class="burger-img" style="padding:0;background:none;">
-          <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=600&q=80&fit=crop&crop=center" 
-               alt="Le Smash Folie's" style="width:100%;height:100%;object-fit:cover;">
-          <span class="burger-badge">Nouveau</span>
-        </div>
-        <div class="burger-body">
-          <div class="burger-name">Le Smash Folie's</div>
-          <div class="burger-desc">Double smash patty, bacon croustillant, double cheddar, pickles, sauce BBQ fumée.</div>
-          <div class="burger-footer">
-            <div class="burger-price">12,50 €</div>
-            <div class="burger-tag">Smash</div>
-          </div>
-        </div>
-      </div>
-      <div class="burger-card reveal">
-        <div class="burger-img" style="padding:0;background:none;">
-          <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80&fit=crop&crop=center" 
-               alt="Le Inferno" style="width:100%;height:100%;object-fit:cover;">
-          <span class="burger-badge">Épicé</span>
-        </div>
-        <div class="burger-body">
-          <div class="burger-name">Le Inferno</div>
-          <div class="burger-desc">Steak épicé, jalapeños, sauce piquante, oignons frits, emmental, laitue croustillante.</div>
-          <div class="burger-footer">
-            <div class="burger-price">11,00 €</div>
-            <div class="burger-tag">Épicé</div>
-          </div>
-        </div>
-      </div>
+    <div class="burgers-grid" id="home-burgers">
+      <!-- Chargé depuis Firestore -->
+      <div style="grid-column:1/-1;text-align:center;font-style:italic;color:var(--muted);padding:40px;">Chargement…</div>
     </div>
-    <div class="voir-tout reveal">
-      <a href="menu.html" class="btn-gold">Voir toute la carte</a>
-    </div>
+    <div class="voir-tout reveal"><a href="menu.html" class="btn-gold">Voir toute la carte</a></div>
   </div>
 </section>
 
@@ -517,79 +227,28 @@
       <div class="fidelite-text reveal">
         <div class="s-tag">Programme exclusif</div>
         <h2>Folie's<span>+</span></h2>
-        <div class="orn-center" style="justify-content:flex-start;margin-bottom:16px;">
-          <div class="orn-d"></div>
-          <div class="orn-line r" style="max-width:50px;"></div>
-        </div>
-        <p>Chaque commande vous rapproche d'une récompense. Cumulez des points, débloquez des paliers et accédez à des avantages exclusifs réservés aux membres Folie's+.</p>
+        <div class="orn-center" style="justify-content:flex-start;margin-bottom:16px;"><div class="orn-d"></div><div class="orn-line r" style="max-width:50px;"></div></div>
+        <p>Chaque commande vous rapproche d'une récompense. Cumulez des points, débloquez des paliers et accédez à des avantages exclusifs.</p>
         <div class="paliers">
-          <div class="palier">
-            <div class="palier-icon">🥉</div>
-            <div class="palier-info">
-              <div class="palier-name">Bronze</div>
-              <div class="palier-desc">Accès programme de base</div>
-            </div>
-            <div class="palier-pts">0 pts</div>
-          </div>
-          <div class="palier">
-            <div class="palier-icon">🥈</div>
-            <div class="palier-info">
-              <div class="palier-name">Silver</div>
-              <div class="palier-desc">Accès prioritaire aux défis</div>
-            </div>
-            <div class="palier-pts">500 pts</div>
-          </div>
-          <div class="palier">
-            <div class="palier-icon">🥇</div>
-            <div class="palier-info">
-              <div class="palier-name">Gold</div>
-              <div class="palier-desc">Bonus points et réductions</div>
-            </div>
-            <div class="palier-pts">1 500 pts</div>
-          </div>
-          <div class="palier">
-            <div class="palier-icon">💎</div>
-            <div class="palier-info">
-              <div class="palier-name">Diamond</div>
-              <div class="palier-desc">Secret Burger + avantages VIP</div>
-            </div>
-            <div class="palier-pts">4 000 pts</div>
-          </div>
+          <div class="palier"><div class="palier-icon">🥉</div><div class="palier-info"><div class="palier-name">Bronze</div><div class="palier-desc">Accès programme de base</div></div><div class="palier-pts">0 pts</div></div>
+          <div class="palier"><div class="palier-icon">🥈</div><div class="palier-info"><div class="palier-name">Silver</div><div class="palier-desc">Accès prioritaire aux défis</div></div><div class="palier-pts">500 pts</div></div>
+          <div class="palier"><div class="palier-icon">🥇</div><div class="palier-info"><div class="palier-name">Gold</div><div class="palier-desc">Bonus points et réductions</div></div><div class="palier-pts">1 500 pts</div></div>
+          <div class="palier"><div class="palier-icon">💎</div><div class="palier-info"><div class="palier-name">Diamond</div><div class="palier-desc">Secret Burger + avantages VIP</div></div><div class="palier-pts">4 000 pts</div></div>
         </div>
         <a href="login.html" class="btn-gold">Rejoindre Folie's+</a>
       </div>
       <div class="fidelite-visual reveal">
-        <div class="c-tl"></div><div class="c-tr"></div>
-        <div class="c-bl"></div><div class="c-br"></div>
+        <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
         <div class="fv-title">Aperçu de votre espace</div>
         <div class="fv-pts">650</div>
         <div class="fv-pts-label">points Folie's+</div>
         <div class="fv-bar-wrap"><div class="fv-bar"></div></div>
-        <div class="fv-bar-label">
-          <span>Silver · 500 pts</span>
-          <span>Gold · 1 500 pts</span>
-        </div>
+        <div class="fv-bar-label"><span>Silver · 500 pts</span><span>Gold · 1 500 pts</span></div>
         <div class="fv-rewards">
-          <div class="fv-reward">
-            <div class="fv-reward-icon">🍟</div>
-            <div class="fv-reward-label">Frites offertes</div>
-            <div class="fv-reward-pts">✦ Débloqué</div>
-          </div>
-          <div class="fv-reward">
-            <div class="fv-reward-icon">💸</div>
-            <div class="fv-reward-label">-20% sur un menu</div>
-            <div class="fv-reward-pts">✦ Débloqué</div>
-          </div>
-          <div class="fv-reward">
-            <div class="fv-reward-icon">🍔</div>
-            <div class="fv-reward-label">Burger gratuit</div>
-            <div class="fv-reward-pts">○ 1 000 pts</div>
-          </div>
-          <div class="fv-reward">
-            <div class="fv-reward-icon">🔐</div>
-            <div class="fv-reward-label">Secret Burger</div>
-            <div class="fv-reward-pts">○ 2 000 pts</div>
-          </div>
+          <div class="fv-reward"><div class="fv-reward-icon">🍟</div><div class="fv-reward-label">Frites offertes</div><div class="fv-reward-pts">✦ Débloqué</div></div>
+          <div class="fv-reward"><div class="fv-reward-icon">💸</div><div class="fv-reward-label">-20% sur un menu</div><div class="fv-reward-pts">✦ Débloqué</div></div>
+          <div class="fv-reward"><div class="fv-reward-icon">🍔</div><div class="fv-reward-label">Burger gratuit</div><div class="fv-reward-pts">○ 1 000 pts</div></div>
+          <div class="fv-reward"><div class="fv-reward-icon">🔐</div><div class="fv-reward-label">Secret Burger</div><div class="fv-reward-pts">○ 2 000 pts</div></div>
         </div>
       </div>
     </div>
@@ -607,53 +266,25 @@
     <div class="contact-grid">
       <div class="contact-info reveal">
         <h2>Aux Folie's Burger</h2>
-        <div class="contact-item">
-          <div class="ci-icon">📞</div>
-          <div>
-            <div class="ci-label">Téléphone</div>
-            <div class="ci-val"><a href="tel:0782253309">07 82 25 33 09</a></div>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="ci-icon">🛵</div>
-          <div>
-            <div class="ci-label">Livraison</div>
-            <div class="ci-val">18h45 – 21h45</div>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="ci-icon">🍔</div>
-          <div>
-            <div class="ci-label">Spécialité</div>
-            <div class="ci-val">Burger artisanal + frite maison</div>
-          </div>
-        </div>
+        <div class="contact-item"><div class="ci-icon">📞</div><div><div class="ci-label">Téléphone</div><div class="ci-val"><a id="contact-tel" href="tel:0782253309">07 82 25 33 09</a></div></div></div>
+        <div class="contact-item"><div class="ci-icon">🛵</div><div><div class="ci-label">Livraison</div><div class="ci-val" id="contact-liv">18h45 – 21h45</div></div></div>
+        <div class="contact-item"><div class="ci-icon">🍔</div><div><div class="ci-label">Spécialité</div><div class="ci-val">Burger artisanal + frite maison</div></div></div>
       </div>
       <div class="contact-form-wrap reveal">
         <div class="cfw-title">Envoyer un message</div>
-        <div class="form-group">
-          <label>Nom</label>
-          <input type="text" placeholder="Votre nom"/>
-        </div>
-        <div class="form-group">
-          <label>Téléphone</label>
-          <input type="tel" placeholder="06 …"/>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea rows="4" placeholder="Votre message, une réservation…"></textarea>
-        </div>
-        <a href="tel:0782253309" class="btn-gold" style="display:inline-block;margin-top:4px;">Appeler directement</a>
-        <div class="form-note">Ou appelez-nous directement au 07 82 25 33 09</div>
+        <div class="form-group"><label>Nom</label><input type="text" placeholder="Votre nom"/></div>
+        <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="06 …"/></div>
+        <div class="form-group"><label>Message</label><textarea rows="4" placeholder="Votre message, une réservation…"></textarea></div>
+        <a id="contact-tel-btn" href="tel:0782253309" class="btn-gold" style="display:inline-block;margin-top:4px;">Appeler directement</a>
+        <div class="form-note" id="contact-note">Ou appelez-nous directement au 07 82 25 33 09</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Aux Folie's Burger</div>
-  <div class="footer-tag">La folie du goût, la folie des récompenses.</div>
+  <div class="footer-tag" id="footer-slogan">La folie du goût, la folie des récompenses.</div>
   <div class="footer-links">
     <a href="menu.html">Carte</a>
     <a href="login.html">Folie's+</a>
@@ -661,21 +292,83 @@
     <a href="admin.html">Administration</a>
   </div>
   <div class="footer-line"></div>
-  <div class="footer-copy">07 82 25 33 09 · Livraison 18h45 – 21h45</div>
+  <div class="footer-copy" id="footer-copy">07 82 25 33 09 · Livraison 18h45 – 21h45</div>
 </footer>
 
-<script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(r => observer.observe(r));
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ⚠️ Remplace par ta config Firebase
+const firebaseConfig = {
+  apiKey: "VOTRE_API_KEY", authDomain: "VOTRE_PROJECT.firebaseapp.com",
+  projectId: "VOTRE_PROJECT_ID", storageBucket: "VOTRE_PROJECT.appspot.com",
+  messagingSenderId: "VOTRE_SENDER_ID", appId: "VOTRE_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ── Charger config restaurant ──
+async function loadConfig() {
+  try {
+    const snap = await getDoc(doc(db,'config','restaurant'));
+    if (!snap.exists()) return;
+    const d = snap.data();
+    const tel = d.tel || '07 82 25 33 09';
+    const liv = `${d.livStart||'18h45'} – ${d.livEnd||'21h45'}`;
+    const telHref = 'tel:'+tel.replace(/\s/g,'');
+    if (d.slogan) { document.getElementById('hero-slogan').textContent=d.slogan; document.getElementById('footer-slogan').textContent=d.slogan; }
+    if (d.heroPhoto) document.getElementById('hero-img').src=d.heroPhoto;
+    document.querySelectorAll('#info-tel,#contact-tel,#contact-tel-btn').forEach(el=>{el.textContent=tel;el.href=telHref;});
+    document.getElementById('info-liv').textContent=liv;
+    document.getElementById('contact-liv').textContent=liv;
+    document.getElementById('contact-note').textContent=`Ou appelez-nous directement au ${tel}`;
+    document.getElementById('footer-copy').textContent=`${tel} · Livraison ${liv}`;
+  } catch {}
+}
+
+// ── Charger 3 burgers best-sellers ──
+async function loadHomeBurgers() {
+  try {
+    const snap = await getDocs(collection(db,'menu_burgers'));
+    const items = [];
+    snap.forEach(d => { if(d.data().visible!==false) items.push({id:d.id,...d.data()}); });
+    items.sort((a,b)=>a.order-b.order);
+    const top3 = items.slice(0,3);
+    const grid = document.getElementById('home-burgers');
+    if (!top3.length) { grid.innerHTML=''; return; }
+    grid.innerHTML = top3.map(b => `
+      <div class="burger-card reveal">
+        <div class="burger-img">
+          ${b.photo?`<img src="${b.photo}" alt="${b.name}" loading="lazy">`:'🍔'}
+          ${(b.badges||[]).length?`<span class="burger-badge">${b.badges[0]}</span>`:''}
+        </div>
+        <div class="burger-body">
+          <div class="burger-name">${b.name}</div>
+          <div class="burger-desc">${b.desc||''}</div>
+          <div class="burger-footer">
+            <div class="burger-price">${b.price?b.price+' €':''}</div>
+            <div class="burger-tag">${b.cat||'Artisanal'}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    // Re-observe new cards
+    grid.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
+  } catch {}
+}
+
+loadConfig();
+loadHomeBurgers();
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if (e.isIntersecting) { setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
 </script>
 </body>
 </html>
