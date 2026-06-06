@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aux Folie's Burger – Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --gold-dark: #8a6820;
+      --black: #0a0a08;
+      --surface: #13130d;
+      --surface2: #1c1c12;
+      --cream: #f5ead0;
+      --muted: #6a5a3a;
+      --border: #2a2618;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--black);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(201,168,76,0.012) 50px, rgba(201,168,76,0.012) 51px),
+        repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(201,168,76,0.012) 50px, rgba(201,168,76,0.012) 51px);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 60%);
+      top: -250px; left: 50%; transform: translateX(-50%);
+      pointer-events: none; z-index: 0;
+    }
+    header {
+      position: relative; z-index: 10;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .header-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 36px;
+    }
+    .logo-main {
+      font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900;
+      color: var(--gold); letter-spacing: 3px;
+      text-shadow: 0 0 30px rgba(201,168,76,0.35);
+    }
+    .logo-sub {
+      font-family: 'Cinzel', serif; font-size: 0.55rem;
+      letter-spacing: 5px; color: var(--muted); text-transform: uppercase;
+    }
+    .header-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      opacity: 0.4;
+    }
+    nav { display: flex; gap: 24px; }
+    nav a {
+      font-family: 'Cinzel', serif; font-size: 0.65rem;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.3s;
+    }
+    nav a:hover { color: var(--gold); }
+    main {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 52px 16px; position: relative; z-index: 1;
+    }
+    .card { width: 100%; max-width: 440px; animation: riseIn 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+    @keyframes riseIn {
+      from { opacity:0; transform: translateY(28px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .card-frame {
+      background: var(--surface);
+      border: 1px solid rgba(201,168,76,0.22);
+      border-radius: 3px; padding: 44px 40px 38px;
+      position: relative;
+    }
+    .card-frame::before, .card-frame::after,
+    .c-tr, .c-bl {
+      content: ''; position: absolute;
+      width: 18px; height: 18px;
+      border-color: rgba(201,168,76,0.5); border-style: solid;
+    }
+    .card-frame::before { top:8px; left:8px; border-width:1px 0 0 1px; }
+    .card-frame::after  { bottom:8px; right:8px; border-width:0 1px 1px 0; }
+    .c-tr { top:8px; right:8px; border-width:1px 1px 0 0; }
+    .c-bl { bottom:8px; left:8px; border-width:0 0 1px 1px; }
+    .card-header { text-align:center; margin-bottom:30px; }
+    .orn { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .orn-line { flex:1; height:1px; background: linear-gradient(90deg, transparent, var(--gold-dark)); }
+    .orn-line.r { background: linear-gradient(90deg, var(--gold-dark), transparent); }
+    .orn-d { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+    .card-title {
+      font-family:'Cinzel',serif; font-size:2rem; font-weight:900;
+      color:var(--gold); letter-spacing:4px;
+      text-shadow: 0 0 20px rgba(201,168,76,0.3);
+    }
+    .card-sub { font-size:1rem; font-style:italic; color:var(--muted); margin-top:5px; }
+    .tabs { display:flex; margin-bottom:26px; border-bottom:1px solid var(--border); }
+    .tab {
+      flex:1; padding:10px; text-align:center;
+      font-family:'Cinzel',serif; font-size:0.68rem;
+      letter-spacing:2px; text-transform:uppercase;
+      color:var(--muted); background:transparent; border:none; cursor:pointer;
+      position:relative; transition:color 0.3s;
+    }
+    .tab::after {
+      content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px;
+      background:var(--gold); transform:scaleX(0); transition:transform 0.3s;
+    }
+    .tab.active { color:var(--gold); }
+    .tab.active::after { transform:scaleX(1); }
+    .form-group { margin-bottom:20px; }
+    label {
+      display:block; font-family:'Cinzel',serif; font-size:0.62rem;
+      letter-spacing:2px; text-transform:uppercase; color:var(--gold-dark); margin-bottom:7px;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width:100%; background:var(--surface2);
+      border:1px solid var(--border); border-radius:2px;
+      padding:13px 16px; color:var(--cream);
+      font-size:1rem; font-family:'Cormorant Garamond',serif;
+      outline:none; transition:border-color 0.3s, box-shadow 0.3s;
+      letter-spacing:0.5px;
+    }
+    input:focus {
+      border-color:var(--gold);
+      box-shadow: 0 0 0 1px rgba(201,168,76,0.15), inset 0 0 10px rgba(201,168,76,0.04);
+    }
+    input::placeholder { color:var(--muted); font-style:italic; }
+    .btn-submit {
+      width:100%; padding:14px;
+      background: linear-gradient(135deg, #7a5c18, #c9a84c, #f0d080, #c9a84c, #7a5c18);
+      background-size:200% 100%; background-position:right;
+      color:var(--black); font-family:'Cinzel',serif; font-size:0.75rem; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase;
+      border:none; border-radius:2px; cursor:pointer;
+      transition:background-position 0.5s, transform 0.1s; margin-top:6px;
+    }
+    .btn-submit:hover { background-position:left; }
+    .btn-submit:active { transform:scale(0.98); }
+    .divider { display:flex; align-items:center; gap:14px; margin:22px 0; }
+    .divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .divider span { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; }
+    .btn-google {
+      width:100%; padding:12px; background:transparent;
+      border:1px solid rgba(201,168,76,0.2); border-radius:2px;
+      color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:1rem;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+      transition:border-color 0.3s, background 0.3s;
+    }
+    .btn-google:hover { border-color:var(--gold); background:rgba(201,168,76,0.04); }
+    .btn-google svg { width:18px; height:18px; flex-shrink:0; }
+    .msg { margin-top:16px; padding:10px 14px; border-radius:2px; font-size:0.95rem; font-style:italic; display:none; }
+    .msg.error   { background:rgba(100,20,20,0.3); color:#e57373; border:1px solid rgba(139,26,26,0.4); display:block; }
+    .msg.success { background:rgba(20,60,20,0.3); color:#81c784; border:1px solid rgba(46,90,46,0.4); display:block; }
+    .hidden { display:none !important; }
+    footer { position:relative; z-index:1; text-align:center; padding:20px; border-top:1px solid rgba(201,168,76,0.1); }
+    footer p { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; line-height:2; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo-main">Aux Folie's Burger</div>
+      <div class="logo-sub">Origny-Sainte-Benoîte</div>
+    </div>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="menu.html">Carte</a>
+      <a href="fidelite.html">Folie's+</a>
+    </nav>
+  </div>
+  <div class="header-line"></div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="card-frame">
+      <div class="c-tr"></div><div class="c-bl"></div>
+      <div class="card-header">
+        <div class="orn"><div class="orn-line"></div><div class="orn-d"></div><div class="orn-line r"></div></div>
+        <div class="card-title">Folie's+</div>
+        <div class="card-sub">Programme de fidélité exclusif</div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" id="tab-login" onclick="switchTab('login')">Connexion</button>
+        <button class="tab" id="tab-register" onclick="switchTab('register')">Inscription</button>
+      </div>
+
+      <div id="form-login">
+        <div class="form-group">
+          <label>Adresse email</label>
+          <input type="email" id="login-email" placeholder="votre@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="login-pass" placeholder="••••••••"/>
+        </div>
+        <button class="btn-submit" onclick="doLogin()">Entrer dans le club</button>
+        <div class="divider"><span>ou</span></div>
+        <button class="btn-google" onclick="doGoogleLogin()">
+          <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.4 35.5 26.8 36 24 36c-5.2 0-9.6-3.3-11.3-8H6.4C9.7 35.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.6l6.2 5.2C37 37.7 44 32 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+          Continuer avec Google
+        </button>
+      </div>
+
+      <div id="form-register" class="hidden">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" id="reg-name" placeholder="Votre prénom"/>
+        </div>
+        <div class="form-group">
+          <label>Adresse email</label>
+          <input type="email" id="reg-email" placeholder="votre@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="reg-pass" placeholder="8 caractères minimum"/>
+        </div>
+        <button class="btn-submit" onclick="doRegister()">Rejoindre le club</button>
+        <div class="divider"><span>ou</span></div>
+        <button class="btn-google" onclick="doGoogleLogin()">
+          <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.4 35.5 26.8 36 24 36c-5.2 0-9.6-3.3-11.3-8H6.4C9.7 35.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.6l6.2 5.2C37 37.7 44 32 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+          Continuer avec Google
+        </button>
+      </div>
+      <div id="msg" class="msg"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>Aux Folie's Burger · Origny-Sainte-Benoîte</p>
+  <p>07 82 25 33 09 · Livraison 18h45 – 21h45</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ⚠️ Remplace par ta config Firebase
+  const firebaseConfig = {
+    apiKey: "VOTRE_API_KEY",
+    authDomain: "VOTRE_PROJECT.firebaseapp.com",
+    projectId: "VOTRE_PROJECT_ID",
+    storageBucket: "VOTRE_PROJECT.appspot.com",
+    messagingSenderId: "VOTRE_SENDER_ID",
+    appId: "VOTRE_APP_ID"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+  const gp   = new GoogleAuthProvider();
+
+  const msg = (t,c) => { const e=document.getElementById('msg'); e.textContent=t; e.className='msg '+c; };
+
+  async function createUserDoc(user, name) {
+    const ref = doc(db, 'users', user.uid);
+    const s   = await getDoc(ref);
+    if (!s.exists()) await setDoc(ref, {
+      uid: user.uid, name: name||user.displayName||'Membre',
+      email: user.email, points: 0, tier: 'Bronze',
+      totalSpent: 0, createdAt: serverTimestamp(),
+      badges: [], history: [], completedDefis: {}
+    });
+  }
+
+  window.doLogin = async () => {
+    const e=document.getElementById('login-email').value.trim(), p=document.getElementById('login-pass').value;
+    if (!e||!p) return msg('Veuillez remplir tous les champs.','error');
+    try { await signInWithEmailAndPassword(auth,e,p); location.href='fidelite.html'; }
+    catch { msg('Email ou mot de passe incorrect.','error'); }
+  };
+
+  window.doRegister = async () => {
+    const n=document.getElementById('reg-name').value.trim(), e=document.getElementById('reg-email').value.trim(), p=document.getElementById('reg-pass').value;
+    if (!n||!e||!p) return msg('Veuillez remplir tous les champs.','error');
+    if (p.length<8) return msg('Mot de passe trop court (8 caractères minimum).','error');
+    try {
+      const c=await createUserWithEmailAndPassword(auth,e,p);
+      await updateProfile(c.user,{displayName:n});
+      await createUserDoc(c.user,n);
+      location.href='fidelite.html';
+    } catch(err) { msg(err.code==='auth/email-already-in-use'?'Email déjà utilisé.':'Erreur de création de compte.','error'); }
+  };
+
+  window.doGoogleLogin = async () => {
+    try { const c=await signInWithPopup(auth,gp); await createUserDoc(c.user,''); location.href='fidelite.html'; }
+    catch { msg('Connexion Google annulée.','error'); }
+  };
+
+  window.switchTab = (t) => {
+    ['login','register'].forEach(id=>{
+      document.getElementById('form-'+id).classList.toggle('hidden', id!==t);
+      document.getElementById('tab-'+id).classList.toggle('active', id===t);
+    });
+    document.getElementById('msg').className='msg';
+  };
+</script>
+</body>
+</html>
