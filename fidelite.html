@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Folie's+ – Mon espace fidélité</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --gold-dark: #8a6820;
+      --black: #0a0a08;
+      --surface: #13130d;
+      --surface2: #1c1c12;
+      --surface3: #222217;
+      --cream: #f5ead0;
+      --muted: #6a5a3a;
+      --border: #2a2618;
+      --green: #4a7c4a;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:'Cormorant Garamond',Georgia,serif;
+      background:var(--black); color:var(--cream);
+      min-height:100vh; display:flex; flex-direction:column;
+    }
+    body::before {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px),
+        repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px);
+    }
+
+    /* HEADER */
+    header { position:relative; z-index:10; border-bottom:1px solid rgba(201,168,76,0.15); }
+    .header-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; }
+    .logo-main { font-family:'Cinzel',serif; font-size:1.4rem; font-weight:900; color:var(--gold); letter-spacing:3px; text-shadow:0 0 30px rgba(201,168,76,0.3); }
+    .logo-sub { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:5px; color:var(--muted); }
+    .header-line { height:1px; background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent); opacity:0.4; }
+    .btn-logout {
+      font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:2px; text-transform:uppercase;
+      color:var(--muted); background:transparent; border:1px solid rgba(201,168,76,0.2);
+      padding:7px 16px; border-radius:2px; cursor:pointer; transition:all 0.3s;
+    }
+    .btn-logout:hover { color:var(--gold); border-color:var(--gold); }
+
+    /* LOADING */
+    #loading { flex:1; display:flex; align-items:center; justify-content:center; }
+    #loading p { font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:3px; color:var(--muted); text-transform:uppercase; }
+
+    /* MAIN */
+    main { flex:1; max-width:920px; margin:0 auto; padding:36px 20px 52px; width:100%; position:relative; z-index:1; }
+
+    /* SECTION TITLE */
+    .s-title {
+      font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:4px;
+      text-transform:uppercase; color:var(--gold-dark);
+      display:flex; align-items:center; gap:14px; margin-bottom:18px; margin-top:36px;
+    }
+    .s-title::before, .s-title::after { content:''; flex:1; height:1px; background:var(--border); }
+    .s-title::before { max-width:40px; }
+
+    /* HERO CARD */
+    .hero-card {
+      background:var(--surface);
+      border:1px solid rgba(201,168,76,0.2);
+      border-radius:3px; padding:32px 32px 28px;
+      position:relative; overflow:hidden;
+      animation: fadeUp 0.5s ease both;
+    }
+    .hero-card::before {
+      content:'FOLIE\'S+';
+      font-family:'Cinzel',serif; font-size:7rem; font-weight:900;
+      position:absolute; right:-10px; bottom:-20px;
+      opacity:0.03; letter-spacing:4px; pointer-events:none;
+      color:var(--gold);
+    }
+    /* coins déco hero */
+    .hero-card .hc-tl, .hero-card .hc-tr, .hero-card .hc-bl, .hero-card .hc-br {
+      position:absolute; width:16px; height:16px; border-color:rgba(201,168,76,0.4); border-style:solid;
+    }
+    .hero-card .hc-tl { top:8px; left:8px; border-width:1px 0 0 1px; }
+    .hero-card .hc-tr { top:8px; right:8px; border-width:1px 1px 0 0; }
+    .hero-card .hc-bl { bottom:8px; left:8px; border-width:0 0 1px 1px; }
+    .hero-card .hc-br { bottom:8px; right:8px; border-width:0 1px 1px 0; }
+
+    .hero-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:24px; }
+    .welcome-label { font-size:0.85rem; font-style:italic; color:var(--muted); margin-bottom:4px; }
+    .user-name { font-family:'Cinzel',serif; font-size:1.8rem; font-weight:900; color:var(--gold); letter-spacing:2px; }
+    .tier-badge {
+      font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase;
+      padding:6px 16px; border-radius:2px; border:1px solid;
+    }
+    .tb-bronze  { color:#cd7f32; border-color:#cd7f32; background:rgba(205,127,50,0.08); }
+    .tb-silver  { color:#c0c0c0; border-color:#c0c0c0; background:rgba(192,192,192,0.08); }
+    .tb-gold    { color:var(--gold); border-color:var(--gold); background:rgba(201,168,76,0.08); }
+    .tb-diamond { color:#b9f2ff; border-color:#b9f2ff; background:rgba(185,242,255,0.08); }
+
+    .points-row { display:flex; align-items:flex-end; gap:8px; margin-bottom:20px; }
+    .points-big { font-family:'Cinzel',serif; font-size:4rem; font-weight:900; color:var(--gold); line-height:1; text-shadow:0 0 30px rgba(201,168,76,0.25); }
+    .points-unit { font-size:1rem; font-style:italic; color:var(--muted); margin-bottom:10px; }
+
+    .prog-wrap { }
+    .prog-labels { display:flex; justify-content:space-between; font-size:0.8rem; font-style:italic; color:var(--muted); margin-bottom:7px; }
+    .prog-track { height:3px; background:var(--border); border-radius:999px; overflow:hidden; }
+    .prog-fill { height:100%; background:linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius:999px; transition:width 1.2s cubic-bezier(0.22,1,0.36,1); }
+
+    /* QR */
+    .qr-card {
+      background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px;
+      padding:24px; display:flex; align-items:center; gap:28px; flex-wrap:wrap;
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+    #qr-wrap {
+      width:110px; height:110px; background:#fff; border-radius:3px;
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .qr-info h3 { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:8px; }
+    .qr-info p { font-size:0.95rem; font-style:italic; color:var(--muted); line-height:1.6; }
+    .qr-uid { font-size:0.78rem; background:var(--surface2); padding:3px 8px; border-radius:2px; color:var(--cream); font-family:monospace; display:inline-block; margin-top:6px; }
+
+    /* RÉCOMPENSES */
+    .rewards-list { display:flex; flex-direction:column; gap:10px; }
+    .reward-row {
+      background:var(--surface); border:1px solid var(--border); border-radius:3px;
+      padding:14px 18px; display:flex; align-items:center; gap:16px;
+      transition:border-color 0.3s; animation: fadeUp 0.5s ease 0.2s both;
+    }
+    .reward-row.unlocked { border-color:rgba(201,168,76,0.3); }
+    .reward-icon { font-size:1.5rem; width:40px; text-align:center; flex-shrink:0; }
+    .reward-body { flex:1; }
+    .reward-body h4 { font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:1px; color:var(--cream); margin-bottom:2px; }
+    .reward-body p { font-size:0.85rem; font-style:italic; color:var(--muted); }
+    .reward-pts { font-family:'Cinzel',serif; font-size:0.8rem; color:var(--gold-dark); letter-spacing:1px; white-space:nowrap; }
+    .reward-status { font-size:1rem; margin-left:8px; }
+
+    /* DÉFIS */
+    .defis-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+    .defi-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:3px;
+      padding:18px; animation: fadeUp 0.5s ease 0.3s both;
+    }
+    .defi-card h4 { font-family:'Cinzel',serif; font-size:0.82rem; letter-spacing:1px; color:var(--cream); margin-bottom:5px; }
+    .defi-card p { font-size:0.88rem; font-style:italic; color:var(--muted); margin-bottom:12px; line-height:1.5; }
+    .defi-track { height:3px; background:var(--border); border-radius:999px; overflow:hidden; margin-bottom:6px; }
+    .defi-fill { height:100%; border-radius:999px; background:linear-gradient(90deg, var(--gold-dark), var(--gold)); }
+    .defi-fill.done { background:linear-gradient(90deg,#2e6b2e,#4caf50); }
+    .defi-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--gold-dark); }
+
+    /* HISTORIQUE */
+    .history-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:3px;
+      padding:20px; animation: fadeUp 0.5s ease 0.35s both;
+    }
+    .history-empty { text-align:center; font-style:italic; color:var(--muted); padding:24px; font-size:0.95rem; }
+    .history-row { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--border); }
+    .history-row:last-child { border-bottom:none; }
+    .h-label { font-size:0.95rem; color:var(--cream); }
+    .h-date { font-size:0.78rem; font-style:italic; color:var(--muted); margin-top:1px; }
+    .h-pts { font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:1px; }
+    .h-pts.pos { color:#7cb87c; }
+    .h-pts.neg { color:#c47a7a; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    footer { position:relative; z-index:1; text-align:center; padding:20px; border-top:1px solid rgba(201,168,76,0.1); }
+    footer p { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; line-height:2; }
+
+    @media(max-width:600px) {
+      .qr-card { flex-direction:column; }
+      .hero-top { flex-direction:column; }
+      .points-big { font-size:3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo-main">Aux Folie's Burger</div>
+      <div class="logo-sub">Origny-Sainte-Benoîte</div>
+    </div>
+    <button class="btn-logout" id="btn-logout">Déconnexion</button>
+  </div>
+  <div class="header-line"></div>
+</header>
+
+<div id="loading"><p>Chargement de votre espace…</p></div>
+
+<main id="app" style="display:none">
+
+  <!-- HERO -->
+  <div class="hero-card">
+    <div class="hc-tl"></div><div class="hc-tr"></div>
+    <div class="hc-bl"></div><div class="hc-br"></div>
+    <div class="hero-top">
+      <div>
+        <div class="welcome-label">Bienvenue dans votre espace</div>
+        <div class="user-name" id="d-name">–</div>
+      </div>
+      <div class="tier-badge tb-bronze" id="d-tier">Bronze</div>
+    </div>
+    <div class="points-row">
+      <div class="points-big" id="d-pts">0</div>
+      <div class="points-unit">points Folie's+</div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-labels">
+        <span id="p-cur">0 pts</span>
+        <span id="p-next">–</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="p-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- QR CODE -->
+  <div class="s-title">Mon QR Code</div>
+  <div class="qr-card">
+    <div id="qr-wrap"></div>
+    <div class="qr-info">
+      <h3>Code de fidélité</h3>
+      <p>Présentez ce QR code au restaurant après chaque commande.<br>Le gérant le scanne pour créditer vos points instantanément.</p>
+      <div class="qr-uid" id="d-uid">–</div>
+    </div>
+  </div>
+
+  <!-- RÉCOMPENSES -->
+  <div class="s-title">Récompenses</div>
+  <div class="rewards-list" id="rewards-list"></div>
+
+  <!-- DÉFIS -->
+  <div class="s-title">Défis de la semaine</div>
+  <div class="defis-grid" id="defis-grid"></div>
+
+  <!-- HISTORIQUE -->
+  <div class="s-title">Historique des points</div>
+  <div class="history-card" id="history-card"></div>
+
+</main>
+
+<footer>
+  <p>Aux Folie's Burger · Origny-Sainte-Benoîte</p>
+  <p>07 82 25 33 09 · Livraison 18h45 – 21h45</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ⚠️ Remplace par ta config Firebase
+  const firebaseConfig = {
+    apiKey: "VOTRE_API_KEY",
+    authDomain: "VOTRE_PROJECT.firebaseapp.com",
+    projectId: "VOTRE_PROJECT_ID",
+    storageBucket: "VOTRE_PROJECT.appspot.com",
+    messagingSenderId: "VOTRE_SENDER_ID",
+    appId: "VOTRE_APP_ID"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  const REWARDS = [
+    { pts:200,  icon:'🍟', label:'Frites offertes',      desc:'Une portion de frites maison' },
+    { pts:500,  icon:'💸', label:'-20% sur un menu',     desc:'Réduction sur votre prochain menu complet' },
+    { pts:1000, icon:'🍔', label:'Burger gratuit',        desc:'Le burger de votre choix, offert' },
+    { pts:2000, icon:'🔐', label:'Secret Burger',         desc:'Le burger mystère, hors carte, réservé aux initiés' },
+  ];
+
+  const DEFIS = [
+    { id:'d1', title:'Commander un Smash Burger', desc:'Testez la spécialité artisanale de la maison', target:1, bonus:50 },
+    { id:'d2', title:'Commande un vendredi soir', desc:'La soirée burger en mode Folie',               target:1, bonus:30 },
+    { id:'d3', title:'3 commandes cette semaine', desc:'Fidèle parmi les fidèles',                      target:3, bonus:100 },
+  ];
+
+  const TIERS = [
+    { name:'Bronze',  min:0,    max:499,  cls:'tb-bronze'  },
+    { name:'Silver',  min:500,  max:1499, cls:'tb-silver'  },
+    { name:'Gold',    min:1500, max:3999, cls:'tb-gold'    },
+    { name:'Diamond', min:4000, max:Infinity, cls:'tb-diamond' },
+  ];
+
+  const getTier    = p => TIERS.find(t => p>=t.min && p<=t.max) || TIERS[0];
+  const getNextTier= p => { const i=TIERS.findIndex(t=>p>=t.min&&p<=t.max); return TIERS[i+1]||null; };
+
+  function renderDashboard(d) {
+    const pts = d.points || 0;
+    const tier = getTier(pts);
+    const next = getNextTier(pts);
+
+    document.getElementById('d-name').textContent = d.name || 'Membre';
+    document.getElementById('d-pts').textContent  = pts.toLocaleString('fr-FR');
+
+    const badge = document.getElementById('d-tier');
+    badge.textContent = tier.name;
+    badge.className   = 'tier-badge ' + tier.cls;
+
+    document.getElementById('p-cur').textContent = pts + ' pts';
+    if (next) {
+      const pct = Math.min(100, Math.round(((pts - tier.min) / (tier.max + 1 - tier.min)) * 100));
+      document.getElementById('p-next').textContent = `Prochain palier : ${tier.max + 1} pts · ${next.name}`;
+      document.getElementById('p-fill').style.width = pct + '%';
+    } else {
+      document.getElementById('p-next').textContent = 'Niveau maximum atteint ✦';
+      document.getElementById('p-fill').style.width = '100%';
+    }
+
+    // Récompenses
+    document.getElementById('rewards-list').innerHTML = REWARDS.map(r => {
+      const ok = pts >= r.pts;
+      return `<div class="reward-row ${ok?'unlocked':''}">
+        <div class="reward-icon">${r.icon}</div>
+        <div class="reward-body"><h4>${r.label}</h4><p>${r.desc}</p></div>
+        <div class="reward-pts">${r.pts.toLocaleString('fr-FR')} pts</div>
+        <div class="reward-status">${ok ? '✦' : '○'}</div>
+      </div>`;
+    }).join('');
+
+    // Défis
+    const comp = d.completedDefis || {};
+    document.getElementById('defis-grid').innerHTML = DEFIS.map(df => {
+      const prog = comp[df.id] || 0;
+      const pct  = Math.min(100, Math.round((prog / df.target) * 100));
+      const done = prog >= df.target;
+      return `<div class="defi-card">
+        <h4>${done?'✦ ':''}${df.title}</h4>
+        <p>${df.desc}</p>
+        <div class="defi-track"><div class="defi-fill ${done?'done':''}" style="width:${pct}%"></div></div>
+        <div class="defi-label">+${df.bonus} pts · ${prog}/${df.target}</div>
+      </div>`;
+    }).join('');
+
+    // Historique
+    const hist = d.history || [];
+    const hEl  = document.getElementById('history-card');
+    if (!hist.length) {
+      hEl.innerHTML = '<div class="history-empty">Aucun mouvement de points pour l\'instant.</div>';
+    } else {
+      hEl.innerHTML = [...hist].reverse().map(h => {
+        const date = h.date?.toDate ? h.date.toDate().toLocaleDateString('fr-FR') : '–';
+        const pos  = h.pts > 0;
+        return `<div class="history-row">
+          <div><div class="h-label">${h.label}</div><div class="h-date">${date}</div></div>
+          <div class="h-pts ${pos?'pos':'neg'}">${pos?'+':''}${h.pts} pts</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  let qrGenerated = false;
+
+  onAuthStateChanged(auth, user => {
+    if (!user) { location.href='login.html'; return; }
+
+    document.getElementById('d-uid').textContent = user.uid.slice(0,14) + '…';
+
+    if (!qrGenerated) {
+      qrGenerated = true;
+      new QRCode(document.getElementById('qr-wrap'), {
+        text: JSON.stringify({ uid: user.uid, app: 'folies-burger' }),
+        width: 110, height: 110, colorDark:'#000', colorLight:'#fff'
+      });
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    onSnapshot(doc(db,'users',user.uid), snap => {
+      if (snap.exists()) renderDashboard(snap.data());
+    });
+
+    document.getElementById('btn-logout').onclick = () =>
+      signOut(auth).then(() => location.href='login.html');
+  });
+</script>
+</body>
+</html>
