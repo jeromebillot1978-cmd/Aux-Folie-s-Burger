@@ -25,6 +25,14 @@
     .admin-badge { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--gold); border:1px solid rgba(201,168,76,0.3); padding:5px 14px; border-radius:2px; }
     .btn-logout { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--muted); background:transparent; border:1px solid rgba(201,168,76,0.15); padding:5px 14px; border-radius:2px; cursor:pointer; transition:all 0.3s; margin-left:10px; }
     .btn-logout:hover { color:var(--gold); border-color:var(--gold); }
+    .btn-google-admin {
+      width:100%; padding:12px; background:transparent;
+      border:1px solid rgba(201,168,76,0.2); border-radius:2px;
+      color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:1rem;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+      transition:border-color 0.3s, background 0.3s;
+    }
+    .btn-google-admin:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); }
 
     /* LOGIN */
     #admin-login { flex:1; display:flex; align-items:center; justify-content:center; padding:52px 16px; position:relative; z-index:1; }
@@ -215,6 +223,15 @@
     <div class="form-group"><label>Email admin</label><input type="email" id="adm-email" placeholder="admin@foliesburger.fr"/></div>
     <div class="form-group"><label>Mot de passe</label><input type="password" id="adm-pass" placeholder="••••••••"/></div>
     <button class="btn-gold" onclick="adminLogin()">Accéder au panneau</button>
+    <div style="display:flex;align-items:center;gap:12px;margin:18px 0;">
+      <div style="flex:1;height:1px;background:#2a2618;"></div>
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;color:#6a5a3a;">OU</span>
+      <div style="flex:1;height:1px;background:#2a2618;"></div>
+    </div>
+    <button class="btn-google-admin" onclick="adminGoogleLogin()">
+      <svg viewBox="0 0 48 48" style="width:18px;height:18px;flex-shrink:0"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.4 35.5 26.8 36 24 36c-5.2 0-9.6-3.3-11.3-8H6.4C9.7 35.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.6l6.2 5.2C37 37.7 44 32 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Connexion avec Google
+    </button>
     <div id="login-msg" class="msg"></div>
   </div>
 </div>
@@ -392,7 +409,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, getDocs, query, where, orderBy, limit, onSnapshot, arrayUnion, increment, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ⚠️ Remplace par ta config Firebase
@@ -424,6 +441,17 @@ function toast(msg, isError=false) {
 }
 
 // ── AUTH ──
+window.adminGoogleLogin = async () => {
+  const msgEl = document.getElementById('login-msg');
+  try {
+    const cred = await signInWithPopup(auth, new GoogleAuthProvider());
+    if (!ADMIN_EMAILS.includes(cred.user.email)) {
+      await signOut(auth);
+      msgEl.textContent='Accès non autorisé.'; msgEl.className='msg error';
+    }
+  } catch { msgEl.textContent='Connexion Google annulée.'; msgEl.className='msg error'; }
+};
+
 window.adminLogin = async () => {
   const email = document.getElementById('adm-email').value.trim();
   const pass  = document.getElementById('adm-pass').value;
