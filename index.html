@@ -3,373 +3,755 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aux Folie's Burger – La folie du goût</title>
+  <title>Folie's+ – Administration</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
   <style>
-    :root{--gold:#c9a84c;--gold-light:#f0d080;--gold-dark:#8a6820;--black:#0a0a08;--surface:#13130d;--surface2:#1c1c12;--cream:#f5ead0;--muted:#6a5a3a;--border:#2a2618;}
-    *{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--black);color:var(--cream);overflow-x:hidden;}
-    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px),repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px);}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 40px;background:rgba(10,10,8,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.15);}
-    .nav-logo{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:900;color:var(--gold);letter-spacing:3px;text-decoration:none;text-shadow:0 0 20px rgba(201,168,76,0.3);}
-    .nav-links{display:flex;gap:32px;align-items:center;}
-    .nav-links a{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.3s;}
-    .nav-links a:hover{color:var(--gold);}
-    .nav-cta{color:var(--black)!important;background:linear-gradient(135deg,#8a6820,#c9a84c,#f0d080,#c9a84c,#8a6820);background-size:200% 100%;background-position:right;padding:9px 20px;border-radius:2px;transition:background-position 0.4s!important;}
-    .nav-cta:hover{background-position:left!important;color:var(--black)!important;}
-    section{position:relative;z-index:1;}
-    .section-inner{max-width:1100px;margin:0 auto;padding:100px 24px;}
-    .s-header{text-align:center;margin-bottom:60px;}
-    .s-tag{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:4px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px;}
-    .s-title{font-family:'Cinzel',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--cream);letter-spacing:2px;margin-bottom:14px;}
-    .s-title span{color:var(--gold);}
-    .s-sub{font-size:1.1rem;font-style:italic;color:var(--muted);}
-    .orn-center{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0;}
-    .orn-line{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark));}
-    .orn-line.r{background:linear-gradient(90deg,var(--gold-dark),transparent);}
-    .orn-d{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+    :root {
+      --gold: #c9a84c; --gold-light: #f0d080; --gold-dark: #8a6820;
+      --black: #0a0a08; --surface: #13130d; --surface2: #1c1c12; --surface3: #222217;
+      --cream: #f5ead0; --muted: #6a5a3a; --border: #2a2618;
+      --green: #2e6b2e; --green-light: #7cb87c; --red: #6b2e2e; --red-light: #c47a7a;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Cormorant Garamond',Georgia,serif; background:var(--black); color:var(--cream); min-height:100vh; display:flex; flex-direction:column; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image: repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px), repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px); }
 
-    /* HERO */
-    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;}
-    #hero-bg{position:absolute;inset:0;z-index:0;}
-    #hero-bg img{width:100%;height:100%;object-fit:cover;opacity:0.18;filter:saturate(1.2);}
-    .hero-content{position:relative;z-index:1;}
-    .hero-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-    .hero-orn{display:flex;align-items:center;gap:14px;margin-bottom:20px;animation:fadeDown 0.8s ease both;}
-    .hero-orn-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
-    .hero-orn-line.r{background:linear-gradient(90deg,var(--gold),transparent);}
-    .hero-orn-d{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
-    .hero-tag{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:4px;color:var(--gold);text-transform:uppercase;}
-    h1{font-family:'Cinzel',serif;font-size:clamp(3rem,8vw,7rem);font-weight:900;line-height:0.95;color:var(--cream);letter-spacing:2px;animation:fadeDown 0.8s ease 0.1s both;margin-bottom:12px;}
-    h1 span{color:var(--gold);display:block;}
-    .hero-sub{font-size:clamp(1.1rem,2vw,1.4rem);font-style:italic;color:var(--muted);margin-bottom:40px;animation:fadeDown 0.8s ease 0.2s both;}
-    .hero-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeDown 0.8s ease 0.3s both;}
-    .btn-gold{font-family:'Cinzel',serif;font-size:0.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,#7a5c18,#c9a84c,#f0d080,#c9a84c,#7a5c18);background-size:200% 100%;background-position:right;color:var(--black);padding:14px 32px;border:none;border-radius:2px;cursor:pointer;text-decoration:none;transition:background-position 0.5s,transform 0.1s;display:inline-block;}
-    .btn-gold:hover{background-position:left;}
-    .btn-outline{font-family:'Cinzel',serif;font-size:0.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:transparent;color:var(--gold);padding:13px 32px;border:1px solid rgba(201,168,76,0.4);border-radius:2px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block;}
-    .btn-outline:hover{border-color:var(--gold);background:rgba(201,168,76,0.06);}
-    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeDown 1s ease 0.6s both;}
-    .hero-scroll span{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
-    .scroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite;}
-    @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+    header { position:relative; z-index:10; border-bottom:1px solid rgba(201,168,76,0.15); }
+    .header-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; }
+    .logo-main { font-family:'Cinzel',serif; font-size:1.4rem; font-weight:900; color:var(--gold); letter-spacing:3px; text-shadow:0 0 30px rgba(201,168,76,0.3); }
+    .logo-sub { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:5px; color:var(--muted); }
+    .header-line { height:1px; background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent); opacity:0.4; }
+    .admin-badge { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--gold); border:1px solid rgba(201,168,76,0.3); padding:5px 14px; border-radius:2px; }
+    .btn-logout { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--muted); background:transparent; border:1px solid rgba(201,168,76,0.15); padding:5px 14px; border-radius:2px; cursor:pointer; transition:all 0.3s; margin-left:10px; }
+    .btn-logout:hover { color:var(--gold); border-color:var(--gold); }
+    .btn-google-admin {
+      width:100%; padding:12px; background:transparent;
+      border:1px solid rgba(201,168,76,0.2); border-radius:2px;
+      color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:1rem;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+      transition:border-color 0.3s, background 0.3s;
+    }
+    .btn-google-admin:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); }
 
-    /* INFOS */
-    #infos{background:var(--surface);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);}
-    .infos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;}
-    .info-card{background:var(--surface2);padding:40px 28px;text-align:center;border:1px solid rgba(201,168,76,0.08);transition:border-color 0.3s;}
-    .info-card:hover{border-color:rgba(201,168,76,0.25);}
-    .info-icon{font-size:2rem;margin-bottom:14px;display:block;}
-    .info-label{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:3px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:8px;}
-    .info-val{font-size:1.2rem;font-weight:600;color:var(--cream);}
-    .info-val a{color:var(--gold);text-decoration:none;}
+    /* LOGIN */
+    #admin-login { flex:1; display:flex; align-items:center; justify-content:center; padding:52px 16px; position:relative; z-index:1; }
+    .login-card { width:100%; max-width:400px; background:var(--surface); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:40px 36px; position:relative; animation:fadeUp 0.5s ease both; }
+    .c-tl,.c-tr,.c-bl,.c-br { position:absolute; width:14px; height:14px; border-color:rgba(201,168,76,0.4); border-style:solid; }
+    .c-tl{top:7px;left:7px;border-width:1px 0 0 1px;} .c-tr{top:7px;right:7px;border-width:1px 1px 0 0;}
+    .c-bl{bottom:7px;left:7px;border-width:0 0 1px 1px;} .c-br{bottom:7px;right:7px;border-width:0 1px 1px 0;}
+    .orn { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .orn-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dark)); }
+    .orn-line.r { background:linear-gradient(90deg,var(--gold-dark),transparent); }
+    .orn-d { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+    .card-title { font-family:'Cinzel',serif; font-size:1.6rem; font-weight:900; color:var(--gold); letter-spacing:3px; text-align:center; margin-bottom:4px; }
+    .card-sub { font-size:0.95rem; font-style:italic; color:var(--muted); text-align:center; margin-bottom:28px; }
 
-    /* MENU */
-    #menu-apercu{background:var(--black);}
-    .burgers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-    .burger-card{background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:3px;overflow:hidden;transition:border-color 0.3s,transform 0.3s;}
-    .burger-card:hover{border-color:rgba(201,168,76,0.35);transform:translateY(-4px);}
-    .burger-img{width:100%;height:180px;position:relative;overflow:hidden;background:linear-gradient(135deg,#2a1a08,#3d2510);display:flex;align-items:center;justify-content:center;font-size:4rem;}
-    .burger-img img{width:100%;height:100%;object-fit:cover;}
-    .burger-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.6));pointer-events:none;}
-    .burger-badge{position:absolute;top:12px;left:12px;z-index:2;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:2px;background:var(--gold);color:var(--black);padding:3px 10px;text-transform:uppercase;font-weight:700;}
-    .burger-body{padding:18px 20px 22px;}
-    .burger-name{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--cream);letter-spacing:1px;margin-bottom:6px;}
-    .burger-desc{font-size:0.92rem;font-style:italic;color:var(--muted);line-height:1.6;margin-bottom:14px;}
-    .burger-footer{display:flex;justify-content:space-between;align-items:center;}
-    .burger-price{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold);}
-    .burger-tag{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:1px;border:1px solid rgba(201,168,76,0.25);color:var(--muted);padding:3px 8px;border-radius:2px;text-transform:uppercase;}
-    .voir-tout{text-align:center;margin-top:48px;}
+    label { display:block; font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold-dark); margin-bottom:7px; }
+    .form-group { margin-bottom:20px; }
+    input[type="email"],input[type="password"],input[type="text"],input[type="number"],input[type="url"],textarea,select {
+      width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px;
+      padding:12px 14px; color:var(--cream); font-size:1rem; font-family:'Cormorant Garamond',serif;
+      outline:none; transition:border-color 0.3s; letter-spacing:0.5px;
+    }
+    input:focus,textarea:focus,select:focus { border-color:var(--gold); }
+    input::placeholder,textarea::placeholder { color:var(--muted); font-style:italic; }
+    select option { background:var(--surface2); }
+    textarea { resize:vertical; min-height:80px; }
 
-    /* FIDÉLITÉ */
-    #fidelite{background:var(--surface);border-top:1px solid rgba(201,168,76,0.1);}
-    .fidelite-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-    @media(max-width:768px){.fidelite-wrap{grid-template-columns:1fr;}}
-    .fidelite-text h2{font-family:'Cinzel',serif;font-size:2.2rem;font-weight:900;color:var(--cream);letter-spacing:2px;margin-bottom:12px;}
-    .fidelite-text h2 span{color:var(--gold);}
-    .fidelite-text p{font-size:1.05rem;font-style:italic;color:var(--muted);line-height:1.7;margin-bottom:28px;}
-    .paliers{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
-    .palier{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface2);border:1px solid rgba(201,168,76,0.1);border-radius:2px;transition:border-color 0.3s;}
-    .palier:hover{border-color:rgba(201,168,76,0.3);}
-    .palier-icon{font-size:1.3rem;width:32px;text-align:center;flex-shrink:0;}
-    .palier-info{flex:1;}
-    .palier-name{font-family:'Cinzel',serif;font-size:0.82rem;color:var(--cream);letter-spacing:1px;}
-    .palier-desc{font-size:0.82rem;font-style:italic;color:var(--muted);margin-top:1px;}
-    .palier-pts{font-family:'Cinzel',serif;font-size:0.78rem;color:var(--gold-dark);}
-    .fidelite-visual{background:var(--surface2);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:32px 28px;position:relative;}
-    .fidelite-visual .c-tl,.fidelite-visual .c-tr,.fidelite-visual .c-bl,.fidelite-visual .c-br{position:absolute;width:14px;height:14px;border-color:rgba(201,168,76,0.4);border-style:solid;}
-    .fidelite-visual .c-tl{top:8px;left:8px;border-width:1px 0 0 1px;} .fidelite-visual .c-tr{top:8px;right:8px;border-width:1px 1px 0 0;}
-    .fidelite-visual .c-bl{bottom:8px;left:8px;border-width:0 0 1px 1px;} .fidelite-visual .c-br{bottom:8px;right:8px;border-width:0 1px 1px 0;}
-    .fv-title{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:3px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:20px;}
-    .fv-pts{font-family:'Cinzel',serif;font-size:3.5rem;font-weight:900;color:var(--gold);line-height:1;text-shadow:0 0 30px rgba(201,168,76,0.2);}
-    .fv-pts-label{font-size:0.9rem;font-style:italic;color:var(--muted);margin-bottom:20px;}
-    .fv-bar-wrap{height:4px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:8px;}
-    .fv-bar{height:100%;width:65%;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light));border-radius:999px;}
-    .fv-bar-label{display:flex;justify-content:space-between;font-size:0.78rem;font-style:italic;color:var(--muted);margin-bottom:24px;}
-    .fv-rewards{display:flex;flex-direction:column;gap:8px;}
-    .fv-reward{display:flex;align-items:center;gap:10px;font-size:0.88rem;}
-    .fv-reward-icon{font-size:1rem;width:24px;text-align:center;}
-    .fv-reward-label{flex:1;color:var(--cream);}
-    .fv-reward-pts{font-family:'Cinzel',serif;font-size:0.75rem;color:var(--gold-dark);}
+    .btn-gold { width:100%; padding:14px; background:linear-gradient(135deg,#7a5c18,#c9a84c,#f0d080,#c9a84c,#7a5c18); background-size:200% 100%; background-position:right; color:var(--black); font-family:'Cinzel',serif; font-size:0.75rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; border:none; border-radius:2px; cursor:pointer; transition:background-position 0.5s,transform 0.1s; }
+    .btn-gold:hover { background-position:left; }
+    .btn-gold:active { transform:scale(0.98); }
+    .btn-gold:disabled { opacity:0.4; cursor:not-allowed; }
+    .msg { margin-top:14px; padding:10px 14px; border-radius:2px; font-size:0.9rem; font-style:italic; display:none; }
+    .msg.error  { background:rgba(100,20,20,0.3); color:var(--red-light); border:1px solid rgba(107,46,46,0.4); display:block; }
+    .msg.success{ background:rgba(20,60,20,0.3); color:var(--green-light); border:1px solid rgba(46,107,46,0.4); display:block; }
 
-    /* CONTACT */
-    #contact{background:var(--black);border-top:1px solid rgba(201,168,76,0.1);}
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
-    @media(max-width:768px){.contact-grid{grid-template-columns:1fr;}}
-    .contact-info h2{font-family:'Cinzel',serif;font-size:2rem;font-weight:900;color:var(--cream);letter-spacing:2px;margin-bottom:24px;}
-    .contact-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
-    .ci-icon{font-size:1.3rem;width:36px;flex-shrink:0;margin-top:2px;}
-    .ci-label{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:4px;}
-    .ci-val{font-size:1.05rem;color:var(--cream);}
-    .ci-val a{color:var(--gold);text-decoration:none;}
-    .contact-form-wrap{background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:32px 28px;}
-    .cfw-title{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:2px;margin-bottom:20px;}
-    .form-group{margin-bottom:18px;}
-    label{display:block;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:7px;}
-    input[type="text"],input[type="tel"],textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:12px 14px;color:var(--cream);font-size:1rem;font-family:'Cormorant Garamond',serif;outline:none;transition:border-color 0.3s;letter-spacing:0.5px;resize:vertical;}
-    input:focus,textarea:focus{border-color:var(--gold);}
-    input::placeholder,textarea::placeholder{color:var(--muted);font-style:italic;}
-    .form-note{font-size:0.8rem;font-style:italic;color:var(--muted);margin-top:6px;}
+    /* APP */
+    #admin-app { flex:1; display:none; position:relative; z-index:1; }
 
-    footer{background:var(--surface);border-top:1px solid rgba(201,168,76,0.2);padding:48px 24px 28px;text-align:center;position:relative;z-index:1;}
-    .footer-logo{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:900;color:var(--gold);letter-spacing:4px;margin-bottom:6px;text-shadow:0 0 20px rgba(201,168,76,0.25);}
-    .footer-tag{font-size:0.85rem;font-style:italic;color:var(--muted);margin-bottom:28px;}
-    .footer-links{display:flex;gap:28px;justify-content:center;margin-bottom:28px;flex-wrap:wrap;}
-    .footer-links a{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.3s;}
-    .footer-links a:hover{color:var(--gold);}
-    .footer-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.2;margin-bottom:20px;}
-    .footer-copy{font-size:0.78rem;font-style:italic;color:var(--muted);}
-    @keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    @media(max-width:640px){nav{padding:14px 20px;}.nav-links a:not(.nav-cta){display:none;}.section-inner{padding:70px 18px;}}
+    /* ONGLETS */
+    .tabs-nav { display:flex; border-bottom:1px solid var(--border); background:var(--surface); position:sticky; top:0; z-index:50; }
+    .tab-btn { flex:1; padding:16px 8px; font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); background:transparent; border:none; cursor:pointer; position:relative; transition:color 0.3s; text-align:center; }
+    .tab-btn::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; }
+    .tab-btn.active { color:var(--gold); }
+    .tab-btn.active::after { transform:scaleX(1); }
+
+    .tab-content { display:none; max-width:960px; margin:0 auto; padding:36px 20px 60px; }
+    .tab-content.active { display:block; }
+
+    /* SECTION TITLE */
+    .s-title { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:4px; text-transform:uppercase; color:var(--gold-dark); display:flex; align-items:center; gap:14px; margin-bottom:18px; margin-top:36px; }
+    .s-title::before,.s-title::after { content:''; flex:1; height:1px; background:var(--border); }
+    .s-title::before { max-width:30px; }
+    .s-title:first-child { margin-top:0; }
+
+    /* SCANNER + CRÉDIT */
+    .scan-card { background:var(--surface); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:28px; position:relative; }
+    .scan-card .c-tl,.scan-card .c-tr,.scan-card .c-bl,.scan-card .c-br { position:absolute; width:14px; height:14px; border-color:rgba(201,168,76,0.35); border-style:solid; }
+    .scan-card .c-tl{top:7px;left:7px;border-width:1px 0 0 1px;} .scan-card .c-tr{top:7px;right:7px;border-width:1px 1px 0 0;}
+    .scan-card .c-bl{bottom:7px;left:7px;border-width:0 0 1px 1px;} .scan-card .c-br{bottom:7px;right:7px;border-width:0 1px 1px 0;}
+    .scan-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+    @media(max-width:640px){.scan-grid{grid-template-columns:1fr;}}
+    .scan-left h3,.scan-right h3 { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:6px; }
+    .scan-left p,.scan-right p { font-size:0.92rem; font-style:italic; color:var(--muted); margin-bottom:18px; line-height:1.6; }
+    #scanner-wrap { width:100%; aspect-ratio:1; background:var(--surface2); border:1px solid var(--border); border-radius:3px; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+    #scanner-wrap video { width:100%; height:100%; object-fit:cover; display:none; }
+    #scanner-placeholder { text-align:center; padding:20px; }
+    #scanner-placeholder p { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-top:10px; }
+    .scan-icon { font-size:2.5rem; opacity:0.4; }
+    .scan-frame { position:absolute; inset:16px; border:2px solid rgba(201,168,76,0.4); border-radius:3px; display:none; }
+    .scan-frame::before,.scan-frame::after,.sf-bl,.sf-br { content:''; position:absolute; width:20px; height:20px; border-color:var(--gold); border-style:solid; }
+    .scan-frame::before{top:-2px;left:-2px;border-width:2px 0 0 2px;} .scan-frame::after{top:-2px;right:-2px;border-width:2px 2px 0 0;}
+    .sf-bl{bottom:-2px;left:-2px;border-width:0 0 2px 2px;} .sf-br{bottom:-2px;right:-2px;border-width:0 2px 2px 0;}
+    .scan-line { position:absolute; left:16px; right:16px; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); display:none; animation:scanAnim 2s ease-in-out infinite; }
+    @keyframes scanAnim { 0%{top:16px;opacity:1;} 50%{opacity:0.8;} 100%{top:calc(100% - 16px);opacity:1;} }
+    #btn-scan { width:100%; padding:12px; margin-top:12px; background:transparent; border:1px solid rgba(201,168,76,0.3); border-radius:2px; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); cursor:pointer; transition:all 0.3s; }
+    #btn-scan:hover { background:rgba(201,168,76,0.06); border-color:var(--gold); }
+    .client-found { background:var(--surface2); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:16px; margin-bottom:16px; display:none; }
+    .client-found.show { display:block; }
+    .cf-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:5px; }
+    .cf-name { font-family:'Cinzel',serif; font-size:1.1rem; color:var(--gold); letter-spacing:1px; }
+    .cf-pts,.cf-tier { font-size:0.85rem; font-style:italic; color:var(--muted); margin-top:2px; }
+    .input-uid { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:12px 14px; color:var(--cream); font-size:0.9rem; font-family:'Cormorant Garamond',serif; outline:none; transition:border-color 0.3s; letter-spacing:0.5px; }
+    .input-uid:focus { border-color:var(--gold); }
+    .input-uid::placeholder { color:var(--muted); font-style:italic; }
+    .pts-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:12px 14px; color:var(--cream); font-size:1.2rem; font-family:'Cinzel',serif; outline:none; transition:border-color 0.3s; text-align:center; margin-top:12px; }
+    .pts-input:focus { border-color:var(--gold); }
+    .quick-pts { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+    .qp { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:1px; padding:6px 12px; border-radius:2px; border:1px solid var(--border); color:var(--muted); background:transparent; cursor:pointer; transition:all 0.2s; }
+    .qp:hover { border-color:var(--gold); color:var(--gold); }
+    .reason-select { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:12px 14px; color:var(--cream); font-size:0.95rem; font-family:'Cormorant Garamond',serif; outline:none; margin-top:12px; cursor:pointer; transition:border-color 0.3s; }
+    .reason-select:focus { border-color:var(--gold); }
+    .btn-credit { width:100%; padding:14px; margin-top:16px; background:linear-gradient(135deg,#7a5c18,#c9a84c,#f0d080,#c9a84c,#7a5c18); background-size:200% 100%; background-position:right; color:var(--black); font-family:'Cinzel',serif; font-size:0.75rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; border:none; border-radius:2px; cursor:pointer; transition:background-position 0.5s,transform 0.1s; }
+    .btn-credit:hover { background-position:left; }
+    .btn-credit:active { transform:scale(0.98); }
+    .btn-credit:disabled { opacity:0.4; cursor:not-allowed; }
+
+    /* STATS */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+    .stat-card { background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px; padding:20px; text-align:center; }
+    .stat-val { font-family:'Cinzel',serif; font-size:2rem; font-weight:900; color:var(--gold); line-height:1; }
+    .stat-label { font-size:0.8rem; font-style:italic; color:var(--muted); margin-top:5px; }
+
+    /* HISTORIQUE */
+    .history-card { background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px; padding:20px; }
+    .history-row { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--border); }
+    .history-row:last-child { border-bottom:none; }
+    .h-name { font-family:'Cinzel',serif; font-size:0.82rem; color:var(--cream); letter-spacing:1px; }
+    .h-reason,.h-date { font-size:0.78rem; font-style:italic; color:var(--muted); margin-top:2px; }
+    .h-pts { font-family:'Cinzel',serif; font-size:0.85rem; color:var(--green-light); letter-spacing:1px; }
+    .h-empty { text-align:center; font-style:italic; color:var(--muted); padding:24px; }
+
+    /* GESTION MENU */
+    .menu-items-list { display:flex; flex-direction:column; gap:12px; }
+    .menu-item-row {
+      background:var(--surface); border:1px solid rgba(201,168,76,0.12); border-radius:3px;
+      display:grid; grid-template-columns:60px 1fr auto; gap:0; overflow:hidden;
+      transition:border-color 0.3s;
+    }
+    .menu-item-row:hover { border-color:rgba(201,168,76,0.3); }
+    .mir-img { width:60px; height:60px; object-fit:cover; display:block; background:var(--surface2); }
+    .mir-img-placeholder { width:60px; height:60px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; background:var(--surface2); }
+    .mir-body { padding:10px 14px; display:flex; flex-direction:column; justify-content:center; }
+    .mir-name { font-family:'Cinzel',serif; font-size:0.85rem; color:var(--cream); letter-spacing:1px; }
+    .mir-meta { font-size:0.8rem; font-style:italic; color:var(--muted); margin-top:2px; }
+    .mir-price { font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); margin-top:2px; }
+    .mir-actions { display:flex; flex-direction:column; border-left:1px solid var(--border); }
+    .mir-btn { flex:1; padding:0 16px; font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:1px; text-transform:uppercase; background:transparent; border:none; cursor:pointer; transition:background 0.2s; color:var(--muted); border-bottom:1px solid var(--border); }
+    .mir-btn:last-child { border-bottom:none; }
+    .mir-btn:hover { background:rgba(201,168,76,0.08); color:var(--gold); }
+    .mir-btn.del:hover { background:rgba(107,46,46,0.2); color:var(--red-light); }
+    .mir-badge { display:inline-block; font-family:'Cinzel',serif; font-size:0.5rem; letter-spacing:1px; padding:2px 6px; border-radius:2px; background:rgba(201,168,76,0.15); color:var(--gold); margin-left:4px; }
+    .mir-hidden { opacity:0.4; }
+
+    /* FORMULAIRE BURGER */
+    .burger-form { background:var(--surface); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:24px; position:relative; }
+    .burger-form .c-tl,.burger-form .c-tr,.burger-form .c-bl,.burger-form .c-br { position:absolute; width:12px; height:12px; border-color:rgba(201,168,76,0.35); border-style:solid; }
+    .burger-form .c-tl{top:6px;left:6px;border-width:1px 0 0 1px;} .burger-form .c-tr{top:6px;right:6px;border-width:1px 1px 0 0;}
+    .burger-form .c-bl{bottom:6px;left:6px;border-width:0 0 1px 1px;} .burger-form .c-br{bottom:6px;right:6px;border-width:0 1px 1px 0;}
+    .form-title { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:20px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
+    .form-group-full { grid-column:1/-1; }
+    .checkbox-row { display:flex; align-items:center; gap:10px; margin-top:8px; }
+    .checkbox-row input[type="checkbox"] { width:18px; height:18px; accent-color:var(--gold); cursor:pointer; }
+    .checkbox-row label { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:1px; color:var(--muted); margin-bottom:0; cursor:pointer; }
+    .badges-wrap { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .badge-toggle { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:1px; padding:5px 10px; border-radius:2px; border:1px solid var(--border); color:var(--muted); background:transparent; cursor:pointer; transition:all 0.2s; }
+    .badge-toggle.selected { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,0.1); }
+    .photo-preview { width:100%; height:100px; object-fit:cover; border-radius:2px; margin-top:8px; border:1px solid var(--border); display:none; }
+    .form-actions { display:flex; gap:12px; margin-top:20px; }
+    .btn-cancel { flex:1; padding:12px; background:transparent; border:1px solid var(--border); border-radius:2px; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); cursor:pointer; transition:all 0.3s; }
+    .btn-cancel:hover { border-color:var(--gold); color:var(--gold); }
+    .btn-save { flex:2; }
+
+    /* INFOS RESTAURANT */
+    .infos-form { background:var(--surface); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:24px; }
+    .infos-form h3 { font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); letter-spacing:2px; margin-bottom:16px; }
+
+    /* TOAST */
+    #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--surface); border:1px solid rgba(201,168,76,0.3); border-radius:3px; padding:14px 24px; font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:2px; color:var(--gold); text-transform:uppercase; z-index:999; opacity:0; transition:all 0.4s; pointer-events:none; white-space:nowrap; }
+    #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    #toast.error { color:var(--red-light); border-color:rgba(107,46,46,0.4); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+    footer { position:relative; z-index:1; text-align:center; padding:20px; border-top:1px solid rgba(201,168,76,0.1); }
+    footer p { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; line-height:2; }
   </style>
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="#hero">Aux Folie's Burger</a>
-  <div class="nav-links">
-    <a href="#infos">Infos</a>
-    <a href="#menu-apercu">Carte</a>
-    <a href="#fidelite">Folie's+</a>
-    <a href="#contact">Contact</a>
-    <a href="login.html" class="nav-cta">Mon compte</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div id="hero-bg"><img id="hero-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1400&q=80&fit=crop" alt="Burger artisanal"/></div>
-  <div class="hero-glow"></div>
-  <div class="hero-content">
-    <div class="hero-orn"><div class="hero-orn-line"></div><div class="hero-orn-d"></div><div class="hero-orn-line r"></div></div>
-    <div class="hero-tag">Burgers artisanaux · Livraison</div>
-    <h1>Aux Folie's<span>Burger</span></h1>
-    <p class="hero-sub" id="hero-slogan">La folie du goût, la folie des récompenses.</p>
-    <div class="hero-btns">
-      <a href="menu.html" class="btn-gold">Voir la carte</a>
-      <a href="login.html" class="btn-outline">Rejoindre Folie's+</a>
+<header>
+  <div class="header-inner">
+    <div><div class="logo-main">Aux Folie's Burger</div><div class="logo-sub">Administration</div></div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="admin-badge" id="admin-badge" style="display:none">Gérant</div>
+      <button class="btn-logout" id="btn-logout" style="display:none">Déconnexion</button>
     </div>
   </div>
-  <div class="hero-scroll"><span>Découvrir</span><div class="scroll-line"></div></div>
-</section>
+  <div class="header-line"></div>
+</header>
 
-<!-- INFOS -->
-<section id="infos">
-  <div class="section-inner" style="padding-top:70px;padding-bottom:70px;">
-    <div class="infos-grid">
-      <div class="info-card reveal">
-        <span class="info-icon">📞</span>
-        <div class="info-label">Réservation</div>
-        <div class="info-val"><a id="info-tel" href="tel:0782253309">07 82 25 33 09</a></div>
-      </div>
-      <div class="info-card reveal">
-        <span class="info-icon">🛵</span>
-        <div class="info-label">Livraison</div>
-        <div class="info-val" id="info-liv">18h45 – 21h45</div>
-      </div>
-      <div class="info-card reveal">
-        <span class="info-icon">⭐</span>
-        <div class="info-label">Programme</div>
-        <div class="info-val">Folie's+ disponible</div>
-      </div>
-      <div class="info-card reveal">
-        <span class="info-icon">🍔</span>
-        <div class="info-label">Spécialité</div>
-        <div class="info-val">Burger artisanal + frite</div>
+<!-- LOGIN -->
+<div id="admin-login">
+  <div class="login-card">
+    <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+    <div class="orn"><div class="orn-line"></div><div class="orn-d"></div><div class="orn-line r"></div></div>
+    <div class="card-title">Administration</div>
+    <div class="card-sub">Accès réservé au gérant</div>
+    <div class="form-group"><label>Email admin</label><input type="email" id="adm-email" placeholder="admin@foliesburger.fr"/></div>
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <div style="position:relative;">
+        <input type="password" id="adm-pass" placeholder="••••••••" style="padding-right:44px;"/>
+        <button type="button" onclick="togglePass()" style="position:absolute;right:0;top:0;bottom:0;width:42px;background:transparent;border:none;cursor:pointer;color:#6a5a3a;font-size:1.1rem;transition:color 0.2s;" id="toggle-pass-btn" title="Voir le mot de passe">👁</button>
       </div>
     </div>
+    <button class="btn-gold" onclick="adminLogin()">Accéder au panneau</button>
+    <div style="display:flex;align-items:center;gap:12px;margin:18px 0;">
+      <div style="flex:1;height:1px;background:#2a2618;"></div>
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;color:#6a5a3a;">OU</span>
+      <div style="flex:1;height:1px;background:#2a2618;"></div>
+    </div>
+    <button class="btn-google-admin" onclick="adminGoogleLogin()">
+      <svg viewBox="0 0 48 48" style="width:18px;height:18px;flex-shrink:0"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.4 35.5 26.8 36 24 36c-5.2 0-9.6-3.3-11.3-8H6.4C9.7 35.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.6l6.2 5.2C37 37.7 44 32 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Connexion avec Google
+    </button>
+    <div id="login-msg" class="msg"></div>
   </div>
-</section>
+</div>
 
-<!-- MENU APERÇU -->
-<section id="menu-apercu">
-  <div class="section-inner">
-    <div class="s-header reveal">
-      <div class="s-tag">Notre carte</div>
-      <h2 class="s-title">Les <span>Incontournables</span></h2>
-      <div class="orn-center"><div class="orn-line"></div><div class="orn-d"></div><div class="orn-line r"></div></div>
-      <p class="s-sub">Des burgers artisanaux, faits avec passion, à chaque commande.</p>
-    </div>
-    <div class="burgers-grid" id="home-burgers">
-      <!-- Chargé depuis Firestore -->
-      <div style="grid-column:1/-1;text-align:center;font-style:italic;color:var(--muted);padding:40px;">Chargement…</div>
-    </div>
-    <div class="voir-tout reveal"><a href="menu.html" class="btn-gold">Voir toute la carte</a></div>
+<!-- APP -->
+<div id="admin-app">
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('points',this)">Points clients</button>
+    <button class="tab-btn" onclick="switchTab('menu',this)">Carte & Menu</button>
+    <button class="tab-btn" onclick="switchTab('infos',this)">Infos restaurant</button>
+    <button class="tab-btn" onclick="switchTab('stats',this)">Statistiques</button>
   </div>
-</section>
 
-<!-- FIDÉLITÉ -->
-<section id="fidelite">
-  <div class="section-inner">
-    <div class="fidelite-wrap">
-      <div class="fidelite-text reveal">
-        <div class="s-tag">Programme exclusif</div>
-        <h2>Folie's<span>+</span></h2>
-        <div class="orn-center" style="justify-content:flex-start;margin-bottom:16px;"><div class="orn-d"></div><div class="orn-line r" style="max-width:50px;"></div></div>
-        <p>Chaque commande vous rapproche d'une récompense. Cumulez des points, débloquez des paliers et accédez à des avantages exclusifs.</p>
-        <div class="paliers">
-          <div class="palier"><div class="palier-icon">🥉</div><div class="palier-info"><div class="palier-name">Bronze</div><div class="palier-desc">Accès programme de base</div></div><div class="palier-pts">0 pts</div></div>
-          <div class="palier"><div class="palier-icon">🥈</div><div class="palier-info"><div class="palier-name">Silver</div><div class="palier-desc">Accès prioritaire aux défis</div></div><div class="palier-pts">500 pts</div></div>
-          <div class="palier"><div class="palier-icon">🥇</div><div class="palier-info"><div class="palier-name">Gold</div><div class="palier-desc">Bonus points et réductions</div></div><div class="palier-pts">1 500 pts</div></div>
-          <div class="palier"><div class="palier-icon">💎</div><div class="palier-info"><div class="palier-name">Diamond</div><div class="palier-desc">Secret Burger + avantages VIP</div></div><div class="palier-pts">4 000 pts</div></div>
+  <!-- ONGLET 1 : POINTS -->
+  <div class="tab-content active" id="tab-points">
+    <div class="s-title">Créditer des points</div>
+    <div class="scan-card">
+      <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+      <div class="scan-grid">
+        <div class="scan-left">
+          <h3>Scanner le QR code</h3>
+          <p>Activez la caméra et pointez-la vers le QR code du client.</p>
+          <div id="scanner-wrap">
+            <div id="scanner-placeholder"><div class="scan-icon">📷</div><p>Caméra inactive</p></div>
+            <video id="scanner-video" playsinline></video>
+            <div class="scan-frame" id="scan-frame"><div class="sf-bl"></div><div class="sf-br"></div></div>
+            <div class="scan-line" id="scan-line"></div>
+          </div>
+          <button id="btn-scan" onclick="toggleScanner()">Activer la caméra</button>
         </div>
-        <a href="login.html" class="btn-gold">Rejoindre Folie's+</a>
+        <div class="scan-right">
+          <h3>Créditer le compte</h3>
+          <p>UID automatique ou saisie manuelle.</p>
+          <div class="client-found" id="client-found">
+            <div class="cf-label">Client identifié</div>
+            <div class="cf-name" id="cf-name">–</div>
+            <div class="cf-pts" id="cf-pts">–</div>
+            <div class="cf-tier" id="cf-tier">–</div>
+          </div>
+          <label>UID client</label>
+          <input type="text" class="input-uid" id="uid-input" placeholder="UID automatique ou manuel…"/>
+          <div style="margin-top:6px"><button class="qp" onclick="lookupClient()">Rechercher →</button></div>
+          <div style="margin-top:16px">
+            <label>Points à créditer</label>
+            <input type="number" class="pts-input" id="pts-input" value="100" min="1" max="9999"/>
+            <div class="quick-pts">
+              <button class="qp" onclick="setPoints(50)">+50</button>
+              <button class="qp" onclick="setPoints(100)">+100</button>
+              <button class="qp" onclick="setPoints(150)">+150</button>
+              <button class="qp" onclick="setPoints(200)">+200</button>
+              <button class="qp" onclick="setPoints(500)">+500</button>
+            </div>
+          </div>
+          <label style="margin-top:14px">Motif</label>
+          <select class="reason-select" id="reason-select">
+            <option>Commande en restaurant</option>
+            <option>Commande en livraison</option>
+            <option>Défi hebdomadaire complété</option>
+            <option>Bonus fidélité</option>
+            <option>Geste commercial</option>
+            <option>Événement spécial</option>
+          </select>
+          <button class="btn-credit" id="btn-credit" onclick="creditPoints()" disabled>Créditer les points</button>
+        </div>
       </div>
-      <div class="fidelite-visual reveal">
+    </div>
+  </div>
+
+  <!-- ONGLET 2 : MENU -->
+  <div class="tab-content" id="tab-menu">
+    <div class="s-title">Burgers</div>
+    <div class="menu-items-list" id="burgers-list"><div class="h-empty">Chargement…</div></div>
+    <div style="margin-top:16px;text-align:right">
+      <button class="qp" style="color:var(--gold);border-color:var(--gold);" onclick="openBurgerForm()">+ Ajouter un burger</button>
+    </div>
+
+    <div class="s-title">Accompagnements</div>
+    <div class="menu-items-list" id="sides-list"><div class="h-empty">Chargement…</div></div>
+    <div style="margin-top:16px;text-align:right">
+      <button class="qp" style="color:var(--gold);border-color:var(--gold);" onclick="openSideForm()">+ Ajouter un accompagnement</button>
+    </div>
+
+    <div class="s-title">Boissons</div>
+    <div class="menu-items-list" id="drinks-list"><div class="h-empty">Chargement…</div></div>
+    <div style="margin-top:16px;text-align:right">
+      <button class="qp" style="color:var(--gold);border-color:var(--gold);" onclick="openDrinkForm()">+ Ajouter une boisson</button>
+    </div>
+
+    <!-- FORMULAIRE BURGER -->
+    <div id="burger-form-wrap" style="display:none;margin-top:32px;">
+      <div class="burger-form">
         <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
-        <div class="fv-title">Aperçu de votre espace</div>
-        <div class="fv-pts">650</div>
-        <div class="fv-pts-label">points Folie's+</div>
-        <div class="fv-bar-wrap"><div class="fv-bar"></div></div>
-        <div class="fv-bar-label"><span>Silver · 500 pts</span><span>Gold · 1 500 pts</span></div>
-        <div class="fv-rewards">
-          <div class="fv-reward"><div class="fv-reward-icon">🍟</div><div class="fv-reward-label">Frites offertes</div><div class="fv-reward-pts">✦ Débloqué</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">💸</div><div class="fv-reward-label">-20% sur un menu</div><div class="fv-reward-pts">✦ Débloqué</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">🍔</div><div class="fv-reward-label">Burger gratuit</div><div class="fv-reward-pts">○ 1 000 pts</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">🔐</div><div class="fv-reward-label">Secret Burger</div><div class="fv-reward-pts">○ 2 000 pts</div></div>
+        <div class="form-title" id="form-title">Nouveau burger</div>
+        <input type="hidden" id="edit-id"/>
+        <input type="hidden" id="edit-cat"/>
+        <div class="form-grid">
+          <div class="form-group"><label>Nom</label><input type="text" id="f-name" placeholder="Le Folie's Classic"/></div>
+          <div class="form-group"><label>Prix (€)</label><input type="number" id="f-price" placeholder="9.90" step="0.10" min="0"/></div>
+          <div class="form-group form-group-full"><label>Description</label><textarea id="f-desc" placeholder="Steak haché artisanal, cheddar fondu…"></textarea></div>
+          <div class="form-group form-group-full">
+            <label>URL Photo</label>
+            <input type="url" id="f-photo" placeholder="https://images.unsplash.com/…" oninput="previewPhoto()"/>
+            <img class="photo-preview" id="photo-preview" alt="Aperçu"/>
+          </div>
+          <div class="form-group">
+            <label>Catégorie</label>
+            <select id="f-cat">
+              <option value="classic">Classic</option>
+              <option value="smash">Smash</option>
+              <option value="epice">Épicé</option>
+              <option value="poulet">Poulet</option>
+              <option value="vege">Végétarien</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Badges</label>
+            <div class="badges-wrap">
+              <button type="button" class="badge-toggle" data-badge="Best-seller" onclick="toggleBadge(this)">Best-seller</button>
+              <button type="button" class="badge-toggle" data-badge="Nouveau" onclick="toggleBadge(this)">Nouveau</button>
+              <button type="button" class="badge-toggle" data-badge="Épicé" onclick="toggleBadge(this)">Épicé 🌶️</button>
+              <button type="button" class="badge-toggle" data-badge="Végé" onclick="toggleBadge(this)">Végé 🌿</button>
+              <button type="button" class="badge-toggle" data-badge="Premium" onclick="toggleBadge(this)">Premium</button>
+              <button type="button" class="badge-toggle" data-badge="Artisanal" onclick="toggleBadge(this)">Artisanal</button>
+            </div>
+          </div>
+          <div class="form-group form-group-full">
+            <div class="checkbox-row">
+              <input type="checkbox" id="f-visible" checked/>
+              <label for="f-visible">Visible sur la carte</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="closeBurgerForm()">Annuler</button>
+          <button class="btn-gold btn-save" onclick="saveItem()">Enregistrer</button>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="s-header reveal">
-      <div class="s-tag">Nous trouver</div>
-      <h2 class="s-title">Contact & <span>Réservation</span></h2>
-      <div class="orn-center"><div class="orn-line"></div><div class="orn-d"></div><div class="orn-line r"></div></div>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <h2>Aux Folie's Burger</h2>
-        <div class="contact-item"><div class="ci-icon">📞</div><div><div class="ci-label">Téléphone</div><div class="ci-val"><a id="contact-tel" href="tel:0782253309">07 82 25 33 09</a></div></div></div>
-        <div class="contact-item"><div class="ci-icon">🛵</div><div><div class="ci-label">Livraison</div><div class="ci-val" id="contact-liv">18h45 – 21h45</div></div></div>
-        <div class="contact-item"><div class="ci-icon">🍔</div><div><div class="ci-label">Spécialité</div><div class="ci-val">Burger artisanal + frite maison</div></div></div>
+  <!-- ONGLET 3 : INFOS -->
+  <div class="tab-content" id="tab-infos">
+    <div class="s-title">Informations du restaurant</div>
+    <div class="infos-form">
+      <div class="form-grid">
+        <div class="form-group"><label>Téléphone</label><input type="text" id="inf-tel" placeholder="07 82 25 33 09"/></div>
+        <div class="form-group"><label>Début livraison</label><input type="text" id="inf-liv-start" placeholder="18h45"/></div>
+        <div class="form-group"><label>Fin livraison</label><input type="text" id="inf-liv-end" placeholder="21h45"/></div>
+        <div class="form-group"><label>Ville</label><input type="text" id="inf-ville" placeholder="Origny-Sainte-Benoîte"/></div>
+        <div class="form-group form-group-full"><label>Slogan</label><input type="text" id="inf-slogan" placeholder="La folie du goût, la folie des récompenses."/></div>
+        <div class="form-group form-group-full"><label>Photo hero (URL)</label><input type="url" id="inf-hero" placeholder="https://images.unsplash.com/…" oninput="previewHero()"/><img class="photo-preview" id="hero-preview" alt="Aperçu hero"/></div>
+        <div class="form-group form-group-full"><label>Message d'accueil (optionnel)</label><textarea id="inf-msg" placeholder="Bienvenue chez Aux Folie's Burger…"></textarea></div>
       </div>
-      <div class="contact-form-wrap reveal">
-        <div class="cfw-title">Envoyer un message</div>
-        <div class="form-group"><label>Nom</label><input type="text" placeholder="Votre nom"/></div>
-        <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="06 …"/></div>
-        <div class="form-group"><label>Message</label><textarea rows="4" placeholder="Votre message, une réservation…"></textarea></div>
-        <a id="contact-tel-btn" href="tel:0782253309" class="btn-gold" style="display:inline-block;margin-top:4px;">Appeler directement</a>
-        <div class="form-note" id="contact-note">Ou appelez-nous directement au 07 82 25 33 09</div>
-      </div>
+      <button class="btn-gold" style="margin-top:8px" onclick="saveInfos()">Enregistrer les informations</button>
     </div>
   </div>
-</section>
 
-<footer>
-  <div class="footer-logo">Aux Folie's Burger</div>
-  <div class="footer-tag" id="footer-slogan">La folie du goût, la folie des récompenses.</div>
-  <div class="footer-links">
-    <a href="menu.html">Carte</a>
-    <a href="login.html">Folie's+</a>
-    <a href="#contact">Contact</a>
-    <a href="admin.html">Administration</a>
+  <!-- ONGLET 4 : STATS -->
+  <div class="tab-content" id="tab-stats">
+    <div class="s-title">Statistiques</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-val" id="stat-members">–</div><div class="stat-label">Membres inscrits</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-pts">–</div><div class="stat-label">Points distribués aujourd'hui</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-ops">–</div><div class="stat-label">Opérations aujourd'hui</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-items">–</div><div class="stat-label">Articles au menu</div></div>
+    </div>
+    <div class="s-title">Dernières opérations</div>
+    <div class="history-card" id="admin-history"><div class="h-empty">Aucune opération.</div></div>
   </div>
-  <div class="footer-line"></div>
-  <div class="footer-copy" id="footer-copy">07 82 25 33 09 · Livraison 18h45 – 21h45</div>
-</footer>
+</div>
 
+<div id="toast"></div>
+<footer><p>Aux Folie's Burger · Administration</p><p>Accès réservé au personnel autorisé</p></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, getDocs, query, where, orderBy, limit, onSnapshot, arrayUnion, increment, Timestamp, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ⚠️ Remplace par ta config Firebase
 const firebaseConfig = {
-  apiKey: "VOTRE_API_KEY", authDomain: "VOTRE_PROJECT.firebaseapp.com",
-  projectId: "VOTRE_PROJECT_ID", storageBucket: "VOTRE_PROJECT.appspot.com",
-  messagingSenderId: "VOTRE_SENDER_ID", appId: "VOTRE_APP_ID"
+  apiKey: "VOTRE_API_KEY",
+  authDomain: "VOTRE_PROJECT.firebaseapp.com",
+  projectId: "VOTRE_PROJECT_ID",
+  storageBucket: "VOTRE_PROJECT.appspot.com",
+  messagingSenderId: "VOTRE_SENDER_ID",
+  appId: "VOTRE_APP_ID"
 };
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const ADMIN_EMAILS = ['jeromebillot1978@gmail.com'];
 
-// ── Charger config restaurant ──
-async function loadConfig() {
-  try {
-    const snap = await getDoc(doc(db,'config','restaurant'));
-    if (!snap.exists()) return;
-    const d = snap.data();
-    const tel = d.tel || '07 82 25 33 09';
-    const liv = `${d.livStart||'18h45'} – ${d.livEnd||'21h45'}`;
-    const telHref = 'tel:'+tel.replace(/\s/g,'');
-    if (d.slogan) { document.getElementById('hero-slogan').textContent=d.slogan; document.getElementById('footer-slogan').textContent=d.slogan; }
-    if (d.heroPhoto) document.getElementById('hero-img').src=d.heroPhoto;
-    document.querySelectorAll('#info-tel,#contact-tel,#contact-tel-btn').forEach(el=>{el.textContent=tel;el.href=telHref;});
-    document.getElementById('info-liv').textContent=liv;
-    document.getElementById('contact-liv').textContent=liv;
-    document.getElementById('contact-note').textContent=`Ou appelez-nous directement au ${tel}`;
-    document.getElementById('footer-copy').textContent=`${tel} · Livraison ${liv}`;
-  } catch {}
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+let currentAdminUid = null;
+let scannerActive = false, scannerStream = null, scannerInterval = null;
+let foundClient = null;
+let editingId = null, editingCat = null;
+
+// ── TOAST ──
+function toast(msg, isError=false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show' + (isError?' error':'');
+  setTimeout(() => el.className='', 3000);
 }
 
-// ── Charger 3 burgers best-sellers ──
-async function loadHomeBurgers() {
+// ── AUTH ──
+window.togglePass = () => {
+  const input = document.getElementById('adm-pass');
+  const btn   = document.getElementById('toggle-pass-btn');
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
+};
+
+window.adminGoogleLogin = async () => {
+  const msgEl = document.getElementById('login-msg');
   try {
-    const snap = await getDocs(collection(db,'menu_burgers'));
-    const items = [];
-    snap.forEach(d => { if(d.data().visible!==false) items.push({id:d.id,...d.data()}); });
+    const cred = await signInWithPopup(auth, new GoogleAuthProvider());
+    if (!ADMIN_EMAILS.includes(cred.user.email)) {
+      await signOut(auth);
+      msgEl.textContent='Accès non autorisé.'; msgEl.className='msg error';
+    }
+  } catch { msgEl.textContent='Connexion Google annulée.'; msgEl.className='msg error'; }
+};
+
+window.adminLogin = async () => {
+  const email = document.getElementById('adm-email').value.trim();
+  const pass  = document.getElementById('adm-pass').value;
+  const msgEl = document.getElementById('login-msg');
+  if (!email||!pass){msgEl.textContent='Remplissez tous les champs.';msgEl.className='msg error';return;}
+  try {
+    const cred = await signInWithEmailAndPassword(auth,email,pass);
+    if (!ADMIN_EMAILS.includes(cred.user.email)){await signOut(auth);msgEl.textContent='Accès non autorisé.';msgEl.className='msg error';}
+  } catch { msgEl.textContent='Identifiants incorrects.';msgEl.className='msg error'; }
+};
+
+onAuthStateChanged(auth, user => {
+  if (user && ADMIN_EMAILS.includes(user.email)) {
+    currentAdminUid = user.uid;
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-app').style.display='block';
+    document.getElementById('admin-badge').style.display='inline-flex';
+    document.getElementById('btn-logout').style.display='inline-block';
+    loadMenu(); loadInfos(); loadStats(); listenHistory();
+  } else {
+    document.getElementById('admin-login').style.display='flex';
+    document.getElementById('admin-app').style.display='none';
+    document.getElementById('admin-badge').style.display='none';
+    document.getElementById('btn-logout').style.display='none';
+  }
+});
+document.getElementById('btn-logout').onclick = () => signOut(auth);
+
+// ── TABS ──
+window.switchTab = (id, btn) => {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+};
+
+// ── SCANNER ──
+window.toggleScanner = async () => {
+  const btn = document.getElementById('btn-scan');
+  if (scannerActive) { stopScanner(); btn.textContent='Activer la caméra'; return; }
+  try {
+    scannerStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    const video = document.getElementById('scanner-video');
+    video.srcObject = scannerStream; await video.play(); video.style.display='block';
+    document.getElementById('scanner-placeholder').style.display='none';
+    document.getElementById('scan-frame').style.display='block';
+    document.getElementById('scan-line').style.display='block';
+    scannerActive=true; btn.textContent='Arrêter la caméra';
+    const canvas=document.createElement('canvas'); const ctx=canvas.getContext('2d');
+    scannerInterval=setInterval(()=>{
+      if(video.readyState===video.HAVE_ENOUGH_DATA){
+        canvas.width=video.videoWidth; canvas.height=video.videoHeight;
+        ctx.drawImage(video,0,0,canvas.width,canvas.height);
+        const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+        const code=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+        if(code){try{const d=JSON.parse(code.data);if(d.uid&&d.app==='folies-burger'){stopScanner();btn.textContent='Activer la caméra';document.getElementById('uid-input').value=d.uid;toast('QR Code scanné ✦');lookupClient();}}catch{}}
+      }
+    },300);
+  } catch { toast('Impossible d\'accéder à la caméra.',true); }
+};
+
+function stopScanner(){
+  clearInterval(scannerInterval);
+  if(scannerStream){scannerStream.getTracks().forEach(t=>t.stop());scannerStream=null;}
+  document.getElementById('scanner-video').style.display='none';
+  document.getElementById('scanner-placeholder').style.display='flex';
+  document.getElementById('scan-frame').style.display='none';
+  document.getElementById('scan-line').style.display='none';
+  scannerActive=false;
+}
+
+// ── CLIENT ──
+window.lookupClient = async () => {
+  const uid=document.getElementById('uid-input').value.trim();
+  if(!uid) return;
+  try {
+    const snap=await getDoc(doc(db,'users',uid));
+    if(!snap.exists()){toast('Client introuvable.',true);return;}
+    foundClient={uid,...snap.data()};
+    document.getElementById('cf-name').textContent=foundClient.name||'–';
+    document.getElementById('cf-pts').textContent=`${(foundClient.points||0).toLocaleString('fr-FR')} points`;
+    document.getElementById('cf-tier').textContent=`Niveau : ${foundClient.tier||'Bronze'}`;
+    document.getElementById('client-found').classList.add('show');
+    document.getElementById('btn-credit').disabled=false;
+  } catch { toast('Erreur de recherche.',true); }
+};
+
+window.setPoints = n => document.getElementById('pts-input').value=n;
+
+window.creditPoints = async () => {
+  if(!foundClient) return;
+  const pts=parseInt(document.getElementById('pts-input').value)||0;
+  const reason=document.getElementById('reason-select').value;
+  if(pts<=0||pts>9999){toast('Montant invalide.',true);return;}
+  const btn=document.getElementById('btn-credit');
+  btn.disabled=true; btn.textContent='En cours…';
+  try {
+    const newTotal=(foundClient.points||0)+pts;
+    const tiers=[{name:'Diamond',min:4000},{name:'Gold',min:1500},{name:'Silver',min:500},{name:'Bronze',min:0}];
+    const newTier=tiers.find(t=>newTotal>=t.min)?.name||'Bronze';
+    await updateDoc(doc(db,'users',foundClient.uid),{points:increment(pts),tier:newTier,totalSpent:increment(pts),history:arrayUnion({pts,label:reason,date:Timestamp.now()})});
+    await addDoc(collection(db,'admin_logs'),{adminUid:currentAdminUid,clientUid:foundClient.uid,clientName:foundClient.name,pts,reason,createdAt:serverTimestamp()});
+    toast(`+${pts} pts crédités à ${foundClient.name} ✦`);
+    document.getElementById('cf-pts').textContent=`${newTotal.toLocaleString('fr-FR')} points`;
+    document.getElementById('cf-tier').textContent=`Niveau : ${newTier}`;
+    foundClient.points=newTotal;
+  } catch { toast('Erreur lors du créditement.',true); }
+  btn.disabled=false; btn.textContent='Créditer les points';
+};
+
+// ── MENU ──
+async function loadMenu() {
+  const cats = [{col:'burgers',id:'burgers-list'},{col:'sides',id:'sides-list'},{col:'drinks',id:'drinks-list'}];
+  for(const {col,id} of cats) {
+    const snap=await getDocs(collection(db,'menu_'+col));
+    const el=document.getElementById(id);
+    if(snap.empty){el.innerHTML='<div class="h-empty">Aucun article.</div>';continue;}
+    const items=[];
+    snap.forEach(d=>items.push({id:d.id,...d.data()}));
     items.sort((a,b)=>a.order-b.order);
-    const top3 = items.slice(0,3);
-    const grid = document.getElementById('home-burgers');
-    if (!top3.length) { grid.innerHTML=''; return; }
-    grid.innerHTML = top3.map(b => `
-      <div class="burger-card reveal">
-        <div class="burger-img">
-          ${b.photo?`<img src="${b.photo}" alt="${b.name}" loading="lazy">`:'🍔'}
-          ${(b.badges||[]).length?`<span class="burger-badge">${b.badges[0]}</span>`:''}
+    el.innerHTML=items.map(item=>`
+      <div class="menu-item-row ${item.visible===false?'mir-hidden':''}">
+        ${item.photo?`<img class="mir-img" src="${item.photo}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:''}
+        <div class="mir-img-placeholder" style="display:${item.photo?'none':'flex'}">🍔</div>
+        <div class="mir-body">
+          <div class="mir-name">${item.name}${item.visible===false?'<span class="mir-badge">Masqué</span>':''}</div>
+          <div class="mir-meta">${item.desc||''}</div>
+          <div class="mir-price">${item.price?item.price+' €':''}</div>
         </div>
-        <div class="burger-body">
-          <div class="burger-name">${b.name}</div>
-          <div class="burger-desc">${b.desc||''}</div>
-          <div class="burger-footer">
-            <div class="burger-price">${b.price?b.price+' €':''}</div>
-            <div class="burger-tag">${b.cat||'Artisanal'}</div>
-          </div>
+        <div class="mir-actions">
+          <button class="mir-btn" onclick="editItem('${col}','${item.id}')">Modifier</button>
+          <button class="mir-btn" onclick="toggleVisible('${col}','${item.id}',${item.visible!==false})">${item.visible===false?'Afficher':'Masquer'}</button>
+          <button class="mir-btn del" onclick="deleteItem('${col}','${item.id}')">Supprimer</button>
         </div>
       </div>
     `).join('');
-    // Re-observe new cards
-    grid.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
+  }
+  // Update stats
+  let total=0;
+  for(const {col} of cats){const s=await getDocs(collection(db,'menu_'+col));total+=s.size;}
+  document.getElementById('stat-items').textContent=total;
+}
+
+window.openBurgerForm = () => { editingId=null; editingCat='burgers'; resetForm('Nouveau burger'); };
+window.openSideForm  = () => { editingId=null; editingCat='sides';   resetForm('Nouvel accompagnement'); };
+window.openDrinkForm = () => { editingId=null; editingCat='drinks';  resetForm('Nouvelle boisson'); };
+
+function resetForm(title) {
+  document.getElementById('form-title').textContent=title;
+  document.getElementById('edit-id').value='';
+  document.getElementById('edit-cat').value=editingCat;
+  document.getElementById('f-name').value='';
+  document.getElementById('f-price').value='';
+  document.getElementById('f-desc').value='';
+  document.getElementById('f-photo').value='';
+  document.getElementById('photo-preview').style.display='none';
+  document.getElementById('f-visible').checked=true;
+  document.querySelectorAll('.badge-toggle').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('burger-form-wrap').style.display='block';
+  document.getElementById('burger-form-wrap').scrollIntoView({behavior:'smooth'});
+}
+
+window.editItem = async (col, id) => {
+  editingId=id; editingCat=col;
+  const snap=await getDoc(doc(db,'menu_'+col,id));
+  if(!snap.exists()) return;
+  const d=snap.data();
+  document.getElementById('form-title').textContent='Modifier';
+  document.getElementById('edit-id').value=id;
+  document.getElementById('edit-cat').value=col;
+  document.getElementById('f-name').value=d.name||'';
+  document.getElementById('f-price').value=d.price||'';
+  document.getElementById('f-desc').value=d.desc||'';
+  document.getElementById('f-photo').value=d.photo||'';
+  document.getElementById('f-visible').checked=d.visible!==false;
+  if(d.photo){document.getElementById('photo-preview').src=d.photo;document.getElementById('photo-preview').style.display='block';}
+  if(d.cat) document.getElementById('f-cat').value=d.cat;
+  document.querySelectorAll('.badge-toggle').forEach(b=>{b.classList.toggle('selected',(d.badges||[]).includes(b.dataset.badge));});
+  document.getElementById('burger-form-wrap').style.display='block';
+  document.getElementById('burger-form-wrap').scrollIntoView({behavior:'smooth'});
+};
+
+window.saveItem = async () => {
+  const cat  = document.getElementById('edit-cat').value || editingCat;
+  const id   = document.getElementById('edit-id').value;
+  const name = document.getElementById('f-name').value.trim();
+  const price= parseFloat(document.getElementById('f-price').value)||0;
+  const desc = document.getElementById('f-desc').value.trim();
+  const photo= document.getElementById('f-photo').value.trim();
+  const visible=document.getElementById('f-visible').checked;
+  const fcat = document.getElementById('f-cat').value;
+  const badges=[...document.querySelectorAll('.badge-toggle.selected')].map(b=>b.dataset.badge);
+  if(!name){toast('Le nom est obligatoire.',true);return;}
+  const data={name,price,desc,photo,visible,cat:fcat,badges,updatedAt:serverTimestamp()};
+  try {
+    if(id) { await setDoc(doc(db,'menu_'+cat,id),data,{merge:true}); toast('Article mis à jour ✦'); }
+    else   { data.order=Date.now(); await addDoc(collection(db,'menu_'+cat),data); toast('Article ajouté ✦'); }
+    closeBurgerForm(); loadMenu();
+  } catch { toast('Erreur lors de la sauvegarde.',true); }
+};
+
+window.closeBurgerForm = () => { document.getElementById('burger-form-wrap').style.display='none'; editingId=null; };
+
+window.deleteItem = async (col,id) => {
+  if(!confirm('Supprimer cet article ?')) return;
+  await deleteDoc(doc(db,'menu_'+col,id));
+  toast('Article supprimé.'); loadMenu();
+};
+
+window.toggleVisible = async (col,id,currentlyVisible) => {
+  await updateDoc(doc(db,'menu_'+col,id),{visible:!currentlyVisible});
+  toast(currentlyVisible?'Article masqué.':'Article affiché.'); loadMenu();
+};
+
+window.toggleBadge = btn => btn.classList.toggle('selected');
+
+window.previewPhoto = () => {
+  const url=document.getElementById('f-photo').value.trim();
+  const img=document.getElementById('photo-preview');
+  if(url){img.src=url;img.style.display='block';} else img.style.display='none';
+};
+
+// ── INFOS RESTAURANT ──
+async function loadInfos() {
+  try {
+    const snap=await getDoc(doc(db,'config','restaurant'));
+    if(!snap.exists()) return;
+    const d=snap.data();
+    document.getElementById('inf-tel').value=d.tel||'';
+    document.getElementById('inf-liv-start').value=d.livStart||'';
+    document.getElementById('inf-liv-end').value=d.livEnd||'';
+    document.getElementById('inf-ville').value=d.ville||'';
+    document.getElementById('inf-slogan').value=d.slogan||'';
+    document.getElementById('inf-hero').value=d.heroPhoto||'';
+    document.getElementById('inf-msg').value=d.message||'';
+    if(d.heroPhoto){document.getElementById('hero-preview').src=d.heroPhoto;document.getElementById('hero-preview').style.display='block';}
   } catch {}
 }
 
-loadConfig();
-loadHomeBurgers();
+window.saveInfos = async () => {
+  const data = {
+    tel:      document.getElementById('inf-tel').value.trim(),
+    livStart: document.getElementById('inf-liv-start').value.trim(),
+    livEnd:   document.getElementById('inf-liv-end').value.trim(),
+    ville:    document.getElementById('inf-ville').value.trim(),
+    slogan:   document.getElementById('inf-slogan').value.trim(),
+    heroPhoto:document.getElementById('inf-hero').value.trim(),
+    message:  document.getElementById('inf-msg').value.trim(),
+    updatedAt:serverTimestamp()
+  };
+  try {
+    await setDoc(doc(db,'config','restaurant'),data,{merge:true});
+    toast('Informations enregistrées ✦');
+  } catch { toast('Erreur lors de la sauvegarde.',true); }
+};
 
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => {
-    if (e.isIntersecting) { setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); }
+window.previewHero = () => {
+  const url=document.getElementById('inf-hero').value.trim();
+  const img=document.getElementById('hero-preview');
+  if(url){img.src=url;img.style.display='block';} else img.style.display='none';
+};
+
+// ── STATS ──
+async function loadStats() {
+  try { const s=await getDocs(collection(db,'users')); document.getElementById('stat-members').textContent=s.size; } catch {}
+  try {
+    const today=new Date(); today.setHours(0,0,0,0);
+    const s=await getDocs(query(collection(db,'admin_logs'),where('createdAt','>=',Timestamp.fromDate(today))));
+    let pts=0; s.forEach(d=>pts+=d.data().pts||0);
+    document.getElementById('stat-pts').textContent=pts.toLocaleString('fr-FR');
+    document.getElementById('stat-ops').textContent=s.size;
+  } catch {}
+}
+
+function listenHistory() {
+  const q=query(collection(db,'admin_logs'),orderBy('createdAt','desc'),limit(20));
+  onSnapshot(q,snap=>{
+    const el=document.getElementById('admin-history');
+    if(snap.empty){el.innerHTML='<div class="h-empty">Aucune opération.</div>';return;}
+    el.innerHTML=snap.docs.map(d=>{
+      const data=d.data();
+      const date=data.createdAt?.toDate().toLocaleString('fr-FR')||'–';
+      return `<div class="history-row"><div><div class="h-name">${data.clientName||'–'}</div><div class="h-reason">${data.reason||'–'}</div><div class="h-date">${date}</div></div><div class="h-pts">+${data.pts} pts</div></div>`;
+    }).join('');
+    loadStats();
   });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
+}
 </script>
-<script src="chatbot.js"></script>
 </body>
 </html>
