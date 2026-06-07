@@ -221,7 +221,13 @@
     <div class="card-title">Administration</div>
     <div class="card-sub">Accès réservé au gérant</div>
     <div class="form-group"><label>Email admin</label><input type="email" id="adm-email" placeholder="admin@foliesburger.fr"/></div>
-    <div class="form-group"><label>Mot de passe</label><input type="password" id="adm-pass" placeholder="••••••••"/></div>
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <div style="position:relative;">
+        <input type="password" id="adm-pass" placeholder="••••••••" style="padding-right:44px;"/>
+        <button type="button" onclick="togglePass()" style="position:absolute;right:0;top:0;bottom:0;width:42px;background:transparent;border:none;cursor:pointer;color:#6a5a3a;font-size:1.1rem;transition:color 0.2s;" id="toggle-pass-btn" title="Voir le mot de passe">👁</button>
+      </div>
+    </div>
     <button class="btn-gold" onclick="adminLogin()">Accéder au panneau</button>
     <div style="display:flex;align-items:center;gap:12px;margin:18px 0;">
       <div style="flex:1;height:1px;background:#2a2618;"></div>
@@ -422,7 +428,7 @@ const firebaseConfig = {
   appId: "VOTRE_APP_ID"
 };
 
-const ADMIN_EMAILS = ['jercat.bilman@gmail.com'];
+const ADMIN_EMAILS = ['jeromebillot1978@gmail.com'];
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -441,6 +447,13 @@ function toast(msg, isError=false) {
 }
 
 // ── AUTH ──
+window.togglePass = () => {
+  const input = document.getElementById('adm-pass');
+  const btn   = document.getElementById('toggle-pass-btn');
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
+};
+
 window.adminGoogleLogin = async () => {
   const msgEl = document.getElementById('login-msg');
   try {
