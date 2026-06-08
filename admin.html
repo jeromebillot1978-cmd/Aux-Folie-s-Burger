@@ -506,10 +506,38 @@ window.switchTab = (id, btn) => {
 window.toggleScanner = async () => {
   const btn = document.getElementById('btn-scan');
   if (scannerActive) { stopScanner(); btn.textContent='Activer la caméra'; return; }
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    toast('Caméra non supportée sur ce navigateur.', true); return;
+  }
+
+  // Essayer caméra arrière puis fallback
+  const constraints = [
+    { video: { facingMode: { exact: 'environment' } } },
+    { video: { facingMode: 'environment' } },
+    { video: true }
+  ];
+
+  let stream = null;
+  for (const c of constraints) {
+    try { stream = await navigator.mediaDevices.getUserMedia(c); break; }
+    catch { continue; }
+  }
+
+  if (!stream) {
+    toast('Accès caméra refusé. Vérifiez les permissions du navigateur.', true);
+    document.getElementById('scanner-placeholder').innerHTML =
+      '<div style="text-align:center;padding:20px;"><div style="font-size:2rem;opacity:0.4;">🚫</div>' +
+      '<p style="font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:2px;color:#c47a7a;text-transform:uppercase;margin-top:10px;">Caméra inaccessible</p>' +
+      '<p style="font-size:0.8rem;color:#6a5a3a;margin-top:8px;font-style:italic;">Autorisez la caméra dans les paramètres du navigateur</p></div>';
+    return;
+  }
+
   try {
-    scannerStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    scannerStream = stream;
     const video = document.getElementById('scanner-video');
-    video.srcObject = scannerStream; await video.play(); video.style.display='block';
+    video.srcObject = scannerStream; await video.play();
+    video.style.display='block';
     document.getElementById('scanner-placeholder').style.display='none';
     document.getElementById('scan-frame').style.display='block';
     document.getElementById('scan-line').style.display='block';
@@ -520,12 +548,16 @@ window.toggleScanner = async () => {
         canvas.width=video.videoWidth; canvas.height=video.videoHeight;
         ctx.drawImage(video,0,0,canvas.width,canvas.height);
         const img=ctx.getImageData(0,0,canvas.width,canvas.height);
-        const code=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+        const code=jsQR(img.data,img.width,img.height,{inversionAttempts:'attemptBoth'});
         if(code){try{const d=JSON.parse(code.data);if(d.uid&&d.app==='folies-burger'){stopScanner();btn.textContent='Activer la caméra';document.getElementById('uid-input').value=d.uid;toast('QR Code scanné ✦');lookupClient();}}catch{}}
       }
-    },300);
-  } catch { toast('Impossible d\'accéder à la caméra.',true); }
+    },200);
+  } catch(e) {
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    toast('Erreur démarrage caméra.', true);
+  }
 };
+
 
 function stopScanner(){
   clearInterval(scannerInterval);
