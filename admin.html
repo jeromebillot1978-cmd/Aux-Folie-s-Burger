@@ -108,11 +108,12 @@
     @keyframes scanAnim { 0%{top:16px;opacity:1;} 50%{opacity:0.8;} 100%{top:calc(100% - 16px);opacity:1;} }
     #btn-scan { width:100%; padding:12px; margin-top:12px; background:transparent; border:1px solid rgba(201,168,76,0.3); border-radius:2px; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); cursor:pointer; transition:all 0.3s; }
     #btn-scan:hover { background:rgba(201,168,76,0.06); border-color:var(--gold); }
-    .client-found { background:var(--surface2); border:1px solid rgba(201,168,76,0.2); border-radius:3px; padding:16px; margin-bottom:16px; display:none; }
+    .client-found { background:var(--surface2); border:2px solid rgba(201,168,76,0.4); border-radius:3px; padding:20px; margin-bottom:16px; display:none; }
     .client-found.show { display:block; }
     .cf-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:5px; }
-    .cf-name { font-family:'Cinzel',serif; font-size:1.1rem; color:var(--gold); letter-spacing:1px; }
-    .cf-pts,.cf-tier { font-size:0.85rem; font-style:italic; color:var(--muted); margin-top:2px; }
+    .cf-name { font-family:'Cinzel',serif; font-size:1.2rem; color:var(--gold); letter-spacing:1px; margin-bottom:6px; }
+    .cf-pts { font-family:'Cinzel',serif; font-size:1.4rem; font-weight:700; color:var(--gold-light); letter-spacing:1px; margin-top:6px; }
+    .cf-tier { font-size:0.88rem; font-style:italic; color:var(--muted); margin-top:4px; }
     .input-uid { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:12px 14px; color:var(--cream); font-size:0.9rem; font-family:'Cormorant Garamond',serif; outline:none; transition:border-color 0.3s; letter-spacing:0.5px; }
     .input-uid:focus { border-color:var(--gold); }
     .input-uid::placeholder { color:var(--muted); font-style:italic; }
