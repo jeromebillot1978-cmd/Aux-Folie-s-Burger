@@ -230,25 +230,24 @@
         <div class="orn-center" style="justify-content:flex-start;margin-bottom:16px;"><div class="orn-d"></div><div class="orn-line r" style="max-width:50px;"></div></div>
         <p>Chaque commande vous rapproche d'une récompense. Cumulez des points, débloquez des paliers et accédez à des avantages exclusifs.</p>
         <div class="paliers">
-          <div class="palier"><div class="palier-icon">🥉</div><div class="palier-info"><div class="palier-name">Bronze</div><div class="palier-desc">Accès programme de base</div></div><div class="palier-pts">0 pts</div></div>
-          <div class="palier"><div class="palier-icon">🥈</div><div class="palier-info"><div class="palier-name">Silver</div><div class="palier-desc">Accès prioritaire aux défis</div></div><div class="palier-pts">500 pts</div></div>
-          <div class="palier"><div class="palier-icon">🥇</div><div class="palier-info"><div class="palier-name">Gold</div><div class="palier-desc">Bonus points et réductions</div></div><div class="palier-pts">1 500 pts</div></div>
-          <div class="palier"><div class="palier-icon">💎</div><div class="palier-info"><div class="palier-name">Diamond</div><div class="palier-desc">Secret Burger + avantages VIP</div></div><div class="palier-pts">4 000 pts</div></div>
+          <div class="palier"><div class="palier-icon">🥉</div><div class="palier-info"><div class="palier-name">Bronze</div><div class="palier-desc">Accès programme de base</div></div><div class="palier-pts">0 tampon</div></div>
+          <div class="palier"><div class="palier-icon">🥈</div><div class="palier-info"><div class="palier-name">Silver</div><div class="palier-desc">10 tampons cumulés</div></div><div class="palier-pts">10 tampons</div></div>
+          <div class="palier"><div class="palier-icon">🥇</div><div class="palier-info"><div class="palier-name">Gold</div><div class="palier-desc">20 tampons cumulés</div></div><div class="palier-pts">20 tampons</div></div>
+          <div class="palier"><div class="palier-icon">💎</div><div class="palier-info"><div class="palier-name">Diamond</div><div class="palier-desc">Secret Burger + avantages VIP</div></div><div class="palier-pts">30 tampons</div></div>
         </div>
         <a href="login.html" class="btn-gold">Rejoindre Folie's+</a>
       </div>
       <div class="fidelite-visual reveal">
         <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
         <div class="fv-title">Aperçu de votre espace</div>
-        <div class="fv-pts">650</div>
-        <div class="fv-pts-label">points Folie's+</div>
-        <div class="fv-bar-wrap"><div class="fv-bar"></div></div>
-        <div class="fv-bar-label"><span>Silver · 500 pts</span><span>Gold · 1 500 pts</span></div>
+        <div class="fv-pts" style="font-size:2rem;letter-spacing:4px;">🍔🍔🍔🍔🍔🍔🍔○○○</div>
+        <div class="fv-pts-label">7 tampons sur 10</div>
+        <div class="fv-bar-wrap"><div class="fv-bar" style="width:70%"></div></div>
+        <div class="fv-bar-label"><span>7 / 10 tampons</span><span>Récompense à 10</span></div>
         <div class="fv-rewards">
-          <div class="fv-reward"><div class="fv-reward-icon">🍟</div><div class="fv-reward-label">Frites offertes</div><div class="fv-reward-pts">✦ Débloqué</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">💸</div><div class="fv-reward-label">-20% sur un menu</div><div class="fv-reward-pts">✦ Débloqué</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">🍔</div><div class="fv-reward-label">Burger gratuit</div><div class="fv-reward-pts">○ 1 000 pts</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">🔐</div><div class="fv-reward-label">Secret Burger</div><div class="fv-reward-pts">○ 2 000 pts</div></div>
+          <div class="fv-reward"><div class="fv-reward-icon">🍟</div><div class="fv-reward-label">10 tampons → Frites offertes</div><div class="fv-reward-pts">○ 3 restants</div></div>
+          <div class="fv-reward"><div class="fv-reward-icon">🍔</div><div class="fv-reward-label">20 tampons → Burger gratuit</div><div class="fv-reward-pts">○ 13 restants</div></div>
+          <div class="fv-reward"><div class="fv-reward-icon">🔐</div><div class="fv-reward-label">30 tampons → Secret Burger</div><div class="fv-reward-pts">○ 23 restants</div></div>
         </div>
       </div>
     </div>
@@ -301,9 +300,12 @@ import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gsta
 
 // ⚠️ Remplace par ta config Firebase
 const firebaseConfig = {
-  apiKey: "VOTRE_API_KEY", authDomain: "VOTRE_PROJECT.firebaseapp.com",
-  projectId: "VOTRE_PROJECT_ID", storageBucket: "VOTRE_PROJECT.appspot.com",
-  messagingSenderId: "VOTRE_SENDER_ID", appId: "VOTRE_APP_ID"
+  apiKey: "AIzaSyBKMvJqNFrZT6yf01khxOz8rinIomBcv-4",
+  authDomain: "folies-burger.firebaseapp.com",
+  projectId: "folies-burger",
+  storageBucket: "folies-burger.firebasestorage.app",
+  messagingSenderId: "1057612876088",
+  appId: "1:1057612876088:web:eab6f985d6848362cd19cd"
 };
 
 const app = initializeApp(firebaseConfig);
