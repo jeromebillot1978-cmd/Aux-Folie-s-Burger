@@ -273,12 +273,16 @@
   async function createUserDoc(user, name) {
     const ref = doc(db, 'users', user.uid);
     const s   = await getDoc(ref);
-    if (!s.exists()) await setDoc(ref, {
-      uid: user.uid, name: name||user.displayName||'Membre',
-      email: user.email, points: 0, tier: 'Bronze',
-      totalSpent: 0, createdAt: serverTimestamp(),
-      badges: [], history: [], completedDefis: {}
-    });
+    if (!s.exists()) {
+      const loyaltyCode = Math.floor(100000 + Math.random() * 900000).toString();
+      await setDoc(ref, {
+        uid: user.uid, name: name||user.displayName||'Membre',
+        email: user.email, points: 0, tier: 'Bronze',
+        totalSpent: 0, createdAt: serverTimestamp(),
+        badges: [], history: [], completedDefis: {},
+        loyaltyCode
+      });
+    }
   }
 
   window.doLogin = async () => {
