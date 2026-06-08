@@ -126,7 +126,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKMvJqNFrZT6yf01khxOz8rinIomBcv-4",
@@ -204,42 +204,46 @@ renderBurgers(STATIC_BURGERS);
 renderSides(STATIC_SIDES, 'sides-grid');
 renderSides(STATIC_DRINKS, 'drinks-grid');
 
-// Chargement Firestore en temps réel
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+// Chargement Firestore UNE SEULE FOIS (getDocs = moins de lectures)
+async function loadFromFirestore() {
+  try {
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
 
-// Écoute temps réel burgers
-onSnapshot(collection(db,'menu_burgers'), snap => {
-  const items = [];
-  snap.forEach(d => { if(d.data().visible!==false) items.push(d.data()); });
-  if (items.length) { items.sort((a,b)=>a.order-b.order); renderBurgers(items); }
-});
+    const [bSnap, sSnap, dSnap, confSnap] = await Promise.all([
+      getDocs(collection(db,'menu_burgers')),
+      getDocs(collection(db,'menu_sides')),
+      getDocs(collection(db,'menu_drinks')),
+      getDoc(doc(db,'config','restaurant'))
+    ]);
 
-// Écoute temps réel sides
-onSnapshot(collection(db,'menu_sides'), snap => {
-  const items = [];
-  snap.forEach(d => { if(d.data().visible!==false) items.push(d.data()); });
-  if (items.length) renderSides(items, 'sides-grid');
-});
+    const burgers = [];
+    bSnap.forEach(d => { if(d.data().visible!==false) burgers.push(d.data()); });
+    if (burgers.length) { burgers.sort((a,b)=>a.order-b.order); renderBurgers(burgers); }
 
-// Écoute temps réel drinks
-onSnapshot(collection(db,'menu_drinks'), snap => {
-  const items = [];
-  snap.forEach(d => { if(d.data().visible!==false) items.push(d.data()); });
-  if (items.length) renderSides(items, 'drinks-grid');
-});
+    const sides = [];
+    sSnap.forEach(d => { if(d.data().visible!==false) sides.push(d.data()); });
+    if (sides.length) renderSides(sides, 'sides-grid');
 
-// Écoute temps réel config restaurant
-onSnapshot(doc(db,'config','restaurant'), snap => {
-  if (!snap.exists()) return;
-  const d = snap.data();
-  const tel = d.tel || '07 82 25 33 09';
-  const liv = `${d.livStart||'18h45'} – ${d.livEnd||'21h45'}`;
-  const navTel = document.getElementById('nav-tel');
-  if (navTel) { navTel.textContent = tel; navTel.href = 'tel:'+tel.replace(/\s/g,''); }
-  const footerTel = document.getElementById('footer-tel');
-  if (footerTel) footerTel.textContent = `${tel} · Livraison ${liv}`;
-});
+    const drinks = [];
+    dSnap.forEach(d => { if(d.data().visible!==false) drinks.push(d.data()); });
+    if (drinks.length) renderSides(drinks, 'drinks-grid');
+
+    if (confSnap.exists()) {
+      const c = confSnap.data();
+      const tel = c.tel || '07 82 25 33 09';
+      const liv = `${c.livStart||'18h45'} – ${c.livEnd||'21h45'}`;
+      const navTel = document.getElementById('nav-tel');
+      if (navTel) { navTel.textContent = tel; navTel.href = 'tel:'+tel.replace(/\s/g,''); }
+      const footerTel = document.getElementById('footer-tel');
+      if (footerTel) footerTel.textContent = `${tel} · Livraison ${liv}`;
+    }
+  } catch(e) {
+    console.log('Firestore indisponible, données statiques affichées.');
+  }
+}
+
+loadFromFirestore();
 </script>
 </body>
 </html>
