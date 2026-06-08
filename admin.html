@@ -252,56 +252,39 @@
     <button class="tab-btn" onclick="switchTab('stats',this)">Statistiques</button>
   </div>
 
-  <!-- ONGLET 1 : POINTS -->
+  <!-- ONGLET 1 : TAMPONS -->
   <div class="tab-content active" id="tab-points">
-    <div class="s-title">Créditer des points</div>
+    <div class="s-title">Gestion des tampons</div>
     <div class="scan-card">
       <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
-      <div class="scan-grid">
-        <div class="scan-left">
-          <h3>Scanner le QR code</h3>
-          <p>Activez la caméra et pointez-la vers le QR code du client.</p>
-          <div id="scanner-wrap">
-            <div id="scanner-placeholder"><div class="scan-icon">📷</div><p>Caméra inactive</p></div>
-            <video id="scanner-video" playsinline></video>
-            <div class="scan-frame" id="scan-frame"><div class="sf-bl"></div><div class="sf-br"></div></div>
-            <div class="scan-line" id="scan-line"></div>
-          </div>
-          <button id="btn-scan" onclick="toggleScanner()">Activer la caméra</button>
+
+      <!-- RECHERCHE CLIENT -->
+      <div class="scan-right" style="max-width:480px;">
+        <h3>Trouver un client</h3>
+        <p>Tapez le prénom ou l'email du client pour trouver son compte.</p>
+        <div class="client-found" id="client-found">
+          <div class="cf-label">Client identifié</div>
+          <div class="cf-name" id="cf-name">–</div>
+          <div class="cf-pts" id="cf-pts">–</div>
+          <div class="cf-tier" id="cf-tier">–</div>
         </div>
-        <div class="scan-right">
-          <h3>Créditer le compte</h3>
-          <p>UID automatique ou saisie manuelle.</p>
-          <div class="client-found" id="client-found">
-            <div class="cf-label">Client identifié</div>
-            <div class="cf-name" id="cf-name">–</div>
-            <div class="cf-pts" id="cf-pts">–</div>
-            <div class="cf-tier" id="cf-tier">–</div>
+        <label>Prénom ou email du client</label>
+        <input type="text" class="input-uid" id="uid-input" placeholder="Ex : Marie ou marie@email.com"/>
+        <div style="margin-top:8px"><button class="qp" onclick="lookupClient()">Rechercher →</button></div>
+
+        <!-- TAMPONS VISUELS -->
+        <div id="tampons-admin-wrap" style="display:none;margin-top:20px;">
+          <label style="margin-bottom:10px;display:block;">Tampons actuels</label>
+          <div id="tampons-admin-grid" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
+
+          <!-- ACTIONS -->
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+            <button class="btn-credit" style="flex:2;" onclick="addTampon()">+ Ajouter 1 tampon</button>
+            <button class="btn-cancel" style="flex:1;" onclick="useReward()">Utiliser récompense</button>
           </div>
-          <label>Code fidélité client (6 chiffres)</label>
-          <input type="text" class="input-uid" id="uid-input" placeholder="Ex : 482 917" maxlength="7" style="font-family:'Cinzel',serif;font-size:1.5rem;letter-spacing:6px;text-align:center;"/>
-          <div style="margin-top:6px"><button class="qp" onclick="lookupClient()">Rechercher →</button></div>
-          <div style="margin-top:16px">
-            <label>Points à créditer</label>
-            <input type="number" class="pts-input" id="pts-input" value="100" min="1" max="9999"/>
-            <div class="quick-pts">
-              <button class="qp" onclick="setPoints(50)">+50</button>
-              <button class="qp" onclick="setPoints(100)">+100</button>
-              <button class="qp" onclick="setPoints(150)">+150</button>
-              <button class="qp" onclick="setPoints(200)">+200</button>
-              <button class="qp" onclick="setPoints(500)">+500</button>
-            </div>
+          <div style="margin-top:10px;">
+            <button class="btn-cancel" style="width:100%;opacity:0.6;font-size:0.55rem;" onclick="removeTampon()">- Retirer 1 tampon (correction)</button>
           </div>
-          <label style="margin-top:14px">Motif</label>
-          <select class="reason-select" id="reason-select">
-            <option>Commande en restaurant</option>
-            <option>Commande en livraison</option>
-            <option>Défi hebdomadaire complété</option>
-            <option>Bonus fidélité</option>
-            <option>Geste commercial</option>
-            <option>Événement spécial</option>
-          </select>
-          <button class="btn-credit" id="btn-credit" onclick="creditPoints()" disabled>Créditer les points</button>
         </div>
       </div>
     </div>
@@ -401,7 +384,7 @@
     <div class="s-title">Statistiques</div>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-val" id="stat-members">–</div><div class="stat-label">Membres inscrits</div></div>
-      <div class="stat-card"><div class="stat-val" id="stat-pts">–</div><div class="stat-label">Points distribués aujourd'hui</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-pts">–</div><div class="stat-label">Tampons distribués aujourd'hui</div></div>
       <div class="stat-card"><div class="stat-val" id="stat-ops">–</div><div class="stat-label">Opérations aujourd'hui</div></div>
       <div class="stat-card"><div class="stat-val" id="stat-items">–</div><div class="stat-label">Articles au menu</div></div>
     </div>
@@ -587,43 +570,93 @@ function stopScanner(){
 }
 
 // ── CLIENT ──
+const TAMPONS_MAX = 10;
+const TIERS = [
+  {name:'Diamond',min:30,cls:'tb-diamond'},
+  {name:'Gold',   min:20,cls:'tb-gold'},
+  {name:'Silver', min:10,cls:'tb-silver'},
+  {name:'Bronze', min:0, cls:'tb-bronze'},
+];
+
+function getTier(total){ return TIERS.find(t=>total>=t.min)||TIERS[TIERS.length-1]; }
+
+function renderTamponsAdmin(tampons) {
+  const grid = document.getElementById('tampons-admin-grid');
+  const current = tampons % TAMPONS_MAX;
+  grid.innerHTML = '';
+  for (let i=0; i<TAMPONS_MAX; i++) {
+    const el = document.createElement('div');
+    el.style.cssText = 'width:36px;height:36px;border-radius:50%;border:2px solid '+(i<current?'#c9a84c':'rgba(201,168,76,0.2)')+';display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:'+(i<current?'rgba(201,168,76,0.15)':'#1c1c12')+';transition:all 0.3s;';
+    el.textContent = i < current ? '🍔' : '';
+    grid.appendChild(el);
+  }
+}
+
 window.lookupClient = async () => {
-  const raw = document.getElementById('uid-input').value.trim().replace(/[^0-9]/g,'');
-  if (!raw) return;
+  const val = document.getElementById('uid-input').value.trim();
+  if (!val) return;
   try {
-    const snap = await getDocs(query(collection(db,'users'), where('loyaltyCode','==',raw)));
-    if (snap.empty) { toast('Code introuvable. Verifiez les 6 chiffres.', true); return; }
+    let snap;
+    // Chercher par email ou par prénom
+    if (val.includes('@')) {
+      snap = await getDocs(query(collection(db,'users'), where('email','==',val)));
+    } else {
+      snap = await getDocs(query(collection(db,'users'), where('name','==',val)));
+    }
+    if (snap.empty) { toast('Client introuvable.', true); return; }
     const docData = snap.docs[0];
     foundClient = { uid: docData.id, ...docData.data() };
+    const tampons = foundClient.tampons || 0;
+    const totalStamps = foundClient.totalStamps || 0;
+    const tier = getTier(totalStamps);
     document.getElementById('cf-name').textContent = foundClient.name || '-';
-    document.getElementById('cf-pts').textContent = (foundClient.points||0).toLocaleString('fr-FR') + ' points';
-    document.getElementById('cf-tier').textContent = 'Niveau : ' + (foundClient.tier||'Bronze');
+    document.getElementById('cf-pts').textContent = tampons + ' tampon(s) · ' + totalStamps + ' au total';
+    document.getElementById('cf-tier').textContent = 'Niveau : ' + tier.name;
     document.getElementById('client-found').classList.add('show');
-    document.getElementById('btn-credit').disabled = false;
+    document.getElementById('tampons-admin-wrap').style.display = 'block';
+    renderTamponsAdmin(tampons);
   } catch(e) { toast('Erreur de recherche.', true); console.error(e); }
 };
 
-window.setPoints = n => document.getElementById('pts-input').value=n;
-
-window.creditPoints = async () => {
-  if(!foundClient) return;
-  const pts=parseInt(document.getElementById('pts-input').value)||0;
-  const reason=document.getElementById('reason-select').value;
-  if(pts<=0||pts>9999){toast('Montant invalide.',true);return;}
-  const btn=document.getElementById('btn-credit');
-  btn.disabled=true; btn.textContent='En cours…';
+async function updateTampons(delta, label) {
+  if (!foundClient) return;
+  const current = foundClient.tampons || 0;
+  const newVal  = Math.max(0, current + delta);
+  const newTotal = (foundClient.totalStamps || 0) + (delta > 0 ? delta : 0);
+  const tier = getTier(newTotal);
   try {
-    const newTotal=(foundClient.points||0)+pts;
-    const tiers=[{name:'Diamond',min:4000},{name:'Gold',min:1500},{name:'Silver',min:500},{name:'Bronze',min:0}];
-    const newTier=tiers.find(t=>newTotal>=t.min)?.name||'Bronze';
-    await updateDoc(doc(db,'users',foundClient.uid),{points:increment(pts),tier:newTier,totalSpent:increment(pts),history:arrayUnion({pts,label:reason,date:Timestamp.now()})});
-    await addDoc(collection(db,'admin_logs'),{adminUid:currentAdminUid,clientUid:foundClient.uid,clientName:foundClient.name,pts,reason,createdAt:serverTimestamp()});
-    toast(`+${pts} pts crédités à ${foundClient.name} ✦`);
-    document.getElementById('cf-pts').textContent=`${newTotal.toLocaleString('fr-FR')} points`;
-    document.getElementById('cf-tier').textContent=`Niveau : ${newTier}`;
-    foundClient.points=newTotal;
-  } catch { toast('Erreur lors du créditement.',true); }
-  btn.disabled=false; btn.textContent='Créditer les points';
+    await updateDoc(doc(db,'users',foundClient.uid), {
+      tampons:     newVal,
+      totalStamps: newTotal,
+      tier:        tier.name,
+      history:     arrayUnion({ tampons:delta, label, date:Timestamp.now() })
+    });
+    await addDoc(collection(db,'admin_logs'), {
+      adminUid:   currentAdminUid,
+      clientUid:  foundClient.uid,
+      clientName: foundClient.name,
+      tampons:    delta,
+      reason:     label,
+      createdAt:  serverTimestamp()
+    });
+    foundClient.tampons     = newVal;
+    foundClient.totalStamps = newTotal;
+    document.getElementById('cf-pts').textContent = newVal + ' tampon(s) · ' + newTotal + ' au total';
+    document.getElementById('cf-tier').textContent = 'Niveau : ' + tier.name;
+    renderTamponsAdmin(newVal);
+    toast(label + ' ✦');
+    loadStats();
+  } catch(e) { toast('Erreur.', true); console.error(e); }
+}
+
+window.addTampon    = () => updateTampons(1,  '+1 tampon – commande');
+window.removeTampon = () => updateTampons(-1, 'Correction -1 tampon');
+window.useReward    = async () => {
+  if (!foundClient) return;
+  const t = foundClient.tampons || 0;
+  if (t < TAMPONS_MAX) { toast('Pas encore de recompense disponible.', true); return; }
+  if (!confirm('Valider la recompense pour ' + foundClient.name + ' et retirer 10 tampons ?')) return;
+  await updateTampons(-TAMPONS_MAX, 'Recompense utilisee');
 };
 
 // ── MENU ──
@@ -784,8 +817,8 @@ async function loadStats() {
   try {
     const today=new Date(); today.setHours(0,0,0,0);
     const s=await getDocs(query(collection(db,'admin_logs'),where('createdAt','>=',Timestamp.fromDate(today))));
-    let pts=0; s.forEach(d=>pts+=d.data().pts||0);
-    document.getElementById('stat-pts').textContent=pts.toLocaleString('fr-FR');
+    let pts=0; s.forEach(d=>pts+=d.data().tampons||0);
+    document.getElementById('stat-pts').textContent=pts;
     document.getElementById('stat-ops').textContent=s.size;
   } catch {}
 }
@@ -798,7 +831,9 @@ function listenHistory() {
     el.innerHTML=snap.docs.map(d=>{
       const data=d.data();
       const date=data.createdAt?.toDate().toLocaleString('fr-FR')||'–';
-      return `<div class="history-row"><div><div class="h-name">${data.clientName||'–'}</div><div class="h-reason">${data.reason||'–'}</div><div class="h-date">${date}</div></div><div class="h-pts">+${data.pts} pts</div></div>`;
+      const t = data.tampons || 0;
+      const tstr = (t>0?'+':'')+t+' tampon'+(Math.abs(t)>1?'s':'');
+      return `<div class="history-row"><div><div class="h-name">${data.clientName||'–'}</div><div class="h-reason">${data.reason||'–'}</div><div class="h-date">${date}</div></div><div class="h-pts" style="color:${t>=0?'#7cb87c':'#c47a7a'}">${tstr}</div></div>`;
     }).join('');
     loadStats();
   });
