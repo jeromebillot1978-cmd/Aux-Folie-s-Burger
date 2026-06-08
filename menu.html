@@ -124,7 +124,19 @@
 
 <footer><p>Aux Folie's Burger</p><p id="footer-tel">07 82 25 33 09 · Livraison 18h45 – 21h45</p></footer>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBKMvJqNFrZT6yf01khxOz8rinIomBcv-4",
+  authDomain: "folies-burger.firebaseapp.com",
+  projectId: "folies-burger",
+  storageBucket: "folies-burger.firebasestorage.app",
+  messagingSenderId: "1057612876088",
+  appId: "1:1057612876088:web:eab6f985d6848362cd19cd"
+};
+
 const STATIC_BURGERS = [
   {name:"Le Folie's Classic",desc:"Steak haché artisanal, cheddar fondu, salade, tomate, oignons confits, sauce maison sur un bun brioché sesame.",price:9.90,cat:"classic",badges:["Best-seller"],photo:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=700&q=80&fit=crop"},
   {name:"Le Smash Folie's",desc:"Double smash patty 180g, bacon croustillant, double cheddar, pickles maison, sauce BBQ fumée, oignons frits.",price:12.50,cat:"smash",badges:["Nouveau"],photo:"https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=700&q=80&fit=crop"},
@@ -172,22 +184,62 @@ function renderBurgers(list) {
 
 function renderSides(list, id) {
   document.getElementById(id).innerHTML = list.map(s=>`
-    <div class="side-card"><div><div class="side-name">${s.name}</div><div class="side-note">${s.desc||''}</div></div><div class="side-price">${Number(s.price).toFixed(2).replace('.',',')} €</div></div>`).join('');
+    <div class="side-card">
+      <div><div class="side-name">${s.name}</div><div class="side-note">${s.desc||''}</div></div>
+      <div class="side-price">${Number(s.price).toFixed(2).replace('.',',')} €</div>
+    </div>`).join('');
 }
 
 window.filterMenu = (tag, btn) => {
   document.querySelectorAll('.filtre').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.menu-card').forEach(c=>{
-    c.classList.toggle('hidden', tag!=='tous' && !c.dataset.tags.split(' ').includes(tag));
+  document.querySelectorAll('.menu-card').forEach(card=>{
+    if(tag==='tous') card.classList.remove('hidden');
+    else card.classList.toggle('hidden', !card.dataset.tags.split(' ').includes(tag));
   });
 };
 
-// Affichage immédiat
+// Affichage immédiat données statiques
 renderBurgers(STATIC_BURGERS);
-renderSides(STATIC_SIDES,'sides-grid');
-renderSides(STATIC_DRINKS,'drinks-grid');
+renderSides(STATIC_SIDES, 'sides-grid');
+renderSides(STATIC_DRINKS, 'drinks-grid');
+
+// Chargement Firestore en temps réel
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// Écoute temps réel burgers
+onSnapshot(collection(db,'menu_burgers'), snap => {
+  const items = [];
+  snap.forEach(d => { if(d.data().visible!==false) items.push(d.data()); });
+  if (items.length) { items.sort((a,b)=>a.order-b.order); renderBurgers(items); }
+});
+
+// Écoute temps réel sides
+onSnapshot(collection(db,'menu_sides'), snap => {
+  const items = [];
+  snap.forEach(d => { if(d.data().visible!==false) items.push(d.data()); });
+  if (items.length) renderSides(items, 'sides-grid');
+});
+
+// Écoute temps réel drinks
+onSnapshot(collection(db,'menu_drinks'), snap => {
+  const items = [];
+  snap.forEach(d => { if(d.data().visible!==false) items.push(d.data()); });
+  if (items.length) renderSides(items, 'drinks-grid');
+});
+
+// Écoute temps réel config restaurant
+onSnapshot(doc(db,'config','restaurant'), snap => {
+  if (!snap.exists()) return;
+  const d = snap.data();
+  const tel = d.tel || '07 82 25 33 09';
+  const liv = `${d.livStart||'18h45'} – ${d.livEnd||'21h45'}`;
+  const navTel = document.getElementById('nav-tel');
+  if (navTel) { navTel.textContent = tel; navTel.href = 'tel:'+tel.replace(/\s/g,''); }
+  const footerTel = document.getElementById('footer-tel');
+  if (footerTel) footerTel.textContent = `${tel} · Livraison ${liv}`;
+});
 </script>
-<script src="chatbot.js"></script>
 </body>
 </html>
