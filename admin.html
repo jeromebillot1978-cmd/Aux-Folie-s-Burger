@@ -269,7 +269,10 @@
           <div class="cf-tier" id="cf-tier">–</div>
         </div>
         <label>Prénom ou email du client</label>
-        <input type="text" class="input-uid" id="uid-input" placeholder="Ex : Marie ou marie@email.com"/>
+        <div style="position:relative;">
+          <input type="text" class="input-uid" id="uid-input" placeholder="Ex : Marie ou marie@email.com" style="padding-right:36px;"/>
+          <button onclick="clearSearch()" style="position:absolute;right:0;top:0;bottom:0;width:36px;background:transparent;border:none;cursor:pointer;color:#6a5a3a;font-size:1rem;transition:color 0.2s;" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='#6a5a3a'" title="Effacer">✕</button>
+        </div>
         <div style="margin-top:8px"><button class="qp" onclick="lookupClient()">Rechercher →</button></div>
 
         <!-- TAMPONS VISUELS -->
@@ -591,6 +594,13 @@ function renderTamponsAdmin(tampons) {
     grid.appendChild(el);
   }
 }
+
+window.clearSearch = () => {
+  document.getElementById('uid-input').value = '';
+  document.getElementById('client-found').classList.remove('show');
+  document.getElementById('tampons-admin-wrap').style.display = 'none';
+  foundClient = null;
+};
 
 window.lookupClient = async () => {
   const val = document.getElementById('uid-input').value.trim();
