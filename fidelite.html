@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Folie's+ – Mon espace fidélité</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <style>
+    <style>
     :root {
       --gold: #c9a84c;
       --gold-light: #f0d080;
@@ -219,14 +218,17 @@
     </div>
   </div>
 
-  <!-- QR CODE -->
-  <div class="s-title">Mon QR Code</div>
+  <!-- CODE FIDÉLITÉ -->
+  <div class="s-title">Mon Code Fidélité</div>
   <div class="qr-card">
-    <div id="qr-wrap"></div>
+    <div style="flex-shrink:0;text-align:center;">
+      <div id="loyalty-code-display" style="font-family:'Cinzel',serif;font-size:2.8rem;font-weight:900;color:var(--gold);letter-spacing:8px;text-shadow:0 0 30px rgba(201,168,76,0.3);background:var(--surface2);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:20px 28px;min-width:180px;">–</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-top:10px;">Code fidélité</div>
+    </div>
     <div class="qr-info">
-      <h3>Code de fidélité</h3>
-      <p>Présentez ce QR code au restaurant après chaque commande.<br>Le gérant le scanne pour créditer vos points instantanément.</p>
-      <div class="qr-uid" id="d-uid">–</div>
+      <h3>Comment l'utiliser ?</h3>
+      <p>Communiquez ce code à 6 chiffres au gérant après chaque commande.<br>Il le saisit dans son panneau pour créditer vos points instantanément.</p>
+      <p style="margin-top:10px;font-size:0.8rem;color:var(--muted);font-style:italic;">Ce code est unique et permanent. Vous pouvez le mémoriser.</p>
     </div>
   </div>
 
@@ -252,7 +254,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ⚠️ Remplace par ta config Firebase
   const firebaseConfig = {
@@ -297,6 +299,10 @@
     const next = getNextTier(pts);
 
     document.getElementById('d-name').textContent = d.name || 'Membre';
+    if (d.loyaltyCode) {
+      const code = d.loyaltyCode;
+      document.getElementById('loyalty-code-display').textContent = code.slice(0,3) + ' ' + code.slice(3);
+    }
     document.getElementById('d-pts').textContent  = pts.toLocaleString('fr-FR');
 
     const badge = document.getElementById('d-tier');
@@ -355,26 +361,25 @@
     }
   }
 
-  let qrGenerated = false;
-
   onAuthStateChanged(auth, user => {
     if (!user) { location.href='login.html'; return; }
 
-    document.getElementById('d-uid').textContent = user.uid.slice(0,14) + '…';
-
-    if (!qrGenerated) {
-      qrGenerated = true;
-      new QRCode(document.getElementById('qr-wrap'), {
-        text: JSON.stringify({ uid: user.uid, app: 'folies-burger' }),
-        width: 110, height: 110, colorDark:'#000', colorLight:'#fff'
-      });
-    }
+    // Afficher le code fidélité depuis Firestore
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
-    onSnapshot(doc(db,'users',user.uid), snap => {
-      if (snap.exists()) renderDashboard(snap.data());
+    onSnapshot(doc(db,'users',user.uid), async snap => {
+      if (snap.exists()) {
+        const data = snap.data();
+        // Générer un code si l'utilisateur n'en a pas encore
+        if (!data.loyaltyCode) {
+          const loyaltyCode = Math.floor(100000 + Math.random() * 900000).toString();
+          await updateDoc(doc(db,'users',user.uid), { loyaltyCode });
+        } else {
+          renderDashboard(data);
+        }
+      }
     });
 
     document.getElementById('btn-logout').onclick = () =>
