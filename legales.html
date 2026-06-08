@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aux Folie's Burger – Mentions légales</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --gold:#c9a84c; --gold-light:#f0d080; --gold-dark:#8a6820; --black:#0a0a08; --surface:#13130d; --surface2:#1c1c12; --cream:#f5ead0; --muted:#6a5a3a; --border:#2a2618; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Cormorant Garamond',Georgia,serif; background:var(--black); color:var(--cream); min-height:100vh; display:flex; flex-direction:column; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px),repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px); }
+    header { position:relative; z-index:10; border-bottom:1px solid rgba(201,168,76,0.15); }
+    .header-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; }
+    .logo-main { font-family:'Cinzel',serif; font-size:1.4rem; font-weight:900; color:var(--gold); letter-spacing:3px; text-decoration:none; text-shadow:0 0 20px rgba(201,168,76,0.3); }
+    .logo-sub { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:5px; color:var(--muted); }
+    .header-line { height:1px; background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent); opacity:0.4; }
+    nav a { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.3s; margin-left:20px; }
+    nav a:hover { color:var(--gold); }
+
+    main { flex:1; max-width:860px; margin:0 auto; padding:52px 24px 80px; position:relative; z-index:1; width:100%; }
+
+    .page-title { font-family:'Cinzel',serif; font-size:2rem; font-weight:900; color:var(--gold); letter-spacing:3px; margin-bottom:8px; }
+    .page-date { font-size:0.88rem; font-style:italic; color:var(--muted); margin-bottom:40px; }
+
+    .orn { display:flex; align-items:center; gap:14px; margin-bottom:40px; }
+    .orn-line { flex:1; height:1px; background:linear-gradient(90deg,var(--gold-dark),transparent); }
+    .orn-d { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+
+    h2 { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; margin-top:40px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    p { font-size:1rem; color:#d0c8b0; line-height:1.8; margin-bottom:12px; }
+    strong { color:var(--cream); font-weight:600; }
+    a { color:var(--gold); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+
+    .info-block { background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px; padding:20px 24px; margin-bottom:16px; }
+    .info-row { display:flex; gap:16px; margin-bottom:8px; font-size:0.95rem; }
+    .info-row:last-child { margin-bottom:0; }
+    .info-label { color:var(--gold-dark); font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:1px; text-transform:uppercase; min-width:160px; padding-top:2px; }
+    .info-val { color:var(--cream); flex:1; }
+
+    footer { position:relative; z-index:1; text-align:center; padding:20px; border-top:1px solid rgba(201,168,76,0.1); }
+    footer p { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; line-height:2; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div><a class="logo-main" href="index.html">Aux Folie's Burger</a><div class="logo-sub">Mentions légales</div></div>
+    <nav><a href="index.html">Accueil</a><a href="menu.html">Carte</a></nav>
+  </div>
+  <div class="header-line"></div>
+</header>
+
+<main>
+  <div class="page-title">Mentions légales</div>
+  <div class="page-date">Conformément aux articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la Confiance dans l'Économie Numérique (LCEN).</div>
+
+  <div class="orn"><div class="orn-line"></div><div class="orn-d"></div></div>
+
+  <h2>1. Éditeur du site</h2>
+  <div class="info-block">
+    <div class="info-row"><div class="info-label">Raison sociale</div><div class="info-val">Aux Folie's Burger</div></div>
+    <div class="info-row"><div class="info-label">Forme juridique</div><div class="info-val">Entreprise individuelle</div></div>
+    <div class="info-row"><div class="info-label">Téléphone</div><div class="info-val"><a href="tel:0782253309">07 82 25 33 09</a></div></div>
+    <div class="info-row"><div class="info-label">Directeur de publication</div><div class="info-val">Le gérant d'Aux Folie's Burger</div></div>
+  </div>
+
+  <h2>2. Hébergement</h2>
+  <div class="info-block">
+    <div class="info-row"><div class="info-label">Hébergeur</div><div class="info-val">Vercel Inc.</div></div>
+    <div class="info-row"><div class="info-label">Adresse</div><div class="info-val">340 Pine Street, Suite 1501, San Francisco, CA 94104, États-Unis</div></div>
+    <div class="info-row"><div class="info-label">Site</div><div class="info-val"><a href="https://vercel.com" target="_blank">vercel.com</a></div></div>
+  </div>
+
+  <h2>3. Développement</h2>
+  <div class="info-block">
+    <div class="info-row"><div class="info-label">Développeur</div><div class="info-val">JERCAT – Développeur web indépendant</div></div>
+    <div class="info-row"><div class="info-label">Contact</div><div class="info-val"><a href="https://web-jercat.vercel.app" target="_blank">web-jercat.vercel.app</a></div></div>
+  </div>
+
+  <h2>4. Propriété intellectuelle</h2>
+  <p>L'ensemble du contenu de ce site (textes, images, logos, graphismes) est la propriété exclusive d'Aux Folie's Burger ou de ses partenaires. Toute reproduction, représentation, modification ou exploitation non autorisée est interdite.</p>
+  <p>Les photographies de produits provenant d'Unsplash sont utilisées sous licence libre de droits (Unsplash License).</p>
+
+  <h2>5. Données personnelles</h2>
+  <p>Les données collectées lors de l'inscription au programme Folie's+ (prénom, adresse email) sont utilisées uniquement dans le cadre du programme de fidélité et ne sont jamais cédées à des tiers.</p>
+  <p>Conformément au Règlement Général sur la Protection des Données (RGPD – Règlement UE 2016/679), vous disposez des droits suivants :</p>
+  <p><strong>Droit d'accès</strong> — consulter vos données personnelles<br/>
+  <strong>Droit de rectification</strong> — corriger vos données<br/>
+  <strong>Droit à l'effacement</strong> — supprimer votre compte<br/>
+  <strong>Droit d'opposition</strong> — vous opposer au traitement</p>
+  <p>Pour exercer ces droits, contactez-nous au <a href="tel:0782253309">07 82 25 33 09</a>.</p>
+  <p>Les données sont hébergées sur les serveurs de Google Firebase (Google LLC), situés en Europe (région eur3).</p>
+
+  <h2>6. Cookies</h2>
+  <p>Ce site utilise des cookies techniques nécessaires au fonctionnement de l'authentification Firebase. Ces cookies ne sont pas utilisés à des fins publicitaires ou de tracking. Consultez notre <a href="#cookies">politique de cookies</a> pour plus d'informations.</p>
+
+  <h2>7. Limitation de responsabilité</h2>
+  <p>Aux Folie's Burger s'efforce d'assurer l'exactitude des informations diffusées sur ce site, notamment les prix et horaires, mais ne peut garantir leur exhaustivité. Les prix et disponibilités sont susceptibles d'évoluer.</p>
+
+  <h2>8. Droit applicable</h2>
+  <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+</main>
+
+<footer><p>Aux Folie's Burger</p><p>07 82 25 33 09 · Livraison 18h45 – 21h45</p></footer>
+</body>
+</html>
