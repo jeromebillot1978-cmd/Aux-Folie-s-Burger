@@ -296,7 +296,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ⚠️ Remplace par ta config Firebase
 const firebaseConfig = {
@@ -312,9 +312,8 @@ const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
 // ── Charger config restaurant ──
-async function loadConfig() {
-  try {
-    const snap = await getDoc(doc(db,'config','restaurant'));
+function loadConfig() {
+  onSnapshot(doc(db,'config','restaurant'), snap => {
     if (!snap.exists()) return;
     const d = snap.data();
     const tel = d.tel || '07 82 25 33 09';
@@ -327,13 +326,13 @@ async function loadConfig() {
     document.getElementById('contact-liv').textContent=liv;
     document.getElementById('contact-note').textContent=`Ou appelez-nous directement au ${tel}`;
     document.getElementById('footer-copy').textContent=`${tel} · Livraison ${liv}`;
-  } catch {}
+  });
 }
 
+
 // ── Charger 3 burgers best-sellers ──
-async function loadHomeBurgers() {
-  try {
-    const snap = await getDocs(collection(db,'menu_burgers'));
+function loadHomeBurgers() {
+  onSnapshot(collection(db,'menu_burgers'), snap => {
     const items = [];
     snap.forEach(d => { if(d.data().visible!==false) items.push({id:d.id,...d.data()}); });
     items.sort((a,b)=>a.order-b.order);
@@ -356,10 +355,10 @@ async function loadHomeBurgers() {
         </div>
       </div>
     `).join('');
-    // Re-observe new cards
     grid.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
-  } catch {}
+  });
 }
+
 
 loadConfig();
 loadHomeBurgers();
