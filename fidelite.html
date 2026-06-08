@@ -75,16 +75,22 @@
     .tampons-info { font-size:0.88rem; font-style:italic; color:var(--muted); margin-top:10px; }
     .tampons-info strong { color:var(--gold); font-style:normal; }
 
-    /* RÉCOMPENSE DISPO */
-    .reward-available {
-      background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.4);
-      border-radius:3px; padding:16px 20px; margin-top:16px;
-      display:none; animation:fadeUp 0.4s ease both;
-      text-align:center;
+    /* RÉCOMPENSES */
+    .reward-row {
+      display:flex; align-items:center; gap:14px;
+      background:var(--surface2); border:1px solid var(--border);
+      border-radius:3px; padding:14px 16px; transition:border-color 0.3s;
     }
-    .reward-available.show { display:block; }
-    .reward-available h3 { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:6px; }
-    .reward-available p { font-size:0.92rem; font-style:italic; color:var(--cream); }
+    .reward-row.unlocked { border-color:rgba(201,168,76,0.5); background:rgba(201,168,76,0.06); }
+    .reward-row.saved { border-color:rgba(185,242,255,0.3); background:rgba(185,242,255,0.04); }
+    .reward-icon { font-size:1.4rem; flex-shrink:0; }
+    .reward-body { flex:1; }
+    .reward-name { font-family:'Cinzel',serif; font-size:0.85rem; color:var(--cream); letter-spacing:1px; }
+    .reward-desc { font-size:0.8rem; font-style:italic; color:var(--muted); margin-top:2px; }
+    .reward-status { font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:1px; white-space:nowrap; }
+    .reward-status.ok    { color:var(--gold); }
+    .reward-status.lock  { color:var(--muted); }
+    .reward-status.saved { color:#b9f2ff; }
 
     /* HISTORIQUE */
     .history-card { background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px; padding:20px; animation:fadeUp 0.5s ease 0.2s both; }
@@ -137,10 +143,10 @@
       <div class="tampons-info" id="tampons-info"></div>
     </div>
 
-    <!-- RÉCOMPENSE DISPONIBLE -->
-    <div class="reward-available" id="reward-available">
-      <h3>🎉 Récompense débloquée !</h3>
-      <p id="reward-text">Montrez cet écran au gérant pour obtenir votre récompense.</p>
+    <!-- RÉCOMPENSES MULTI-PALIERS -->
+    <div style="margin-top:20px;">
+      <div class="tampons-label">Récompenses disponibles</div>
+      <div id="rewards-list" style="display:flex;flex-direction:column;gap:10px;margin-top:10px;"></div>
     </div>
   </div>
 
@@ -221,16 +227,33 @@ function renderDashboard(d) {
     info.innerHTML = 'Plus que <strong>' + remaining + ' tampon' + (remaining > 1 ? 's' : '') + '</strong> avant votre récompense !';
   }
 
-  // Récompense disponible
-  const rewardBox  = document.getElementById('reward-available');
-  const nextReward = REWARDS.slice().reverse().find(r => totalStamps >= r.at && tampons >= TAMPONS_MAX);
-  if (nextReward || tampons >= TAMPONS_MAX) {
-    const label = REWARDS.find(r => r.at === Math.ceil(totalStamps / TAMPONS_MAX) * TAMPONS_MAX)?.label || 'Récompense';
-    document.getElementById('reward-text').textContent = label + ' — Montrez cet écran au gérant.';
-    rewardBox.classList.add('show');
-  } else {
-    rewardBox.classList.remove('show');
-  }
+  // Récompenses multi-paliers
+  const REWARDS_DEF = [
+    { at:10,  icon:'🍟', label:'Frites offertes',   desc:'Une portion de frites maison' },
+    { at:20,  icon:'🍔', label:'Burger gratuit',      desc:'Le burger de votre choix' },
+    { at:30,  icon:'🔐', label:'Secret Burger',       desc:'Le burger mystère exclusif, hors carte' },
+  ];
+  const rewardsList = document.getElementById('rewards-list');
+  rewardsList.innerHTML = REWARDS_DEF.map(r => {
+    const unlocked = totalStamps >= r.at;
+    const remaining = r.at - totalStamps;
+    let statusClass = 'lock';
+    let statusText  = remaining + ' tampon' + (remaining > 1 ? 's' : '') + ' restant' + (remaining > 1 ? 's' : '');
+    let rowClass    = '';
+    if (unlocked) {
+      statusClass = 'ok';
+      statusText  = '✦ Disponible – montrez cet écran';
+      rowClass    = 'unlocked';
+    }
+    return '<div class="reward-row ' + rowClass + '">'
+      + '<div class="reward-icon">' + r.icon + '</div>'
+      + '<div class="reward-body">'
+      + '<div class="reward-name">' + r.label + '</div>'
+      + '<div class="reward-desc">' + r.desc + ' · ' + r.at + ' tampons</div>'
+      + '</div>'
+      + '<div class="reward-status ' + statusClass + '">' + statusText + '</div>'
+      + '</div>';
+  }).join('');
 
   // Historique
   const history = d.history || [];
