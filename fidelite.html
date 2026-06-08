@@ -5,187 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Folie's+ – Mon espace fidélité</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
-    <style>
+  <style>
     :root {
-      --gold: #c9a84c;
-      --gold-light: #f0d080;
-      --gold-dark: #8a6820;
-      --black: #0a0a08;
-      --surface: #13130d;
-      --surface2: #1c1c12;
-      --surface3: #222217;
-      --cream: #f5ead0;
-      --muted: #6a5a3a;
-      --border: #2a2618;
-      --green: #4a7c4a;
+      --gold: #c9a84c; --gold-light: #f0d080; --gold-dark: #8a6820;
+      --black: #0a0a08; --surface: #13130d; --surface2: #1c1c12;
+      --cream: #f5ead0; --muted: #6a5a3a; --border: #2a2618;
+      --green: #4a7c4a; --green-light: #7cb87c;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body {
-      font-family:'Cormorant Garamond',Georgia,serif;
-      background:var(--black); color:var(--cream);
-      min-height:100vh; display:flex; flex-direction:column;
-    }
-    body::before {
-      content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-      background-image:
-        repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px),
-        repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px);
-    }
+    body { font-family:'Cormorant Garamond',Georgia,serif; background:var(--black); color:var(--cream); min-height:100vh; display:flex; flex-direction:column; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image: repeating-linear-gradient(0deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px), repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(201,168,76,0.012) 50px,rgba(201,168,76,0.012) 51px); }
 
-    /* HEADER */
     header { position:relative; z-index:10; border-bottom:1px solid rgba(201,168,76,0.15); }
     .header-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; }
     .logo-main { font-family:'Cinzel',serif; font-size:1.4rem; font-weight:900; color:var(--gold); letter-spacing:3px; text-shadow:0 0 30px rgba(201,168,76,0.3); }
     .logo-sub { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:5px; color:var(--muted); }
     .header-line { height:1px; background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent); opacity:0.4; }
-    .btn-logout {
-      font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:2px; text-transform:uppercase;
-      color:var(--muted); background:transparent; border:1px solid rgba(201,168,76,0.2);
-      padding:7px 16px; border-radius:2px; cursor:pointer; transition:all 0.3s;
-    }
+    .header-right { display:flex; align-items:center; gap:16px; }
+    .header-right a { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.3s; }
+    .header-right a:hover { color:var(--gold); }
+    .btn-logout { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--muted); background:transparent; border:1px solid rgba(201,168,76,0.2); padding:6px 14px; border-radius:2px; cursor:pointer; transition:all 0.3s; }
     .btn-logout:hover { color:var(--gold); border-color:var(--gold); }
 
-    /* LOADING */
     #loading { flex:1; display:flex; align-items:center; justify-content:center; }
     #loading p { font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:3px; color:var(--muted); text-transform:uppercase; }
 
-    /* MAIN */
-    main { flex:1; max-width:920px; margin:0 auto; padding:36px 20px 52px; width:100%; position:relative; z-index:1; }
+    main { flex:1; max-width:860px; margin:0 auto; padding:36px 20px 52px; width:100%; position:relative; z-index:1; }
 
-    /* SECTION TITLE */
-    .s-title {
-      font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:4px;
-      text-transform:uppercase; color:var(--gold-dark);
-      display:flex; align-items:center; gap:14px; margin-bottom:18px; margin-top:36px;
-    }
+    .s-title { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:4px; text-transform:uppercase; color:var(--gold-dark); display:flex; align-items:center; gap:14px; margin-bottom:18px; margin-top:36px; }
     .s-title::before, .s-title::after { content:''; flex:1; height:1px; background:var(--border); }
-    .s-title::before { max-width:40px; }
+    .s-title::before { max-width:30px; }
 
-    /* HERO CARD */
+    /* HERO */
     .hero-card {
-      background:var(--surface);
-      border:1px solid rgba(201,168,76,0.2);
-      border-radius:3px; padding:32px 32px 28px;
-      position:relative; overflow:hidden;
-      animation: fadeUp 0.5s ease both;
+      background:var(--surface); border:1px solid rgba(201,168,76,0.2); border-radius:3px;
+      padding:32px 28px; position:relative; overflow:hidden; animation:fadeUp 0.5s ease both;
     }
-    .hero-card::before {
-      content:'FOLIE\'S+';
-      font-family:'Cinzel',serif; font-size:7rem; font-weight:900;
-      position:absolute; right:-10px; bottom:-20px;
-      opacity:0.03; letter-spacing:4px; pointer-events:none;
-      color:var(--gold);
-    }
-    /* coins déco hero */
-    .hero-card .hc-tl, .hero-card .hc-tr, .hero-card .hc-bl, .hero-card .hc-br {
-      position:absolute; width:16px; height:16px; border-color:rgba(201,168,76,0.4); border-style:solid;
-    }
-    .hero-card .hc-tl { top:8px; left:8px; border-width:1px 0 0 1px; }
-    .hero-card .hc-tr { top:8px; right:8px; border-width:1px 1px 0 0; }
-    .hero-card .hc-bl { bottom:8px; left:8px; border-width:0 0 1px 1px; }
-    .hero-card .hc-br { bottom:8px; right:8px; border-width:0 1px 1px 0; }
+    .hero-card::after { content:'FOLIE\'S+'; font-family:'Cinzel',serif; font-size:7rem; font-weight:900; position:absolute; right:-10px; bottom:-20px; opacity:0.03; letter-spacing:4px; pointer-events:none; color:var(--gold); }
+    .hc-tl,.hc-tr,.hc-bl,.hc-br { position:absolute; width:14px; height:14px; border-color:rgba(201,168,76,0.4); border-style:solid; }
+    .hc-tl{top:8px;left:8px;border-width:1px 0 0 1px;} .hc-tr{top:8px;right:8px;border-width:1px 1px 0 0;}
+    .hc-bl{bottom:8px;left:8px;border-width:0 0 1px 1px;} .hc-br{bottom:8px;right:8px;border-width:0 1px 1px 0;}
 
-    .hero-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:24px; }
     .welcome-label { font-size:0.85rem; font-style:italic; color:var(--muted); margin-bottom:4px; }
-    .user-name { font-family:'Cinzel',serif; font-size:1.8rem; font-weight:900; color:var(--gold); letter-spacing:2px; }
-    .tier-badge {
-      font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase;
-      padding:6px 16px; border-radius:2px; border:1px solid;
-    }
+    .user-name { font-family:'Cinzel',serif; font-size:1.8rem; font-weight:900; color:var(--gold); letter-spacing:2px; margin-bottom:24px; }
+
+    .tier-row { display:flex; align-items:center; gap:14px; margin-bottom:28px; flex-wrap:wrap; }
+    .tier-badge { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase; padding:6px 16px; border-radius:2px; border:1px solid; }
     .tb-bronze  { color:#cd7f32; border-color:#cd7f32; background:rgba(205,127,50,0.08); }
     .tb-silver  { color:#c0c0c0; border-color:#c0c0c0; background:rgba(192,192,192,0.08); }
     .tb-gold    { color:var(--gold); border-color:var(--gold); background:rgba(201,168,76,0.08); }
     .tb-diamond { color:#b9f2ff; border-color:#b9f2ff; background:rgba(185,242,255,0.08); }
 
-    .points-row { display:flex; align-items:flex-end; gap:8px; margin-bottom:20px; }
-    .points-big { font-family:'Cinzel',serif; font-size:4rem; font-weight:900; color:var(--gold); line-height:1; text-shadow:0 0 30px rgba(201,168,76,0.25); }
-    .points-unit { font-size:1rem; font-style:italic; color:var(--muted); margin-bottom:10px; }
-
-    .prog-wrap { }
-    .prog-labels { display:flex; justify-content:space-between; font-size:0.8rem; font-style:italic; color:var(--muted); margin-bottom:7px; }
-    .prog-track { height:3px; background:var(--border); border-radius:999px; overflow:hidden; }
-    .prog-fill { height:100%; background:linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius:999px; transition:width 1.2s cubic-bezier(0.22,1,0.36,1); }
-
-    /* QR */
-    .qr-card {
-      background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px;
-      padding:24px; display:flex; align-items:center; gap:28px; flex-wrap:wrap;
-      animation: fadeUp 0.5s ease 0.1s both;
+    /* TAMPONS */
+    .tampons-section { margin-bottom:20px; }
+    .tampons-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:3px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:12px; }
+    .tampons-grid { display:flex; flex-wrap:wrap; gap:10px; }
+    .tampon {
+      width:44px; height:44px; border-radius:50%;
+      border:2px solid rgba(201,168,76,0.25);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.4rem; transition:all 0.3s;
+      background:var(--surface2);
     }
-    #qr-wrap {
-      width:110px; height:110px; background:#fff; border-radius:3px;
-      display:flex; align-items:center; justify-content:center; flex-shrink:0;
-    }
-    .qr-info h3 { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:8px; }
-    .qr-info p { font-size:0.95rem; font-style:italic; color:var(--muted); line-height:1.6; }
-    .qr-uid { font-size:0.78rem; background:var(--surface2); padding:3px 8px; border-radius:2px; color:var(--cream); font-family:monospace; display:inline-block; margin-top:6px; }
+    .tampon.filled { background:rgba(201,168,76,0.15); border-color:var(--gold); }
+    .tampon.reward { background:rgba(201,168,76,0.3); border-color:var(--gold-light); animation:glow 1.5s ease-in-out infinite; }
+    @keyframes glow { 0%,100%{box-shadow:0 0 8px rgba(201,168,76,0.3);} 50%{box-shadow:0 0 20px rgba(201,168,76,0.6);} }
 
-    /* RÉCOMPENSES */
-    .rewards-list { display:flex; flex-direction:column; gap:10px; }
-    .reward-row {
-      background:var(--surface); border:1px solid var(--border); border-radius:3px;
-      padding:14px 18px; display:flex; align-items:center; gap:16px;
-      transition:border-color 0.3s; animation: fadeUp 0.5s ease 0.2s both;
-    }
-    .reward-row.unlocked { border-color:rgba(201,168,76,0.3); }
-    .reward-icon { font-size:1.5rem; width:40px; text-align:center; flex-shrink:0; }
-    .reward-body { flex:1; }
-    .reward-body h4 { font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:1px; color:var(--cream); margin-bottom:2px; }
-    .reward-body p { font-size:0.85rem; font-style:italic; color:var(--muted); }
-    .reward-pts { font-family:'Cinzel',serif; font-size:0.8rem; color:var(--gold-dark); letter-spacing:1px; white-space:nowrap; }
-    .reward-status { font-size:1rem; margin-left:8px; }
+    .tampons-info { font-size:0.88rem; font-style:italic; color:var(--muted); margin-top:10px; }
+    .tampons-info strong { color:var(--gold); font-style:normal; }
 
-    /* DÉFIS */
-    .defis-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
-    .defi-card {
-      background:var(--surface); border:1px solid var(--border); border-radius:3px;
-      padding:18px; animation: fadeUp 0.5s ease 0.3s both;
+    /* RÉCOMPENSE DISPO */
+    .reward-available {
+      background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.4);
+      border-radius:3px; padding:16px 20px; margin-top:16px;
+      display:none; animation:fadeUp 0.4s ease both;
+      text-align:center;
     }
-    .defi-card h4 { font-family:'Cinzel',serif; font-size:0.82rem; letter-spacing:1px; color:var(--cream); margin-bottom:5px; }
-    .defi-card p { font-size:0.88rem; font-style:italic; color:var(--muted); margin-bottom:12px; line-height:1.5; }
-    .defi-track { height:3px; background:var(--border); border-radius:999px; overflow:hidden; margin-bottom:6px; }
-    .defi-fill { height:100%; border-radius:999px; background:linear-gradient(90deg, var(--gold-dark), var(--gold)); }
-    .defi-fill.done { background:linear-gradient(90deg,#2e6b2e,#4caf50); }
-    .defi-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:2px; color:var(--gold-dark); }
+    .reward-available.show { display:block; }
+    .reward-available h3 { font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); letter-spacing:2px; margin-bottom:6px; }
+    .reward-available p { font-size:0.92rem; font-style:italic; color:var(--cream); }
 
     /* HISTORIQUE */
-    .history-card {
-      background:var(--surface); border:1px solid var(--border); border-radius:3px;
-      padding:20px; animation: fadeUp 0.5s ease 0.35s both;
-    }
-    .history-empty { text-align:center; font-style:italic; color:var(--muted); padding:24px; font-size:0.95rem; }
+    .history-card { background:var(--surface); border:1px solid rgba(201,168,76,0.15); border-radius:3px; padding:20px; animation:fadeUp 0.5s ease 0.2s both; }
+    .history-empty { text-align:center; font-style:italic; color:var(--muted); padding:24px; }
     .history-row { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--border); }
     .history-row:last-child { border-bottom:none; }
-    .h-label { font-size:0.95rem; color:var(--cream); }
-    .h-date { font-size:0.78rem; font-style:italic; color:var(--muted); margin-top:1px; }
+    .h-label { font-size:0.92rem; color:var(--cream); }
+    .h-date { font-size:0.78rem; font-style:italic; color:var(--muted); margin-top:2px; }
     .h-pts { font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:1px; }
-    .h-pts.pos { color:#7cb87c; }
+    .h-pts.pos { color:var(--green-light); }
     .h-pts.neg { color:#c47a7a; }
 
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(16px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
 
     footer { position:relative; z-index:1; text-align:center; padding:20px; border-top:1px solid rgba(201,168,76,0.1); }
     footer p { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:2px; color:var(--muted); text-transform:uppercase; line-height:2; }
-
-    @media(max-width:600px) {
-      .qr-card { flex-direction:column; }
-      .hero-top { flex-direction:column; }
-      .points-big { font-size:3rem; }
-    }
   </style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
-    <div>
-      <div class="logo-main">Aux Folie's Burger</div>
-      <div class="logo-sub">Origny-Sainte-Benoîte</div>
+    <div><div class="logo-main">Aux Folie's Burger</div><div class="logo-sub">Programme de fidélité</div></div>
+    <div class="header-right">
+      <a href="index.html">Accueil</a>
+      <a href="menu.html">Carte</a>
+      <button class="btn-logout" id="btn-logout">Déconnexion</button>
     </div>
-    <button class="btn-logout" id="btn-logout">Déconnexion</button>
   </div>
   <div class="header-line"></div>
 </header>
@@ -196,196 +123,141 @@
 
   <!-- HERO -->
   <div class="hero-card">
-    <div class="hc-tl"></div><div class="hc-tr"></div>
-    <div class="hc-bl"></div><div class="hc-br"></div>
-    <div class="hero-top">
-      <div>
-        <div class="welcome-label">Bienvenue dans votre espace</div>
-        <div class="user-name" id="d-name">–</div>
-      </div>
+    <div class="hc-tl"></div><div class="hc-tr"></div><div class="hc-bl"></div><div class="hc-br"></div>
+    <div class="welcome-label">Bienvenue dans votre espace</div>
+    <div class="user-name" id="d-name">–</div>
+    <div class="tier-row">
       <div class="tier-badge tb-bronze" id="d-tier">Bronze</div>
     </div>
-    <div class="points-row">
-      <div class="points-big" id="d-pts">0</div>
-      <div class="points-unit">points Folie's+</div>
+
+    <!-- TAMPONS -->
+    <div class="tampons-section">
+      <div class="tampons-label">Vos tampons</div>
+      <div class="tampons-grid" id="tampons-grid"></div>
+      <div class="tampons-info" id="tampons-info"></div>
     </div>
-    <div class="prog-wrap">
-      <div class="prog-labels">
-        <span id="p-cur">0 pts</span>
-        <span id="p-next">–</span>
-      </div>
-      <div class="prog-track"><div class="prog-fill" id="p-fill" style="width:0%"></div></div>
+
+    <!-- RÉCOMPENSE DISPONIBLE -->
+    <div class="reward-available" id="reward-available">
+      <h3>🎉 Récompense débloquée !</h3>
+      <p id="reward-text">Montrez cet écran au gérant pour obtenir votre récompense.</p>
     </div>
   </div>
-
-  <!-- CODE FIDÉLITÉ -->
-  <div class="s-title">Mon Code Fidélité</div>
-  <div class="qr-card">
-    <div style="flex-shrink:0;text-align:center;">
-      <div id="loyalty-code-display" style="font-family:'Cinzel',serif;font-size:2.8rem;font-weight:900;color:var(--gold);letter-spacing:8px;text-shadow:0 0 30px rgba(201,168,76,0.3);background:var(--surface2);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:20px 28px;min-width:180px;">–</div>
-      <div style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-top:10px;">Code fidélité</div>
-    </div>
-    <div class="qr-info">
-      <h3>Comment l'utiliser ?</h3>
-      <p>Communiquez ce code à 6 chiffres au gérant après chaque commande.<br>Il le saisit dans son panneau pour créditer vos points instantanément.</p>
-      <p style="margin-top:10px;font-size:0.8rem;color:var(--muted);font-style:italic;">Ce code est unique et permanent. Vous pouvez le mémoriser.</p>
-    </div>
-  </div>
-
-  <!-- RÉCOMPENSES -->
-  <div class="s-title">Récompenses</div>
-  <div class="rewards-list" id="rewards-list"></div>
-
-  <!-- DÉFIS -->
-  <div class="s-title">Défis de la semaine</div>
-  <div class="defis-grid" id="defis-grid"></div>
 
   <!-- HISTORIQUE -->
-  <div class="s-title">Historique des points</div>
-  <div class="history-card" id="history-card"></div>
+  <div class="s-title">Historique</div>
+  <div class="history-card" id="history-card">
+    <div class="history-empty">Aucun mouvement pour l'instant.</div>
+  </div>
 
 </main>
 
-<footer>
-  <p>Aux Folie's Burger · Origny-Sainte-Benoîte</p>
-  <p>07 82 25 33 09 · Livraison 18h45 – 21h45</p>
-</footer>
+<footer><p>Aux Folie's Burger</p><p>07 82 25 33 09 · Livraison 18h45 – 21h45</p></footer>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // ⚠️ Remplace par ta config Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBKMvJqNFrZT6yf01khxOz8rinIomBcv-4",
-    authDomain: "folies-burger.firebaseapp.com",
-    projectId: "folies-burger",
-    storageBucket: "folies-burger.firebasestorage.app",
-    messagingSenderId: "1057612876088",
-    appId: "1:1057612876088:web:eab6f985d6848362cd19cd"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBKMvJqNFrZT6yf01khxOz8rinIomBcv-4",
+  authDomain: "folies-burger.firebaseapp.com",
+  projectId: "folies-burger",
+  storageBucket: "folies-burger.firebasestorage.app",
+  messagingSenderId: "1057612876088",
+  appId: "1:1057612876088:web:eab6f985d6848362cd19cd"
+};
 
-  const app  = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
+const TAMPONS_MAX    = 10; // tampons pour une récompense
+const TIERS = [
+  { name:'Diamond', min:30, cls:'tb-diamond' },
+  { name:'Gold',    min:20, cls:'tb-gold'    },
+  { name:'Silver',  min:10, cls:'tb-silver'  },
+  { name:'Bronze',  min:0,  cls:'tb-bronze'  },
+];
 
-  const REWARDS = [
-    { pts:200,  icon:'🍟', label:'Frites offertes',      desc:'Une portion de frites maison' },
-    { pts:500,  icon:'💸', label:'-20% sur un menu',     desc:'Réduction sur votre prochain menu complet' },
-    { pts:1000, icon:'🍔', label:'Burger gratuit',        desc:'Le burger de votre choix, offert' },
-    { pts:2000, icon:'🔐', label:'Secret Burger',         desc:'Le burger mystère, hors carte, réservé aux initiés' },
-  ];
+const REWARDS = [
+  { at:10,  label:'Frites offertes' },
+  { at:20,  label:'Burger gratuit' },
+  { at:30,  label:'Secret Burger exclusif' },
+];
 
-  const DEFIS = [
-    { id:'d1', title:'Commander un Smash Burger', desc:'Testez la spécialité artisanale de la maison', target:1, bonus:50 },
-    { id:'d2', title:'Commande un vendredi soir', desc:'La soirée burger en mode Folie',               target:1, bonus:30 },
-    { id:'d3', title:'3 commandes cette semaine', desc:'Fidèle parmi les fidèles',                      target:3, bonus:100 },
-  ];
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-  const TIERS = [
-    { name:'Bronze',  min:0,    max:499,  cls:'tb-bronze'  },
-    { name:'Silver',  min:500,  max:1499, cls:'tb-silver'  },
-    { name:'Gold',    min:1500, max:3999, cls:'tb-gold'    },
-    { name:'Diamond', min:4000, max:Infinity, cls:'tb-diamond' },
-  ];
+function getTier(total) { return TIERS.find(t => total >= t.min) || TIERS[TIERS.length-1]; }
 
-  const getTier    = p => TIERS.find(t => p>=t.min && p<=t.max) || TIERS[0];
-  const getNextTier= p => { const i=TIERS.findIndex(t=>p>=t.min&&p<=t.max); return TIERS[i+1]||null; };
+function renderDashboard(d) {
+  const tampons     = d.tampons     || 0;
+  const totalStamps = d.totalStamps || 0;
 
-  function renderDashboard(d) {
-    const pts = d.points || 0;
-    const tier = getTier(pts);
-    const next = getNextTier(pts);
+  document.getElementById('d-name').textContent = d.name || 'Membre';
 
-    document.getElementById('d-name').textContent = d.name || 'Membre';
-    if (d.loyaltyCode) {
-      const code = d.loyaltyCode;
-      document.getElementById('loyalty-code-display').textContent = code.slice(0,3) + ' ' + code.slice(3);
-    }
-    document.getElementById('d-pts').textContent  = pts.toLocaleString('fr-FR');
+  const tier  = getTier(totalStamps);
+  const badge = document.getElementById('d-tier');
+  badge.textContent = tier.name;
+  badge.className   = 'tier-badge ' + tier.cls;
 
-    const badge = document.getElementById('d-tier');
-    badge.textContent = tier.name;
-    badge.className   = 'tier-badge ' + tier.cls;
-
-    document.getElementById('p-cur').textContent = pts + ' pts';
-    if (next) {
-      const pct = Math.min(100, Math.round(((pts - tier.min) / (tier.max + 1 - tier.min)) * 100));
-      document.getElementById('p-next').textContent = `Prochain palier : ${tier.max + 1} pts · ${next.name}`;
-      document.getElementById('p-fill').style.width = pct + '%';
-    } else {
-      document.getElementById('p-next').textContent = 'Niveau maximum atteint ✦';
-      document.getElementById('p-fill').style.width = '100%';
-    }
-
-    // Récompenses
-    document.getElementById('rewards-list').innerHTML = REWARDS.map(r => {
-      const ok = pts >= r.pts;
-      return `<div class="reward-row ${ok?'unlocked':''}">
-        <div class="reward-icon">${r.icon}</div>
-        <div class="reward-body"><h4>${r.label}</h4><p>${r.desc}</p></div>
-        <div class="reward-pts">${r.pts.toLocaleString('fr-FR')} pts</div>
-        <div class="reward-status">${ok ? '✦' : '○'}</div>
-      </div>`;
-    }).join('');
-
-    // Défis
-    const comp = d.completedDefis || {};
-    document.getElementById('defis-grid').innerHTML = DEFIS.map(df => {
-      const prog = comp[df.id] || 0;
-      const pct  = Math.min(100, Math.round((prog / df.target) * 100));
-      const done = prog >= df.target;
-      return `<div class="defi-card">
-        <h4>${done?'✦ ':''}${df.title}</h4>
-        <p>${df.desc}</p>
-        <div class="defi-track"><div class="defi-fill ${done?'done':''}" style="width:${pct}%"></div></div>
-        <div class="defi-label">+${df.bonus} pts · ${prog}/${df.target}</div>
-      </div>`;
-    }).join('');
-
-    // Historique
-    const hist = d.history || [];
-    const hEl  = document.getElementById('history-card');
-    if (!hist.length) {
-      hEl.innerHTML = '<div class="history-empty">Aucun mouvement de points pour l\'instant.</div>';
-    } else {
-      hEl.innerHTML = [...hist].reverse().map(h => {
-        const date = h.date?.toDate ? h.date.toDate().toLocaleDateString('fr-FR') : '–';
-        const pos  = h.pts > 0;
-        return `<div class="history-row">
-          <div><div class="h-label">${h.label}</div><div class="h-date">${date}</div></div>
-          <div class="h-pts ${pos?'pos':'neg'}">${pos?'+':''}${h.pts} pts</div>
-        </div>`;
-      }).join('');
-    }
+  // Tampons actuels (modulo 10)
+  const current = tampons % TAMPONS_MAX;
+  const grid    = document.getElementById('tampons-grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < TAMPONS_MAX; i++) {
+    const el = document.createElement('div');
+    el.className = 'tampon' + (i < current ? ' filled' : '');
+    el.textContent = i < current ? '🍔' : '';
+    grid.appendChild(el);
   }
 
-  onAuthStateChanged(auth, user => {
-    if (!user) { location.href='login.html'; return; }
+  // Info texte
+  const remaining = TAMPONS_MAX - current;
+  const info = document.getElementById('tampons-info');
+  if (current === 0 && tampons > 0) {
+    info.innerHTML = 'Récompense utilisée ! Recommencez vers la prochaine.';
+  } else if (remaining === 0) {
+    info.innerHTML = '<strong>Récompense disponible !</strong> Montrez cet écran au gérant.';
+  } else {
+    info.innerHTML = 'Plus que <strong>' + remaining + ' tampon' + (remaining > 1 ? 's' : '') + '</strong> avant votre récompense !';
+  }
 
-    // Afficher le code fidélité depuis Firestore
+  // Récompense disponible
+  const rewardBox  = document.getElementById('reward-available');
+  const nextReward = REWARDS.slice().reverse().find(r => totalStamps >= r.at && tampons >= TAMPONS_MAX);
+  if (nextReward || tampons >= TAMPONS_MAX) {
+    const label = REWARDS.find(r => r.at === Math.ceil(totalStamps / TAMPONS_MAX) * TAMPONS_MAX)?.label || 'Récompense';
+    document.getElementById('reward-text').textContent = label + ' — Montrez cet écran au gérant.';
+    rewardBox.classList.add('show');
+  } else {
+    rewardBox.classList.remove('show');
+  }
 
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+  // Historique
+  const history = d.history || [];
+  const hEl = document.getElementById('history-card');
+  if (!history.length) {
+    hEl.innerHTML = '<div class="history-empty">Aucun mouvement pour l\'instant.</div>';
+  } else {
+    hEl.innerHTML = [...history].reverse().map(h => {
+      const date = h.date?.toDate ? h.date.toDate().toLocaleDateString('fr-FR') : '–';
+      const pos  = (h.tampons || 0) > 0;
+      return '<div class="history-row">'
+        + '<div><div class="h-label">' + (h.label||'–') + '</div><div class="h-date">' + date + '</div></div>'
+        + '<div class="h-pts ' + (pos?'pos':'neg') + '">' + (pos?'+':'') + (h.tampons||0) + ' tampon' + (Math.abs(h.tampons||0)>1?'s':'') + '</div>'
+        + '</div>';
+    }).join('');
+  }
+}
 
-    onSnapshot(doc(db,'users',user.uid), async snap => {
-      if (snap.exists()) {
-        const data = snap.data();
-        // Générer un code si l'utilisateur n'en a pas encore
-        if (!data.loyaltyCode) {
-          const loyaltyCode = Math.floor(100000 + Math.random() * 900000).toString();
-          await updateDoc(doc(db,'users',user.uid), { loyaltyCode });
-        } else {
-          renderDashboard(data);
-        }
-      }
-    });
-
-    document.getElementById('btn-logout').onclick = () =>
-      signOut(auth).then(() => location.href='login.html');
+onAuthStateChanged(auth, user => {
+  if (!user) { location.href = 'login.html'; return; }
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display     = 'block';
+  onSnapshot(doc(db, 'users', user.uid), snap => {
+    if (snap.exists()) renderDashboard(snap.data());
   });
+  document.getElementById('btn-logout').onclick = () => signOut(auth).then(() => location.href = 'login.html');
+});
 </script>
-<script src="chatbot.js"></script>
 </body>
 </html>
