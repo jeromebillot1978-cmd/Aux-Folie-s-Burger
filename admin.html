@@ -278,8 +278,8 @@
             <div class="cf-pts" id="cf-pts">–</div>
             <div class="cf-tier" id="cf-tier">–</div>
           </div>
-          <label>UID client</label>
-          <input type="text" class="input-uid" id="uid-input" placeholder="UID automatique ou manuel…"/>
+          <label>Code fidélité client (6 chiffres)</label>
+          <input type="text" class="input-uid" id="uid-input" placeholder="Ex : 482 917" maxlength="7" style="font-family:'Cinzel',serif;font-size:1.5rem;letter-spacing:6px;text-align:center;"/>
           <div style="margin-top:6px"><button class="qp" onclick="lookupClient()">Rechercher →</button></div>
           <div style="margin-top:16px">
             <label>Points à créditer</label>
@@ -588,18 +588,19 @@ function stopScanner(){
 
 // ── CLIENT ──
 window.lookupClient = async () => {
-  const uid=document.getElementById('uid-input').value.trim();
-  if(!uid) return;
+  const raw = document.getElementById('uid-input').value.trim().replace(/[^0-9]/g,'');
+  if (!raw) return;
   try {
-    const snap=await getDoc(doc(db,'users',uid));
-    if(!snap.exists()){toast('Client introuvable.',true);return;}
-    foundClient={uid,...snap.data()};
-    document.getElementById('cf-name').textContent=foundClient.name||'–';
-    document.getElementById('cf-pts').textContent=`${(foundClient.points||0).toLocaleString('fr-FR')} points`;
-    document.getElementById('cf-tier').textContent=`Niveau : ${foundClient.tier||'Bronze'}`;
+    const snap = await getDocs(query(collection(db,'users'), where('loyaltyCode','==',raw)));
+    if (snap.empty) { toast('Code introuvable. Verifiez les 6 chiffres.', true); return; }
+    const docData = snap.docs[0];
+    foundClient = { uid: docData.id, ...docData.data() };
+    document.getElementById('cf-name').textContent = foundClient.name || '-';
+    document.getElementById('cf-pts').textContent = (foundClient.points||0).toLocaleString('fr-FR') + ' points';
+    document.getElementById('cf-tier').textContent = 'Niveau : ' + (foundClient.tier||'Bronze');
     document.getElementById('client-found').classList.add('show');
-    document.getElementById('btn-credit').disabled=false;
-  } catch { toast('Erreur de recherche.',true); }
+    document.getElementById('btn-credit').disabled = false;
+  } catch(e) { toast('Erreur de recherche.', true); console.error(e); }
 };
 
 window.setPoints = n => document.getElementById('pts-input').value=n;
