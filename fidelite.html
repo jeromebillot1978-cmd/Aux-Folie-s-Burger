@@ -141,6 +141,10 @@
 
     <!-- TAMPONS -->
     <div class="tampons-section">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;">
+        <div style="font-family:'Cinzel',serif;font-size:3.5rem;font-weight:900;color:var(--gold);line-height:1;text-shadow:0 0 30px rgba(201,168,76,0.3);" id="d-current">0</div>
+        <div style="font-family:'Cinzel',serif;font-size:1rem;color:var(--muted);font-style:italic;">/ 10 tampons ce cycle</div>
+      </div>
       <div class="tampons-label">Vos tampons</div>
       <div class="tampons-grid" id="tampons-grid"></div>
       <div class="tampons-info" id="tampons-info"></div>
@@ -211,6 +215,8 @@ function renderDashboard(d) {
 
   // Tampons actuels (modulo 10)
   const current = tampons % TAMPONS_MAX;
+  const currentEl = document.getElementById('d-current');
+  if (currentEl) currentEl.textContent = current;
   const grid    = document.getElementById('tampons-grid');
   grid.innerHTML = '';
   for (let i = 0; i < TAMPONS_MAX; i++) {
