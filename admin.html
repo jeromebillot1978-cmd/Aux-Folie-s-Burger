@@ -293,7 +293,7 @@
   </div>
   <div class="footer-line"></div>
   <div class="footer-copy" id="footer-copy">07 82 25 33 09 · Livraison 18h45 – 21h45</div>
-
+</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -339,9 +339,10 @@ async function loadHomeBurgers() {
     const items = [];
     snap.forEach(d => { if(d.data().visible!==false) items.push({id:d.id,...d.data()}); });
     items.sort((a,b)=>a.order-b.order);
-    const top3 = items.slice(0,3); // Toujours max 3 burgers en aperçu
+    const top3 = items.slice(0,3);
     const grid = document.getElementById('home-burgers');
-    if (!top3.length) { grid.innerHTML=''; return; }
+    // N'utiliser Firestore que si au moins 3 burgers existent
+    if (top3.length < 3) return;
     grid.innerHTML = top3.map(b => `
       <div class="burger-card reveal">
         <div class="burger-img">
