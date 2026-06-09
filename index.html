@@ -354,40 +354,8 @@ async function loadConfig() {
 }
 
 
-// ── Charger 3 burgers best-sellers ──
-async function loadHomeBurgers() {
-  try {
-    const snap = await getDocs(collection(db,'menu_burgers'));
-    const items = [];
-    snap.forEach(d => { if(d.data().visible!==false) items.push({id:d.id,...d.data()}); });
-    items.sort((a,b)=>a.order-b.order);
-    const top3 = items.slice(0,3);
-    const grid = document.getElementById('home-burgers');
-    // N'utiliser Firestore que si au moins 3 burgers existent
-    if (top3.length < 3) return;
-    grid.innerHTML = top3.map(b => `
-      <div class="burger-card reveal">
-        <div class="burger-img">
-          ${b.photo?`<img src="${b.photo}" alt="${b.name}" loading="lazy">`:'🍔'}
-          ${(b.badges||[]).length?`<span class="burger-badge">${b.badges[0]}</span>`:''}
-        </div>
-        <div class="burger-body">
-          <div class="burger-name">${b.name}</div>
-          <div class="burger-desc">${b.desc||''}</div>
-          <div class="burger-footer">
-            <div class="burger-price">${b.price?b.price+' €':''}</div>
-            <div class="burger-tag">${b.cat||'Artisanal'}</div>
-          </div>
-        </div>
-      </div>
-    `).join('');
-    grid.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
-  } catch(e) { console.log('Burgers Firestore indisponible.'); }
-}
-
 
 loadConfig();
-loadHomeBurgers();
 
 // Scroll reveal
 const observer = new IntersectionObserver(entries => {
