@@ -143,6 +143,22 @@
     .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
     .reveal.visible{opacity:1;transform:translateY(0);}
     @media(max-width:640px){nav{padding:14px 20px;}.nav-links a:not(.nav-cta){display:none;}.section-inner{padding:70px 18px;}}
+
+    /* AVIS */
+    #avis{background:var(--surface);border-top:1px solid rgba(201,168,76,0.1);}
+    .avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    @media(max-width:768px){.avis-grid{grid-template-columns:1fr;}}
+    .avis-card{background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:3px;padding:32px 28px;position:relative;transition:border-color 0.3s;}
+    .avis-card:hover{border-color:rgba(201,168,76,0.35);}
+    .avis-card::before{content:'"';font-family:'Cinzel',serif;font-size:72px;color:rgba(201,168,76,0.1);position:absolute;top:8px;left:18px;line-height:1;}
+    .avis-stars{color:var(--gold);font-size:14px;letter-spacing:3px;margin-bottom:14px;}
+    .avis-text{font-size:1rem;font-style:italic;color:var(--cream);line-height:1.8;margin-bottom:22px;position:relative;z-index:1;}
+    .avis-author{display:flex;align-items:center;gap:14px;border-top:1px solid rgba(201,168,76,0.1);padding-top:16px;}
+    .avis-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:16px;color:var(--black);font-weight:700;flex-shrink:0;}
+    .avis-name{font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.1em;color:var(--gold-light);}
+    .avis-source{font-size:0.75rem;color:var(--muted);margin-top:2px;font-style:italic;}
+    .avis-note{text-align:center;margin-top:48px;font-size:1rem;font-style:italic;color:var(--muted);}
+    .avis-note span{color:var(--gold);font-family:'Cinzel',serif;font-size:1.4rem;}
   </style>
 </head>
 <body>
@@ -152,7 +168,7 @@
   <div class="nav-links">
     <a href="#infos">Infos</a>
     <a href="#menu-apercu">Carte</a>
-    <a href="#fidelite">Folie's+</a>
+    <a href="#avis">Avis</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="nav-cta">Mon compte</a>
   </div>
@@ -242,36 +258,92 @@
   </div>
 </section>
 
-<!-- FIDÉLITÉ -->
-<section id="fidelite">
+<!-- AVIS CLIENTS -->
+<section id="avis">
   <div class="section-inner">
-    <div class="fidelite-wrap">
-      <div class="fidelite-text reveal">
-        <div class="s-tag">Programme exclusif</div>
-        <h2>Folie's<span>+</span></h2>
-        <div class="orn-center" style="justify-content:flex-start;margin-bottom:16px;"><div class="orn-d"></div><div class="orn-line r" style="max-width:50px;"></div></div>
-        <p>Chaque commande vous rapproche d'une récompense. Cumulez des points, débloquez des paliers et accédez à des avantages exclusifs.</p>
-        <div class="paliers">
-          <div class="palier"><div class="palier-icon">🥉</div><div class="palier-info"><div class="palier-name">Bronze</div><div class="palier-desc">Accès programme de base</div></div><div class="palier-pts">0 tampon</div></div>
-          <div class="palier"><div class="palier-icon">🥈</div><div class="palier-info"><div class="palier-name">Silver</div><div class="palier-desc">10 tampons cumulés</div></div><div class="palier-pts">10 tampons</div></div>
-          <div class="palier"><div class="palier-icon">🥇</div><div class="palier-info"><div class="palier-name">Gold</div><div class="palier-desc">20 tampons cumulés</div></div><div class="palier-pts">20 tampons</div></div>
-          <div class="palier"><div class="palier-icon">💎</div><div class="palier-info"><div class="palier-name">Diamond</div><div class="palier-desc">Secret Burger + avantages VIP</div></div><div class="palier-pts">30 tampons</div></div>
-        </div>
-        <a href="login.html" class="btn-gold">Rejoindre Folie's+</a>
-      </div>
-      <div class="fidelite-visual reveal">
-        <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
-        <div class="fv-title">Aperçu de votre espace</div>
-        <div class="fv-pts" style="font-size:2rem;letter-spacing:4px;">🍔🍔🍔🍔🍔🍔🍔○○○</div>
-        <div class="fv-pts-label">7 tampons sur 10</div>
-        <div class="fv-bar-wrap"><div class="fv-bar" style="width:70%"></div></div>
-        <div class="fv-bar-label"><span>7 / 10 tampons</span><span>Récompense à 10</span></div>
-        <div class="fv-rewards">
-          <div class="fv-reward"><div class="fv-reward-icon">🍟</div><div class="fv-reward-label">10 tampons → Frites offertes</div><div class="fv-reward-pts">○ 3 restants</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">🍔</div><div class="fv-reward-label">20 tampons → Burger gratuit</div><div class="fv-reward-pts">○ 13 restants</div></div>
-          <div class="fv-reward"><div class="fv-reward-icon">🔐</div><div class="fv-reward-label">30 tampons → Secret Burger</div><div class="fv-reward-pts">○ 23 restants</div></div>
+    <div class="s-header reveal">
+      <div class="s-tag">Ce qu'ils en pensent</div>
+      <h2 class="s-title">Avis de nos <span>Clients</span></h2>
+      <div class="orn-center"><div class="orn-line"></div><div class="orn-d"></div><div class="orn-line r"></div></div>
+      <p class="s-sub">Des burgers artisanaux qui font revenir encore et encore.</p>
+    </div>
+    <div class="avis-grid">
+
+      <div class="avis-card reveal">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Le meilleur burger que j'ai mangé de ma vie ! La viande est fondante, la sauce maison est incroyable. Je commande au moins 2 fois par semaine !</p>
+        <div class="avis-author">
+          <div class="avis-avatar">S</div>
+          <div>
+            <div class="avis-name">Sophie M.</div>
+            <div class="avis-source">Google · il y a 2 semaines</div>
+          </div>
         </div>
       </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Livraison ultra rapide, burger encore chaud à la livraison. Le Smash Folie's est une tuerie absolue. Je recommande les yeux fermés !</p>
+        <div class="avis-author">
+          <div class="avis-avatar">K</div>
+          <div>
+            <div class="avis-name">Karim B.</div>
+            <div class="avis-source">Google · il y a 1 mois</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Qualité artisanale au top, on sent vraiment la différence avec les fast-foods. Les frites maison sont délicieuses. Bravo à toute l'équipe !</p>
+        <div class="avis-author">
+          <div class="avis-avatar">M</div>
+          <div>
+            <div class="avis-name">Marie-Claire T.</div>
+            <div class="avis-source">Facebook · il y a 3 semaines</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Le Inferno est parfait pour les amateurs de piment comme moi ! Juste assez épicé, très savoureux. Le service est toujours souriant et rapide.</p>
+        <div class="avis-author">
+          <div class="avis-avatar">R</div>
+          <div>
+            <div class="avis-name">Romain D.</div>
+            <div class="avis-source">Google · il y a 2 mois</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">On a commandé pour un repas en famille, tout le monde a adoré ! Les enfants ont adoré les frites, les adultes les burgers. On reviendra c'est sûr !</p>
+        <div class="avis-author">
+          <div class="avis-avatar">L</div>
+          <div>
+            <div class="avis-name">Laura P.</div>
+            <div class="avis-source">Facebook · il y a 1 semaine</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Rapport qualité-prix imbattable. Pour le prix d'un fast-food classique, on a un burger artisanal bien meilleur. Devenus nos préférés du quartier !</p>
+        <div class="avis-author">
+          <div class="avis-avatar">T</div>
+          <div>
+            <div class="avis-name">Thomas V.</div>
+            <div class="avis-source">Google · il y a 3 semaines</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="avis-note reveal">
+      Note moyenne <span>5★</span> sur Google & Facebook · +120 avis clients
     </div>
   </div>
 </section>
