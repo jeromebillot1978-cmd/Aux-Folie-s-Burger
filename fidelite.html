@@ -134,6 +134,9 @@
     <div class="user-name" id="d-name">–</div>
     <div class="tier-row">
       <div class="tier-badge tb-bronze" id="d-tier">Bronze</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:2px;color:var(--muted);">
+        Total cumulé : <span id="d-total" style="color:var(--gold);font-size:1rem;">0</span> tampon(s)
+      </div>
     </div>
 
     <!-- TAMPONS -->
@@ -199,6 +202,7 @@ function renderDashboard(d) {
   const totalStamps = d.totalStamps || 0;
 
   document.getElementById('d-name').textContent = d.name || 'Membre';
+  document.getElementById('d-total').textContent = totalStamps;
 
   const tier  = getTier(totalStamps);
   const badge = document.getElementById('d-tier');
